@@ -2,8 +2,8 @@
 import Head from "../components/Head.astro";
 export interface Props {
   content: {
-    title: string;
-    desc: string;
+    title?: string;
+    description?: string;
   };
 }
 
@@ -12,7 +12,7 @@ const { content } = Astro.props;
 
 <!DOCTYPE html>
 <html lang="en">
-  <Head title={content.title} desc={content.desc} />
+  <Head title={content.title} description={content.description} />
   <body>
     <slot />
   </body>

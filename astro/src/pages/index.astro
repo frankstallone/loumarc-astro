@@ -2,19 +2,20 @@
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import { getFirstBlogPost } from "../api/sanity";
+import PortableText from "../components/PortableText.astro";
+import { urlForImage } from "../api/urlForImage";
 
-const firstPost = await getFirstBlogPost();
+const data = await getFirstBlogPost();
 
 export interface Props {
   content: {
-    title: string;
-    desc: string;
+    title?: string;
+    description?: string;
   };
 }
 
 const content = {
   title: "Loumarc Signs",
-  desc: "Yes...",
 };
 ---
 
@@ -25,8 +26,17 @@ const content = {
     </div>
   </div>
   <main>
-    <p>
-      {JSON.stringify(firstPost, null, 2)}
-    </p>
+    <h1>{data.title}</h1>
+    <picture>
+      <source
+        srcset={urlForImage(data.mainImage).width(600).format("webp").url()}
+        type="image/webp"
+      />
+      <img
+        src={urlForImage(data.mainImage).width(600).format("jpg").url()}
+        alt={data.mainImage.alt}
+      />
+    </picture>
+    <PortableText portableText={data.body} />
   </main>
 </Layout>
