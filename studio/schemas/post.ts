@@ -4,6 +4,10 @@ export default defineType({
   name: 'post',
   title: 'Blog post',
   type: 'document',
+  initialValue: () => ({
+    featured: false,
+    publishedAt: new Date().toISOString().substring(0, 10),
+  }),
   fields: [
     defineField({
       name: 'title',
@@ -33,6 +37,28 @@ export default defineType({
       options: {
         hotspot: true,
       },
+    }),
+    defineField({
+      name: 'author',
+      title: 'Author',
+      type: 'reference',
+      to: {type: 'author'},
+    }),
+    defineField({
+      name: 'categories',
+      title: 'Categories',
+      type: 'array',
+      of: [{type: 'reference', to: {type: 'category'}}],
+    }),
+    defineField({
+      name: 'publishedAt',
+      title: 'Published at',
+      type: 'date',
+    }),
+    defineField({
+      name: 'featured',
+      title: 'Featured',
+      type: 'boolean',
     }),
     defineField({
       name: 'body',

@@ -1,5 +1,4 @@
 import {defineType, defineArrayMember} from 'sanity'
-import {ImageIcon} from '@sanity/icons'
 
 /**
  * This is the schema definition for the rich text fields used for
