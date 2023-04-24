@@ -10,7 +10,7 @@ export default defineConfig({
   name: 'default',
   title: 'loumarc',
 
-  projectId: '2chysz6o',
+  projectId: 'vk5xc4pu',
   dataset: 'production',
 
   plugins: [deskTool(), visionTool(), ...(isDev ? devOnlyPlugins : [])],
