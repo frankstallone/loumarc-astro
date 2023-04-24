@@ -1,0 +1,115 @@
+---
+import "../css/reset.css";
+import "../css/facundo.css";
+import "../css/global.css";
+import "../css/variables.css";
+import "../css/blocks/box.css";
+import "../css/blocks/center.css";
+import "../css/blocks/grid.css";
+import "../css/blocks/navigation.css";
+import "../css/blocks/prose.css";
+import "../css/blocks/cluster.css";
+import "../css/blocks/cover.css";
+import "../css/blocks/switcher.css";
+import "../css/utilities/content.css";
+import "../css/utilities/flow.css";
+import "../css/utilities/region.css";
+import "../css/utilities/wrapper.css";
+import "../css/utility.css";
+
+export interface Props {
+  title: string;
+  desc: string;
+}
+
+const { title = "LS", desc = "Loumarc Signs" } = Astro.props;
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content={desc} />
+<title>{title}: Loumarc Signs</title>
+<link
+  rel="preload"
+  as="font"
+  href="/fonts/facundo/Facundo-Black.woff"
+  type="font/woff"
+  crossorigin="anonymous"
+/>
+<link
+  rel="preload"
+  as="font"
+  href="/fonts/facundo/Facundo-BlackIt.woff"
+  type="font/woff"
+  crossorigin="anonymous"
+/>
+<link
+  rel="preload"
+  as="font"
+  href="/fonts/facundo/Facundo-Bold.woff"
+  type="font/woff"
+  crossorigin="anonymous"
+/>
+<link
+  rel="preload"
+  as="font"
+  href="/fonts/facundo/Facundo-BoldIt.woff"
+  type="font/woff"
+  crossorigin="anonymous"
+/>
+<link
+  rel="preload"
+  as="font"
+  href="/fonts/facundo/Facundo-ExtraLight.woff"
+  type="font/woff"
+  crossorigin="anonymous"
+/>
+<link
+  rel="preload"
+  as="font"
+  href="/fonts/facundo/Facundo-ExtraLightIt.woff"
+  type="font/woff"
+  crossorigin="anonymous"
+/>
+<link
+  rel="preload"
+  as="font"
+  href="/fonts/facundo/Facundo-Light.woff"
+  type="font/woff"
+  crossorigin="anonymous"
+/>
+<link
+  rel="preload"
+  as="font"
+  href="/fonts/facundo/Facundo-LightIt.woff"
+  type="font/woff"
+  crossorigin="anonymous"
+/>
+<link
+  rel="preload"
+  as="font"
+  href="/fonts/facundo/Facundo-Regular.woff"
+  type="font/woff"
+  crossorigin="anonymous"
+/>
+<link
+  rel="preload"
+  as="font"
+  href="/fonts/facundo/Facundo-RegularIt.woff"
+  type="font/woff"
+  crossorigin="anonymous"
+/>
+<link
+  rel="preload"
+  as="font"
+  href="/fonts/facundo/Facundo-SemiBold.woff"
+  type="font/woff"
+  crossorigin="anonymous"
+/>
+<link
+  rel="preload"
+  as="font"
+  href="/fonts/facundo/Facundo-SemiBoldIt.woff"
+  type="font/woff"
+  crossorigin="anonymous"
+/>
