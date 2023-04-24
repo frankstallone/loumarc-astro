@@ -54,17 +54,15 @@ export default defineType({
               },
             ],
           },
-          {
-            title: 'Inline image',
-            name: 'image',
-            type: 'image',
-            icon: ImageIcon,
-            options: {
-              hotspot: true,
-            },
-          },
         ],
       },
+    }),
+    // You can add additional types here. Note that you can't use
+    // primitive types such as 'string' and 'number' in the same array
+    // as a block type.
+    defineArrayMember({
+      type: 'image',
+      options: {hotspot: true},
     }),
   ],
 })
