@@ -11,7 +11,7 @@ export default defineConfig({
   name: 'default',
   title: 'loumarc',
 
-  projectId: 'vk5xc4pu',
+  projectId: 'yiwm54j7',
   dataset: 'production',
 
   plugins: [

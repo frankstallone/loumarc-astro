@@ -4,7 +4,7 @@ import sanity from 'astro-sanity'
 // https://astro.build/config
 export default defineConfig({
     integrations: [sanity({
-        projectId: 'vk5xc4pu',
+        projectId: 'yiwm54j7',
         dataset: 'production',
         apiVersion: '2023-04-24',
         useCdn: true,
