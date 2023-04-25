@@ -1,0 +1,33 @@
+---
+import { useSanityClient } from "astro-sanity";
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+
+const posts = await useSanityClient().fetch(`*[_type == "post"]`);
+
+const meta = {
+  meta: {
+    title: "The latest blog posts from Loumarc Signs",
+  },
+};
+---
+
+<Layout meta={meta}>
+  <div class="center">
+    <Header />
+    <h1>Blog posts from Loumarc Signs</h1>
+  </div>
+  <main>
+    {
+      posts && (
+        <ul>
+          {posts.map((post) => (
+            <li>
+              <a href="post/{post.slug.current}">{post.title}</a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </main>
+</Layout>

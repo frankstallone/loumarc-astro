@@ -7,36 +7,17 @@ import { urlForImage } from "../api/urlForImage";
 
 const data = await getFirstBlogPost();
 
-export interface Props {
-  content: {
-    title?: string;
-    description?: string;
-  };
-}
-
-const content = {
+const meta = {
   title: "Loumarc Signs",
 };
 ---
 
-<Layout content={content}>
+<Layout meta={meta}>
   <div class="center">
     <div class="cover">
       <Header />
+      <h1>Bringing visibility to your goals</h1>
     </div>
   </div>
-  <main>
-    <h1>{data.title}</h1>
-    <picture>
-      <source
-        srcset={urlForImage(data.mainImage).width(600).format("webp").url()}
-        type="image/webp"
-      />
-      <img
-        src={urlForImage(data.mainImage).width(600).format("jpg").url()}
-        alt={data.mainImage.alt}
-      />
-    </picture>
-    <PortableText portableText={data.body} />
-  </main>
+  <main></main>
 </Layout>
