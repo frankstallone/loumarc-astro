@@ -1,11 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
-import { getFirstBlogPost } from "../api/sanity";
-import PortableText from "../components/PortableText.astro";
-import { urlForImage } from "../api/urlForImage";
-
-const data = await getFirstBlogPost();
 
 const meta = {
   title: "Loumarc Signs",
@@ -13,32 +8,117 @@ const meta = {
 ---
 
 <Layout meta={meta}>
+  <a href="#main" class="sr-only sr-only-focusable">Skip to content</a>
   <div class="center">
     <div class="cover">
-      <Header />
+      <Header location="home" />
       <h1>Bringing visibility to your goals</h1>
     </div>
   </div>
-  <main>
-    <form name="first-cta" method="POST" data-netlify="true">
-      <p>
-        <label>Name <input type="text" name="name" /></label>
-      </p>
-      <p>
-        <label>Email <input type="email" name="email" /></label>
-      </p>
-      <p>
-        <label>Phone <input type="tel" name="email" /></label>
-      </p>
-      <p>
-        <label
-          >What are you looking to accomplish? <textarea name="message"
-          ></textarea></label
-        >
-      </p>
-      <p>
-        <button type="submit">Send</button>
-      </p>
-    </form>
+  <main class="wrapper" role="main" id="main">
+    <article class="region flow">
+      <form name="first-cta" method="POST" data-netlify="true">
+        <input
+          type="hidden"
+          name="subject"
+          value="🤖: Main CTA from loumarcsigns.com home page"
+        />
+        <p>
+          <label for="name">Name</label>
+          <input type="text" name="name" />
+        </p>
+        <p>
+          <label for="email">Email</label>
+          <input type="email" name="email" />
+        </p>
+        <p>
+          <label for="phone">Phone</label>
+          <input type="tel" name="phone" />
+        </p>
+        <p>
+          <label for="message">What are you looking to accomplish?</label>
+          <textarea name="message"></textarea>
+        </p>
+        <p>
+          <button type="submit">Send</button>
+        </p>
+      </form>
+    </article>
+    <article class="region flow">
+      <h2>Products</h2>
+      <div class="reel">
+        <div class="card">
+          <a href="#">
+            <img src="/images/demo-sign.jpg" alt="Demo sign alt text" />
+            <div class="card-content flow">
+              <h3>Channel letters</h3>
+              <p>
+                There are many things to consider when choosing lighted channel
+                letter signs for your business. Reverse illuminated or lighted
+                acrylic face? LED illumination or neon illumination?
+              </p>
+            </div>
+          </a>
+        </div>
+        <div class="card">
+          <a href="#">
+            <img src="/images/demo-sign.jpg" alt="Demo sign alt text" />
+            <div class="card-content flow">
+              <h3>Channel letters</h3>
+              <p>
+                There are many things to consider when choosing lighted channel
+                letter signs for your business. Reverse illuminated or lighted
+                acrylic face? LED illumination or neon illumination?
+              </p>
+            </div>
+          </a>
+        </div>
+        <div class="card">
+          <a href="#">
+            <img src="/images/demo-sign.jpg" alt="Demo sign alt text" />
+            <div class="card-content flow">
+              <h3>Channel letters</h3>
+              <p>
+                There are many things to consider when choosing lighted channel
+                letter signs for your business. Reverse illuminated or lighted
+                acrylic face? LED illumination or neon illumination?
+              </p>
+            </div>
+          </a>
+        </div>
+        <div class="card">
+          <a href="#">
+            <img src="/images/demo-sign.jpg" alt="Demo sign alt text" />
+            <div class="card-content flow">
+              <h3>Channel letters</h3>
+              <p>
+                There are many things to consider when choosing lighted channel
+                letter signs for your business. Reverse illuminated or lighted
+                acrylic face? LED illumination or neon illumination?
+              </p>
+            </div>
+          </a>
+        </div>
+        <div class="card">
+          <a href="#">
+            <img src="/images/demo-sign.jpg" alt="Demo sign alt text" />
+            <div class="card-content flow">
+              <h3>Channel letters</h3>
+              <p>
+                There are many things to consider when choosing lighted channel
+                letter signs for your business. Reverse illuminated or lighted
+                acrylic face? LED illumination or neon illumination?
+              </p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </article>
+    <article class="region flow">
+      <h2>What to expect</h2>
+    </article>
+    <article class="region flow">
+      <h2>Who we are</h2>
+    </article>
   </main>
 </Layout>

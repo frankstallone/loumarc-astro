@@ -17,17 +17,19 @@ const meta = {
     <Header />
     <h1>Blog posts from Loumarc Signs</h1>
   </div>
-  <main>
-    {
-      posts && (
-        <ul>
-          {posts.map((post) => (
-            <li>
-              <a href={`/${post.slug.current}`}>{post.title}</a>
-            </li>
-          ))}
-        </ul>
-      )
-    }
+  <main class="wrapper">
+    <article class="region flow">
+      {
+        posts && (
+          <ul>
+            {posts.map((post) => (
+              <li>
+                <a href={`/${post.slug.current}`}>{post.title}</a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </article>
   </main>
 </Layout>

@@ -1,7 +1,12 @@
 ---
+interface Props {
+  location?: string;
+}
+
+const { location } = Astro.props;
 ---
 
-<header id="main-navigation" class="cluster">
+<header id="main-navigation" class="cluster" data-location={location}>
   <h1 class="font-display">
     <a href="/">Loumarc Signs</a>
   </h1>
