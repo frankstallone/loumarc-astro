@@ -6,7 +6,7 @@
 */
 body {
   color: var(--color-dark);
-  background: var(--color-light);
+  background: var(--gray100);
   font-size: var(--step-1);
   font-family: var(--font-base);
   font-weight: var(--font-base-weight);
@@ -22,7 +22,7 @@ h3 {
   font-family: var(--font-display);
   line-height: var(--line-height-small);
   letter-spacing: var(--tracking-s);
-  color: var(--bronze900);
+  color: var(--gray1200);
   font-weight: 400;
 }
 
@@ -117,12 +117,12 @@ form > p label {
 
 input, textarea {
   border-radius: 4px;
-  border: 1px solid var(--warmbreeze400);
+  border: 1px solid var(--gray700);
 }
 
 input:focus,
 textarea:focus {
-  outline: 2px solid var(--bronze300);
+  outline: 2px solid var(--warmbreeze400);
 }
 
 button, .button {
