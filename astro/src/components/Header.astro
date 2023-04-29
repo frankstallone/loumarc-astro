@@ -7,13 +7,20 @@ const { location } = Astro.props;
 ---
 
 <header id="main-navigation" class="cluster" data-location={location}>
-  <h1 class="font-display">
-    <a href="/">Loumarc Signs</a>
-  </h1>
+  <span class="font-display">
+    <a href="/"
+      ><img
+        src="/images/logo-horizontal.svg"
+        width="124.997px"
+        height="26px"
+        alt=""
+      /><div class="sr-only">Loumarc Signs</div></a
+    >
+  </span>
   <ul role="list" class="cluster">
-    <li><a href="/">Products</a></li>
+    <li><a href="#">Products</a></li>
     <li><a href="/blog/">Blog</a></li>
     <li><a href="https://linkedin.com/company/loumarc-signs">LinkedIn</a></li>
-    <li><a href="/blog/">Contact</a></li>
   </ul>
+  <a class="button" href="#">Contact</a>
 </header>

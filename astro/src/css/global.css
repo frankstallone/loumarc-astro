@@ -12,6 +12,7 @@ body {
   font-weight: var(--font-base-weight);
   line-height: var(--line-height);
   letter-spacing: var(--tracking);
+  position: relative;
 }
 
 /* Base typesetting */
@@ -21,7 +22,8 @@ h3 {
   font-family: var(--font-display);
   line-height: var(--line-height-small);
   letter-spacing: var(--tracking-s);
-  color: var(--bronze900)
+  color: var(--bronze900);
+  font-weight: 400;
 }
 
 h1 {
@@ -123,25 +125,13 @@ textarea:focus {
   outline: 2px solid var(--bronze300);
 }
 
-button {
-  background: var(--bronze200);
-  border: 1px solid var(--bronze300);
-  color: var(--color-dark);
-  border-radius: 4px;
-  padding: var(--space-xs) var(--space-s);
-}
-
-/* Main header */
-
-#main-navigation a {
-  text-decoration: none;
-}
-
-#main-navigation a:hover, #main-navigation a:focus, #main-navigation a:active {
-  /* text-decoration: underline; */
-  border-bottom: 2px solid var(--warmbreeze1000)
-}
-
-#main-navigation:not(#main-navigation[data-location='home']) {
-  padding: 1rem
+button, .button {
+  --tracking: 0;
+  letter-spacing: var(--tracking);
+  font-size: var(--step--1);
+  background: var(--bronzeLoud);
+  color: var(--bronze900);
+  border-radius: 40px;
+  border: none;
+  padding: var(--space-xs) var(--space-xl);
 }

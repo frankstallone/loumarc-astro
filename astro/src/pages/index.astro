@@ -9,10 +9,16 @@ const meta = {
 
 <Layout meta={meta}>
   <a href="#main" class="sr-only sr-only-focusable">Skip to content</a>
-  <div class="center">
-    <div class="cover">
-      <Header location="home" />
-      <h1>Bringing visibility to your goals</h1>
+  <Header location="home" />
+  <div class="center" data-location="home">
+    <div class="cover" data-location="home">
+      <h1
+        class="text-center max-inline-size-100 font-weight-base font-size-6"
+        style="margin-top: 20vh;"
+      >
+        Bringing visibility <br />to your goals
+      </h1>
+      <img src="/images/demo-sign.jpg" alt="" />
     </div>
   </div>
   <main class="wrapper" role="main" id="main">

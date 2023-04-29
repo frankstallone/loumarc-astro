@@ -1,0 +1,8 @@
+.center[data-location="home"] {
+    background-color: #B9C9E5;
+    max-inline-size: 100vw !important;
+}
+
+.cover[data-location="home"] {
+    padding: 0;
+}
