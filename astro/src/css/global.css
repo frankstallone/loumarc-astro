@@ -105,14 +105,14 @@ main:focus {
   color: var(--color-light);
 }
 
-form {
+form > p {
   display: flex;
-  align-items: flex-end;
-  flex-wrap: wrap;
-  gap: 1rem;
+  flex-flow: column nowrap;
 }
+
 form > p label {
-  margin-right: .5rem;
+  margin-block-end: .5rem;
+  margin-inline-end: .5rem;
 }
 
 input, textarea {
