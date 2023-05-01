@@ -1,4 +1,5 @@
 ---
+import MainNavItems from "./MainNavItems.astro";
 interface Props {
   location?: string;
 }
@@ -7,20 +8,84 @@ const { location } = Astro.props;
 ---
 
 <header id="main-navigation" class="cluster" data-location={location}>
-  <span class="font-display">
+  <nav class="mobile-nav">
+    <button class="mobile-open" aria-expanded="false">
+      <span class="sr-only">Menu</span>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+        <path
+          fill="currentColor"
+          d="M0 80c0-8.8 7.2-16 16-16H432c8.8 0 16 7.2 16 16s-7.2 16-16 16H16C7.2 96 0 88.8 0 80zM0 240c0-8.8 7.2-16 16-16H432c8.8 0 16 7.2 16 16s-7.2 16-16 16H16c-8.8 0-16-7.2-16-16zM448 400c0 8.8-7.2 16-16 16H16c-8.8 0-16-7.2-16-16s7.2-16 16-16H432c8.8 0 16 7.2 16 16z"
+        ></path></svg
+      ></button
+    >
+    <div class="mobile-nav-container flow">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 448 512"
+        class="mobile-close"
+        fill="currentColor"
+      >
+        <path
+          d="M41 39C31.6 29.7 16.4 29.7 7 39S-2.3 63.6 7 73l183 183L7 439c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l183-183L407 473c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-183-183L441 73c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-183 183L41 39z"
+        ></path>
+      </svg>
+      <svg
+        fill="currentColor"
+        viewBox="0 0 162 233"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        xml:space="preserve"
+        style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"
+        class="mobile-nav-logo"
+      >
+        <g>
+          <path
+            d="M127.671,197.663l-50.946,-0c-5.867,-4.096 -7.15,-9.717 -7.454,-11.792l-0,-0.063c-0.063,-0.487 -0.121,-0.791 -0.121,-0.791l45.938,-0l-0,-10.021l-48.075,-0c-0.184,-0 -4.705,-0.121 -10.388,-1.892c-10.138,-3.237 -24.129,-11.729 -24.129,-34.512l-0,-100.855l36.775,0l-0,113.988c-0,-0 -7.575,-0.308 -12.646,-7.575l0,-96.946l-11.483,0l-0,91.388c-0,9.771 3.42,16.491 10.383,20.462c0.367,0.183 0.733,0.367 1.1,0.55c5.071,2.504 10.021,2.75 10.446,2.75l60.6,0l-0,35.309Zm-127.671,-195.663l-0,231.333l160.167,0l-0,-231.333l-160.167,-0Z"
+            style="fill-rule:nonzero;"></path>
+        </g>0
+      </svg>
+      <ul>
+        <MainNavItems />
+      </ul>
+    </div>
+  </nav>
+  <span class="font-display header-logo">
     <a href="/"
       ><img
         src="/images/logo-horizontal.svg"
         width="124.997px"
         height="26px"
-        alt=""
+        alt="Loumarc Signs"
       /><div class="sr-only">Loumarc Signs</div></a
     >
   </span>
-  <ul role="list" class="cluster">
-    <li><a href="#">Products</a></li>
-    <li><a href="/blog/">Blog</a></li>
-    <li><a href="https://linkedin.com/company/loumarc-signs">LinkedIn</a></li>
-  </ul>
+  <nav role="navigation" class="desktop-nav">
+    <ul role="list" class="cluster desktop">
+      <MainNavItems />
+    </ul>
+  </nav>
   <a class="button" href="#">Contact</a>
 </header>
+
+<script>
+  const button = document.querySelector(".mobile-open");
+  const closeButton = document.querySelector(".mobile-close");
+  const mobileNav = document.querySelector(".mobile-nav-container");
+
+  button?.addEventListener("click", function () {
+    mobileNav?.classList.add("is-active");
+    button?.setAttribute("aria-expanded", "true");
+  });
+  closeButton?.addEventListener("click", function () {
+    mobileNav?.classList.remove("is-active");
+    button?.setAttribute("aria-expanded", "false");
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      mobileNav?.classList.remove("is-active");
+      button?.setAttribute("aria-expanded", "false");
+    }
+  });
+</script>

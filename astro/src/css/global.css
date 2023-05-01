@@ -125,7 +125,7 @@ textarea:focus {
   outline: 2px solid var(--warmbreeze400);
 }
 
-button, .button {
+button:not(.mobile-open), .button {
   --tracking: 0;
   letter-spacing: var(--tracking);
   font-size: var(--step--1);

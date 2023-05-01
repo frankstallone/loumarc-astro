@@ -17,7 +17,7 @@
   user-select: none;
 }
 
-#main-navigation ul {
+#main-navigation ul.desktop {
   justify-content: flex-start;
   list-style: none;
   display: flex;
@@ -39,11 +39,12 @@
   margin-inline: 0;
 }
 
-#main-navigation a {
+.desktop-nav a,
+#main-navigation .button {
   text-decoration: none;
 }
 
-#main-navigation a:hover, #main-navigation a:focus, #main-navigation a:active {
+.desktop-nav a:hover, #desktop-nav a:focus, #desktop-nav a:active {
   border-bottom: 2px solid var(--warmbreeze1000);
 }
 
@@ -51,9 +52,88 @@
   padding: 1rem;
 }
 
-#main-navigation .button {
-  /* font-weight: 400; */
-}
 #main-navigation .button:hover {
   border: none;
+}
+
+.desktop-nav, .header-logo {
+  display: none;
+}
+
+/* Mobile nav */
+
+.mobile-nav-container {
+  position: fixed;
+  display:none;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column nowrap;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--gray1200);
+  width: 100vw;
+  height: 100vh;
+}
+
+.mobile-nav-container ul {
+  display: flex;
+  flex-flow: column nowrap;
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+.mobile-nav-container ul li a,
+.mobile-nav-container ul li a:visited {
+  color: var(--gray100);
+  font-size: var(--step-3);
+  text-decoration: none;
+}
+
+
+.mobile-nav-container ul li a:hover,
+.mobile-nav-container ul li a:focus,
+.mobile-nav-container ul li a:active {
+  border-bottom: 2px solid var(--gray100);
+}
+
+.mobile-open {
+  border: none;
+  background: none;
+}
+.mobile-close {
+  display: block;
+  border: none;
+  background: none;
+  color: var(--gray100);
+}
+
+.mobile-close {
+  position: absolute;
+  top: var(--space-s);
+  right: var(--space-s);
+  color: var(--gray100);
+  font-size: var(--step-3);
+}
+
+.mobile-nav-logo {
+  font-size: var(--step-6);
+  color: var(--wine500);
+  margin-block-end: var(--space-l);
+}
+
+@media (min-width: 700px) {
+  .desktop-nav, .header-logo {
+    display: flex;
+  }
+  
+  .mobile-nav {
+    display: none;
+  }
+}
+
+.mobile-nav-container.is-active {
+  display: flex;
+}
+@media (max-width: 700px) {
 }
