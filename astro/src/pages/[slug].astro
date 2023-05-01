@@ -33,19 +33,23 @@ const { title, mainImage, body } = Astro.props;
     <div class="cover">
       <Header />
       <h1>{title}</h1>
-      <picture>
-        <source
-          srcset={urlForImage(mainImage).width(600).format("webp").url()}
-          type="image/webp"
-        />
-        <img
-          src={urlForImage(mainImage).width(600).format("jpg").url()}
-          alt={mainImage.alt}
-        />
-      </picture>
+      {
+        mainImage ? (
+          <picture>
+            <source
+              srcset={urlForImage(mainImage).width(600).format("webp").url()}
+              type="image/webp"
+            />
+            <img
+              src={urlForImage(mainImage).width(600).format("jpg").url()}
+              alt={mainImage.alt}
+            />
+          </picture>
+        ) : null
+      }
     </div>
   </div>
-  <main>
+  <main class="content region flow prose">
     <PortableText portableText={body} />
   </main>
 </Layout>
