@@ -9,7 +9,7 @@
 #main-navigation[data-location="home"] {
   display: flex;
   position: fixed;
-  top: 24px;
+  top: var(--space-m);
   z-index: 500;
   padding: 0 3vw;
   width: 100vw;
@@ -24,9 +24,9 @@
   padding-inline-start: 0;
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
-  transition: opacity .4s;
+  transition: opacity 0.4s;
   border-radius: 12px;
-  background: rgba(255,255,255,.2);
+  background: rgba(255, 255, 255, 0.2);
   padding: 14px 24px 16px;
 }
 
@@ -44,11 +44,13 @@
   text-decoration: none;
 }
 
-.desktop-nav a:hover, #desktop-nav a:focus, #desktop-nav a:active {
+.desktop-nav a:hover,
+#desktop-nav a:focus,
+#desktop-nav a:active {
   border-bottom: 2px solid var(--warmbreeze1000);
 }
 
-#main-navigation:not(#main-navigation[data-location='home']) {
+#main-navigation:not(#main-navigation[data-location="home"]) {
   padding: 1rem;
 }
 
@@ -56,7 +58,8 @@
   border: none;
 }
 
-.desktop-nav, .header-logo {
+.desktop-nav,
+.header-logo {
   display: none;
 }
 
@@ -64,7 +67,7 @@
 
 .mobile-nav-container {
   position: fixed;
-  display:none;
+  display: none;
   align-items: center;
   justify-content: center;
   flex-flow: column nowrap;
@@ -90,7 +93,6 @@
   text-decoration: none;
 }
 
-
 .mobile-nav-container ul li a:hover,
 .mobile-nav-container ul li a:focus,
 .mobile-nav-container ul li a:active {
@@ -98,35 +100,41 @@
 }
 
 .mobile-open {
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  transition: opacity 0.4s;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem 0.05rem;
   border: none;
   background: none;
-}
-.mobile-close {
-  display: block;
-  border: none;
-  background: none;
-  color: var(--gray100);
+  color: var(--gray1200);
 }
 
 .mobile-close {
   position: absolute;
-  top: var(--space-s);
-  right: var(--space-s);
+  display: block;
+  border: none;
+  background: none;
+  color: var(--gray100);
+  top: var(--space-m);
+  left: var(--space-m);
   color: var(--gray100);
   font-size: var(--step-3);
 }
 
 .mobile-nav-logo {
   font-size: var(--step-6);
-  color: var(--wine500);
+  color: var(--bronzeLoud);
   margin-block-end: var(--space-l);
 }
 
 @media (min-width: 700px) {
-  .desktop-nav, .header-logo {
+  .desktop-nav,
+  .header-logo {
     display: flex;
   }
-  
+
   .mobile-nav {
     display: none;
   }

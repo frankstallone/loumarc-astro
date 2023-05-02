@@ -12,10 +12,7 @@ const meta = {
   <Header location="home" />
   <div class="center" data-location="home">
     <div class="cover" data-location="home">
-      <h1
-        class="text-center max-inline-size-100 font-weight-base font-size-6"
-        style="margin-top: 20vh;"
-      >
+      <h1 class="text-center font-weight-base font-size-6">
         Bringing visibility <br />to your goals
       </h1>
       <img src="/images/demo-sign.jpg" alt="" />
@@ -23,34 +20,39 @@ const meta = {
   </div>
   <main class="wrapper" role="main" id="main">
     <article class="region flow">
-      <form name="first-cta" method="POST" data-netlify="true">
-        <input
-          type="hidden"
-          name="subject"
-          value="🤖: Main CTA from loumarcsigns.com home page"
-        />
-        <div class="switcher">
-          <p>
-            <label for="name">Name</label>
-            <input type="text" name="name" />
-          </p>
-          <p>
-            <label for="email">Email</label>
-            <input type="email" name="email" />
-          </p>
-          <p>
-            <label for="phone">Phone</label>
-            <input type="tel" name="phone" />
-          </p>
-          <p>
-            <label for="message">What are you looking to accomplish?</label>
-            <textarea name="message"></textarea>
-          </p>
-          <p>
-            <button type="submit">Send</button>
-          </p>
-        </div>
-      </form>
+      <div class="switcher">
+        <form class="box" name="first-cta" method="POST" data-netlify="true">
+          <input
+            type="hidden"
+            name="subject"
+            value="🤖: Main CTA from loumarcsigns.com home page"
+          />
+          <div class="stack">
+            <p class="stack step-0">
+              <label for="name">Name</label>
+              <input type="text" name="name" />
+            </p>
+            <p class="stack step-0">
+              <label for="email">Email</label>
+              <input type="email" name="email" />
+            </p>
+            <p class="stack step-0">
+              <label for="phone">Phone</label>
+              <input type="tel" name="phone" />
+            </p>
+            <p class="stack step-0">
+              <label for="message">What are you looking to accomplish?</label>
+              <textarea name="message"></textarea>
+            </p>
+            <p>
+              <button type="submit">Send</button>
+            </p>
+          </div>
+        </form>
+        <h3 class="box flex items-center">
+          Achieve the awareness your business deserves
+        </h3>
+      </div>
     </article>
     <article class="region flow">
       <h2>Products</h2>
