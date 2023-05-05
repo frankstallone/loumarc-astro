@@ -37,6 +37,12 @@ export default defineType({
       options: {
         hotspot: true,
       },
+      fields: [
+        defineField({
+          name: 'alt',
+          type: 'string',
+        }),
+      ],
     }),
     defineField({
       name: 'author',

@@ -1,0 +1,44 @@
+---
+import { urlForImage } from "../api/urlForImage";
+
+export interface Props {
+  url?: string;
+  imgUrl?: string | object;
+  alt?: string;
+  heading: string;
+  excerpt: string;
+}
+
+const {
+  url = "#",
+  imgUrl,
+  alt = "Image alt tag needed!",
+  heading,
+  excerpt,
+} = Astro.props;
+---
+
+<div class="card">
+  <a href={url}>
+    {
+      typeof imgUrl === "object" ? (
+        <picture>
+          <source
+            srcset={urlForImage(imgUrl).width(400).format("webp").url()}
+            type="image/webp"
+          />
+          <img
+            src={urlForImage(imgUrl).width(400).format("jpg").url()}
+            alt={alt}
+          />
+        </picture>
+      ) : (
+        <img src={imgUrl} alt={alt} />
+      )
+    }
+    <div class="card-content flow">
+      <h3>{heading}</h3>
+      <p>{excerpt}</p>
+    </div>
+  </a>
+</div>

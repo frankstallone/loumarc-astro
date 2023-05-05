@@ -1,23 +1,25 @@
 .card {
-    margin: var(--space-m-l);
-    width: 400px;
-    background: var(--gray300);
-    border-radius: var(--border-radius);
-    overflow: hidden;
+  margin: var(--space-m-l);
+  width: 400px;
+  background: var(--gray300);
+  border-radius: var(--border-radius);
+  overflow: hidden;
 }
 .card > a {
-    text-decoration: none;
+  text-decoration: none;
 }
 .card > a:hover h3 {
-    text-decoration: underline;
+  text-decoration: underline;
 }
-.card > img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    object-position: center;
-    aspect-ratio: 16 / 9;
+.card img,
+.card picture,
+.card source {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
+  aspect-ratio: 16 / 9;
 }
 .card-content {
-    padding: var(--space-s-m);
+  padding: var(--space-s-m);
 }
