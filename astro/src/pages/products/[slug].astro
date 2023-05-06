@@ -1,0 +1,55 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import PortableText from "../../components/PortableText.astro";
+import { urlForImage } from "../../api/urlForImage";
+
+import { useSanityClient } from "astro-sanity";
+
+export async function getStaticPaths() {
+  const products = await useSanityClient().fetch(`*[_type == "product"]`);
+
+  return products.map((product) => {
+    return {
+      params: {
+        slug: product.slug?.current || "",
+      },
+      props: { ...product },
+    };
+  });
+}
+
+const meta = {
+  meta: {
+    title: "Products | Loumarc Signs",
+  },
+};
+
+const { title, mainImage, body } = Astro.props;
+---
+
+<Layout meta={meta}>
+  <div class="center">
+    <div class="cover">
+      <Header />
+      <h1>{title}</h1>
+      {
+        mainImage ? (
+          <picture>
+            <source
+              srcset={urlForImage(mainImage).width(600).format("webp").url()}
+              type="image/webp"
+            />
+            <img
+              src={urlForImage(mainImage).width(600).format("jpg").url()}
+              alt={mainImage.alt}
+            />
+          </picture>
+        ) : null
+      }
+    </div>
+  </div>
+  <main class="content region flow prose">
+    <PortableText portableText={body} />
+  </main>
+</Layout>

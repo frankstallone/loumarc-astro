@@ -1,0 +1,46 @@
+---
+import { useSanityClient } from "astro-sanity";
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Card from "../../components/Card.astro";
+
+const products = await useSanityClient().fetch(`*[_type == "product"]`);
+
+const meta = {
+  meta: {
+    title: "Products | Loumarc Signs",
+  },
+};
+---
+
+<Layout meta={meta}>
+  <div class="center box">
+    <Header />
+    <h1>Products</h1>
+  </div>
+  <main class="wrapper">
+    <article class="region flow">
+      {
+        products && (
+          <ul role="list" class="grid">
+            {products.map((product) => (
+              <li>
+                <Card
+                  heading={product.title}
+                  imgUrl={
+                    product.mainImage
+                      ? product.mainImage
+                      : "/images/card-fallback-image.png"
+                  }
+                  alt={product.mainImage ? product.mainImage.alt : null}
+                  excerpt={product.excerpt}
+                  url={product.slug.current}
+                />
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </article>
+  </main>
+</Layout>
