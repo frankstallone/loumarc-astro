@@ -1,10 +1,13 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Header from "../components/Header.astro";
-import Card from "../components/Card.astro";
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Card from '../components/Card.astro';
+import { useSanityClient } from 'astro-sanity';
+
+const products = await useSanityClient().fetch(`*[_type == "product"]`);
 
 const meta = {
-  title: "Loumarc Signs",
+  title: 'Loumarc Signs',
 };
 ---
 
@@ -19,8 +22,8 @@ const meta = {
       <img src="/images/demo-sign.jpg" alt="" />
     </div>
   </div>
-  <main class="wrapper" role="main" id="main">
-    <article class="region flow">
+  <main role="main" id="main">
+    <article class="wrapper region flow">
       <div class="switcher">
         <form class="box" name="first-cta" method="POST" data-netlify="true">
           <input
@@ -50,98 +53,121 @@ const meta = {
             </p>
           </div>
         </form>
-        <h3 class="box flex items-center">
-          Achieve the awareness your business deserves
-        </h3>
-      </div>
-    </article>
-    <article class="region flow">
-      <h2>Products</h2>
-      <div class="reel">
-        <Card
-          url="#"
-          imgUrl="/images/demo-sign.jpg"
-          alt="Demo sign alt"
-          heading="Channel letters"
-          excerpt="There are many things to consider when choosing lighted channel letter signs for your business. Reverse illuminated or lighted acrylic face? LED illumination or neon illumination?"
-        />
-        <Card
-          url="#"
-          imgUrl="/images/demo-sign.jpg"
-          alt="Demo sign alt"
-          heading="Channel letters"
-          excerpt="There are many things to consider when choosing lighted channel letter signs for your business. Reverse illuminated or lighted acrylic face? LED illumination or neon illumination?"
-        />
-        <Card
-          url="#"
-          imgUrl="/images/demo-sign.jpg"
-          alt="Demo sign alt"
-          heading="Channel letters"
-          excerpt="There are many things to consider when choosing lighted channel letter signs for your business. Reverse illuminated or lighted acrylic face? LED illumination or neon illumination?"
-        />
-        <Card
-          url="#"
-          imgUrl="/images/demo-sign.jpg"
-          alt="Demo sign alt"
-          heading="Channel letters"
-          excerpt="There are many things to consider when choosing lighted channel letter signs for your business. Reverse illuminated or lighted acrylic face? LED illumination or neon illumination?"
-        />
-      </div>
-    </article>
-    <article class="region flow">
-      <h2>What to expect</h2>
-      <div class="region switcher">
-        <div class="flex justify-center items-center">
-          <img src="/images/meet.jpg" alt="" />
-        </div>
-        <div class="flow">
-          <h3>Meet</h3>
-          <p>
-            The first step is a conversation to better understand who you are,
-            and what you want to accomplish. We know this is a step towards
-            greater success, and we want to ensure we're in alignment along the
-            journey! We'll help you generate, and give you an idea of what to
-            expect. We're here to serve you, so feel free to follow up with any
-            clarifying questions you may have.
-          </p>
-        </div>
-      </div>
-      <div class="region switcher">
-        <div class="flow">
-          <h3>Design</h3>
-          <p>
-            Once we have a clear understanding of your goals, we'll measure and
-            collect photographs of your sign location. We'll craft a design that
-            meets your qualifications, and brings life to your brand. We are
-            tactical about the tools we use to ensure your vision will be
-            executed well, and that you'll have the exceptional visibility you
-            deserve.
-          </p>
-        </div>
-        <div class="flex justify-center items-center">
-          <img src="/images/design.jpg" alt="" />
-        </div>
-      </div>
-      <div class="region switcher">
-        <div class="flex justify-center items-center">
-          <img src="/images/demo-sign-build.jpg" alt="" />
-        </div>
-        <div class="flow">
-          <h3>Build</h3>
-          <p>
-            Once we have all the necessary approvals, our team transforms those
-            designs into compelling awareness that will elevate your visibility.
-            We're here to remove weight on your shoulders. Throughout the
-            process, we'll be reaching out at specific touch points, for
-            instance to inform you of zoning approvals, and to let you get more
-            time back to focus on your business.
-          </p>
+        <div
+          class="box flex items-center justify-center text-center cta-message"
+        >
+          <h3>Achieve the awareness your business deserves</h3>
         </div>
       </div>
     </article>
     <article class="region flow">
+      <div class="wrapper">
+        <h2>Products</h2>
+      </div>
+      <div class="box">
+        {
+          products && (
+            <ul role="list" class="reel">
+              {products.map((product) => (
+                <li>
+                  <Card
+                    heading={product.title}
+                    imgUrl={
+                      product.mainImage
+                        ? product.mainImage
+                        : '/images/card-fallback-image.png'
+                    }
+                    alt={product.mainImage ? product.mainImage.alt : null}
+                    excerpt={product.excerpt}
+                    url={product.slug.current}
+                  />
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+    </article>
+    <article class="region section spot-color-secondary">
+      <svg
+        class="curve"
+        preserveAspectRatio="none"
+        viewBox="0 0 6000 400"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0,72.594c0,-0 1523.98,170.758 2192.22,170.758c1056.92,-0 3807.78,-168.077 3807.78,-168.077l0,-75.275l-6000,-0l0,72.594Z"
+        ></path>
+      </svg>
+      <div class="section__inner region">
+        <div class="wrapper">
+          <h2>What to expect</h2>
+          <div class="region switcher">
+            <div class="flex justify-center items-center">
+              <img src="/images/meet.jpg" alt="" />
+            </div>
+            <div class="flow">
+              <h3>Meet</h3>
+              <p>
+                The first step is a conversation to better understand who you
+                are, and what you want to accomplish. We know this is a step
+                towards greater success, and we want to ensure we're in
+                alignment along the journey! We'll help you generate, and give
+                you an idea of what to expect. We're here to serve you, so feel
+                free to follow up with any clarifying questions you may have.
+              </p>
+            </div>
+          </div>
+          <div class="region switcher">
+            <div class="flow">
+              <h3>Design</h3>
+              <p>
+                Once we have a clear understanding of your goals, we'll measure
+                and collect photographs of your sign location. We'll craft a
+                design that meets your qualifications, and brings life to your
+                brand. We are tactical about the tools we use to ensure your
+                vision will be executed well, and that you'll have the
+                exceptional visibility you deserve.
+              </p>
+            </div>
+            <div class="flex justify-center items-center">
+              <img src="/images/design.jpg" alt="" />
+            </div>
+          </div>
+          <div class="region switcher">
+            <div class="flex justify-center items-center">
+              <img src="/images/demo-sign-build.jpg" alt="" />
+            </div>
+            <div class="flow">
+              <h3>Build</h3>
+              <p>
+                Once we have all the necessary approvals, our team transforms
+                those designs into compelling awareness that will elevate your
+                visibility. We're here to remove weight on your shoulders.
+                Throughout the process, we'll be reaching out at specific touch
+                points, for instance to inform you of zoning approvals, and to
+                let you get more time back to focus on your business.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <svg
+        class="curve"
+        preserveAspectRatio="none"
+        viewBox="0 0 6000 400"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0,72.594c0,-0 1523.98,170.758 2192.22,170.758c1056.92,-0 3807.78,-168.077 3807.78,-168.077l0,-75.275l-6000,-0l0,72.594Z"
+        ></path>
+      </svg>
+    </article>
+    <article class="wrapper region flow">
       <h2>Who we are</h2>
-      <div class="region flow">
+      <div class="flow">
         <div class="region switcher">
           <div class="flow">
             <h3>Eddie Palardy</h3>

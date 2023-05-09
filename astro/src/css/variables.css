@@ -30,7 +30,7 @@
   --bronze800: #4e3619;
   --bronze900: #37210c;
   --bronze1000: #1f0c00;
-  --bronzeLoud: #FFB92E;
+  --bronzeLoud: #ffb92e;
   --sea100: #cff0f2;
   --sea200: #8fdce0;
   --sea300: #44c5cc;
@@ -51,18 +51,18 @@
   --lime800: #304016;
   --lime900: #1f290e;
   --lime1000: #0e1206;
-  --gray100: hsl(0, 0%, 99.0%);
+  --gray100: hsl(0, 0%, 99%);
   --gray200: hsl(0, 0%, 97.3%);
   --gray300: hsl(0, 0%, 95.1%);
-  --gray400: hsl(0, 0%, 93.0%);
+  --gray400: hsl(0, 0%, 93%);
   --gray500: hsl(0, 0%, 90.9%);
   --gray600: hsl(0, 0%, 88.7%);
   --gray700: hsl(0, 0%, 85.8%);
-  --gray800: hsl(0, 0%, 78.0%);
+  --gray800: hsl(0, 0%, 78%);
   --gray900: hsl(0, 0%, 56.1%);
   --gray1000: hsl(0, 0%, 52.3%);
   --gray1100: hsl(0, 0%, 43.5%);
-  --gray1200: hsl(0, 0%, 9.0%);
+  --gray1200: hsl(0, 0%, 9%);
 
   --measure: 70ch;
   --color-light: var(--gray100);
@@ -72,7 +72,7 @@
   --line-height-small: calc(var(--ratio) * 0.7);
   --font-base: system-ui, sans-serif;
   --font-base-weight: 300;
-  --font-display: "Facundo", "sans-serif";
+  --font-display: 'Facundo', 'sans-serif';
   --gutter: var(--space-s-m);
   --border-radius: var(--step-1);
   --transition-base: 250ms ease;

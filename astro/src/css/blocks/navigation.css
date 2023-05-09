@@ -4,9 +4,6 @@
   --tracking: 0;
   letter-spacing: var(--tracking);
   justify-content: space-between;
-}
-
-#main-navigation[data-location="home"] {
   display: flex;
   position: fixed;
   top: var(--space-m);
@@ -48,10 +45,6 @@
 #desktop-nav a:focus,
 #desktop-nav a:active {
   border-bottom: 2px solid var(--warmbreeze1000);
-}
-
-#main-navigation:not(#main-navigation[data-location="home"]) {
-  padding: 1rem;
 }
 
 #main-navigation .button:hover {

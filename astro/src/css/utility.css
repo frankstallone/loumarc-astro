@@ -190,3 +190,40 @@
   width: auto !important;
   white-space: normal !important;
 }
+
+.curve {
+  fill: var(--spot-color, var(--color-light));
+  display: block;
+  height: 3.5em;
+  width: 100%;
+}
+
+.spot-color-primary {
+  --spot-color: var(--wine500);
+  --spot-color-text: var(--wine100);
+}
+
+.spot-color-secondary {
+  --spot-color: var(--warmbreeze200);
+}
+
+.section__inner {
+  background: var(--spot-color, var(--color-light));
+  color: var(--spot-color-text, var(--color-dark));
+}
+
+.section > .curve {
+  transform: translateY(-1px);
+}
+
+.section > .curve:first-child {
+  transform: rotate(180deg) translateY(-1px);
+}
+
+.page__buffer {
+  margin-block-start: 20vh;
+}
+
+.image__primary {
+  width: 100%;
+}

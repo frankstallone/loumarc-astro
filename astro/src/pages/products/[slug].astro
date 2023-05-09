@@ -1,10 +1,10 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import Header from "../../components/Header.astro";
-import PortableText from "../../components/PortableText.astro";
-import { urlForImage } from "../../api/urlForImage";
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import PortableText from '../../components/PortableText.astro';
+import { urlForImage } from '../../api/urlForImage';
 
-import { useSanityClient } from "astro-sanity";
+import { useSanityClient } from 'astro-sanity';
 
 export async function getStaticPaths() {
   const products = await useSanityClient().fetch(`*[_type == "product"]`);
@@ -12,7 +12,7 @@ export async function getStaticPaths() {
   return products.map((product) => {
     return {
       params: {
-        slug: product.slug?.current || "",
+        slug: product.slug?.current || '',
       },
       props: { ...product },
     };
@@ -21,31 +21,71 @@ export async function getStaticPaths() {
 
 const meta = {
   meta: {
-    title: "Products | Loumarc Signs",
+    title: 'Products | Loumarc Signs',
   },
 };
 
-const { title, mainImage, body } = Astro.props;
+const { title, body, gallery } = Astro.props;
 ---
 
 <Layout meta={meta}>
-  <div class="center">
-    <div class="cover">
-      <Header />
-      <h1>{title}</h1>
+  <Header />
+  <div class="section spot-color-primary page__buffer">
+    <svg
+      class="curve"
+      preserveAspectRatio="none"
+      viewBox="0 0 6000 400"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0,72.594c0,-0 1523.98,170.758 2192.22,170.758c1056.92,-0 3807.78,-168.077 3807.78,-168.077l0,-75.275l-6000,-0l0,72.594Z"
+      ></path>
+    </svg>
+    <div class="section__inner region">
+      <div class="center">
+        <div class="box">
+          <h1>{title}</h1>
+        </div>
+      </div>
+    </div>
+    <svg
+      class="curve"
+      preserveAspectRatio="none"
+      viewBox="0 0 6000 400"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0,72.594c0,-0 1523.98,170.758 2192.22,170.758c1056.92,-0 3807.78,-168.077 3807.78,-168.077l0,-75.275l-6000,-0l0,72.594Z"
+      ></path>
+    </svg>
+  </div>
+  <div class="gallery">
+    <div class="grid">
       {
-        mainImage ? (
-          <picture>
-            <source
-              srcset={urlForImage(mainImage).width(600).format("webp").url()}
-              type="image/webp"
-            />
-            <img
-              src={urlForImage(mainImage).width(600).format("jpg").url()}
-              alt={mainImage.alt}
-            />
-          </picture>
-        ) : null
+        gallery
+          ? gallery.images.map((image) => (
+              <picture>
+                <source
+                  srcset={urlForImage(image)
+                    .width(432)
+                    .height(324)
+                    .format('webp')
+                    .url()}
+                  type="image/webp"
+                />
+                <img
+                  src={urlForImage(image)
+                    .width(432)
+                    .height(324)
+                    .format('jpg')
+                    .url()}
+                  alt={image.alt}
+                />
+              </picture>
+            ))
+          : null
       }
     </div>
   </div>

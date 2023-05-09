@@ -1,25 +1,53 @@
 ---
-import { useSanityClient } from "astro-sanity";
-import Layout from "../../layouts/Layout.astro";
-import Header from "../../components/Header.astro";
-import Card from "../../components/Card.astro";
+import { useSanityClient } from 'astro-sanity';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Card from '../../components/Card.astro';
 
 const products = await useSanityClient().fetch(`*[_type == "product"]`);
 
 const meta = {
   meta: {
-    title: "Products | Loumarc Signs",
+    title: 'Products | Loumarc Signs',
   },
 };
 ---
 
 <Layout meta={meta}>
-  <div class="center box">
-    <Header />
-    <h1>Products</h1>
+  <Header />
+  <div class="section spot-color-primary page__buffer">
+    <svg
+      class="curve"
+      preserveAspectRatio="none"
+      viewBox="0 0 6000 400"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0,72.594c0,-0 1523.98,170.758 2192.22,170.758c1056.92,-0 3807.78,-168.077 3807.78,-168.077l0,-75.275l-6000,-0l0,72.594Z"
+      ></path>
+    </svg>
+    <div class="section__inner region">
+      <div class="center">
+        <div class="box">
+          <h1>Products</h1>
+        </div>
+      </div>
+    </div>
+    <svg
+      class="curve"
+      preserveAspectRatio="none"
+      viewBox="0 0 6000 400"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0,72.594c0,-0 1523.98,170.758 2192.22,170.758c1056.92,-0 3807.78,-168.077 3807.78,-168.077l0,-75.275l-6000,-0l0,72.594Z"
+      ></path>
+    </svg>
   </div>
-  <main class="wrapper">
-    <article class="region flow">
+  <main>
+    <article class="region flow box">
       {
         products && (
           <ul role="list" class="grid">
@@ -30,7 +58,7 @@ const meta = {
                   imgUrl={
                     product.mainImage
                       ? product.mainImage
-                      : "/images/card-fallback-image.png"
+                      : '/images/card-fallback-image.png'
                   }
                   alt={product.mainImage ? product.mainImage.alt : null}
                   excerpt={product.excerpt}

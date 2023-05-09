@@ -6,7 +6,7 @@ export default defineType({
   type: 'document',
   fields: [
     defineField({
-      name: 'product',
+      name: 'title',
       title: 'Product',
       type: 'string',
     }),
@@ -58,7 +58,7 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: 'product',
+      title: 'title',
       media: 'mainImage',
     },
   },

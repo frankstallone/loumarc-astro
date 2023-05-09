@@ -1,15 +1,10 @@
 .box {
   padding: var(--space-s);
   border: var(--border-thin) solid;
-  color: var(--color-dark);
-  background-color: var(--color-light);
+  color: var(--spot-color-text, var(--color-dark));
+  background-color: var(--spot-color var(--color-light));
 }
 
 .box * {
   color: inherit;
-}
-
-.box.invert {
-  color: var(--color-light);
-  background-color: var(--color-dark);
 }

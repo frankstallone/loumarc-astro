@@ -1,17 +1,17 @@
-.center[data-location="home"] {
+.center[data-location='home'] {
   background-color: #b9c9e5;
   max-inline-size: 100vw !important;
 }
-.cover[data-location="home"] {
+.cover[data-location='home'] {
   padding: 0;
 }
 @media (max-width: 700px) {
-  .cover[data-location="home"] {
+  .cover[data-location='home'] {
     min-block-size: 90vh;
   }
 }
 @media (min-width: 700px) {
-  .cover[data-location="home"] h1 {
+  .cover[data-location='home'] h1 {
     margin-top: 20vh;
   }
 }

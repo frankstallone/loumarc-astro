@@ -22,20 +22,19 @@ h3 {
   font-family: var(--font-display);
   line-height: var(--line-height-small);
   letter-spacing: var(--tracking-s);
-  color: var(--gray1200);
   font-weight: 400;
 }
 
 h1 {
-  font-size: var(--step-5);
+  font-size: var(--step-6);
 }
 
 h2 {
-  font-size: var(--step-4);
+  font-size: var(--step-5);
 }
 
 h3 {
-  font-size: var(--step-3);
+  font-size: var(--step-4);
 }
 
 /* Set line lengths */
@@ -70,7 +69,7 @@ svg {
   flex: none;
 }
 
-[role="list"] {
+[role='list'] {
   padding: 0;
 }
 
@@ -136,4 +135,17 @@ button:not(.mobile-open),
   border-radius: 40px;
   border: none;
   padding: var(--space-xs) var(--space-xl);
+}
+
+.cta-message {
+  background-color: var(--gray300);
+  --spot-color: var(--wine500);
+}
+
+footer > .curve:first-child {
+  transform: rotate(180deg) translateY(-1px);
+}
+
+.gallery {
+  --grid-gap: 0;
 }
