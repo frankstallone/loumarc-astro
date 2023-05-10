@@ -19,13 +19,11 @@ export async function getStaticPaths() {
   });
 }
 
-const meta = {
-  meta: {
-    title: 'Loumarc Signs',
-  },
-};
-
 const { title, mainImage, body } = Astro.props;
+
+const meta = {
+  title: `${title} | Blog | Loumarc Signs `,
+};
 ---
 
 <Layout meta={meta}>

@@ -19,13 +19,11 @@ export async function getStaticPaths() {
   });
 }
 
-const meta = {
-  meta: {
-    title: 'Products | Loumarc Signs',
-  },
-};
-
 const { title, body, gallery } = Astro.props;
+
+const meta = {
+  title: `${title} | Products | Loumarc Signs `,
+};
 ---
 
 <Layout meta={meta}>
@@ -91,5 +89,29 @@ const { title, body, gallery } = Astro.props;
   </div>
   <main class="content region flow prose">
     <PortableText portableText={body} />
+    <form class="box" method="POST" data-netlify="true">
+      <input type="hidden" name="subject" value="🤖: Form from" />
+      <div class="stack">
+        <p class="stack step-0">
+          <label for="name">Name</label>
+          <input type="text" name="name" />
+        </p>
+        <p class="stack step-0">
+          <label for="email">Email</label>
+          <input type="email" name="email" />
+        </p>
+        <p class="stack step-0">
+          <label for="phone">Phone</label>
+          <input type="tel" name="phone" />
+        </p>
+        <p class="stack step-0">
+          <label for="message">What are you looking to accomplish?</label>
+          <textarea name="message"></textarea>
+        </p>
+        <p>
+          <button type="submit">Send</button>
+        </p>
+      </div>
+    </form>
   </main>
 </Layout>

@@ -1,28 +1,28 @@
 ---
-import "../css/reset.css";
-import "../css/facundo.css";
-import "../css/global.css";
-import "../css/variables.css";
-import "../css/blocks/box.css";
-import "../css/blocks/card.css";
-import "../css/blocks/center.css";
-import "../css/blocks/grid.css";
-import "../css/blocks/navigation.css";
-import "../css/blocks/prose.css";
-import "../css/blocks/cluster.css";
-import "../css/blocks/cover.css";
-import "../css/blocks/reel.css";
-import "../css/blocks/stack.css";
-import "../css/blocks/switcher.css";
-import "../css/utilities/content.css";
-import "../css/utilities/flow.css";
-import "../css/utilities/region.css";
-import "../css/utilities/wrapper.css";
-import "../css/utility.css";
-import "../css/exceptions.css";
-import { getSiteSettings } from "../api/sanity";
+import '../css/reset.css';
+import '../css/facundo.css';
+import '../css/global.css';
+import '../css/variables.css';
+import '../css/blocks/box.css';
+import '../css/blocks/card.css';
+import '../css/blocks/center.css';
+import '../css/blocks/grid.css';
+import '../css/blocks/navigation.css';
+import '../css/blocks/prose.css';
+import '../css/blocks/cluster.css';
+import '../css/blocks/cover.css';
+import '../css/blocks/reel.css';
+import '../css/blocks/stack.css';
+import '../css/blocks/switcher.css';
+import '../css/utilities/content.css';
+import '../css/utilities/flow.css';
+import '../css/utilities/region.css';
+import '../css/utilities/wrapper.css';
+import '../css/utility.css';
+import '../css/exceptions.css';
+import { getSiteSettings } from '../api/sanity';
 
-export interface Props {
+interface Props {
   meta: {
     title?: string;
     description?: string;
@@ -30,19 +30,19 @@ export interface Props {
     image?: string;
   };
 }
-const settings = await getSiteSettings();
-const title = Astro.props.meta.title || settings.title;
-const description = Astro.props.meta.description || settings.description;
-const canonicalURL = Astro.props.meta.canonicalURL || settings.url;
-// const image = new URL(Astro.props.meta.image || './social.png', Astro.site);
+const { meta } = Astro.props;
 
-// const { title = "LS", desc = "Loumarc Signs" } = Astro.props;
+const settings = await getSiteSettings();
+const title = meta.title || settings.title;
+const description = meta.description || settings.description;
+const canonicalURL = meta.canonicalURL || settings.url;
+// const image = new URL(Astro.props.meta.image || './social.png', Astro.site);
 ---
 
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="description" content={description} />
-<title>{title}</title>
+<title>{meta.title}</title>
 
 <!-- Canonical -->
 <link rel="canonical" href={canonicalURL} />

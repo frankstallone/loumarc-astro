@@ -7,9 +7,7 @@ import Card from '../components/Card.astro';
 const posts = await useSanityClient().fetch(`*[_type == "post"]`);
 
 const meta = {
-  meta: {
-    title: 'The latest blog posts from Loumarc Signs',
-  },
+  title: 'The latest blog posts from Loumarc Signs',
 };
 ---
 

@@ -227,3 +227,7 @@
 .image__primary {
   width: 100%;
 }
+
+.rounded {
+  border-radius: var(--border-radius);
+}
