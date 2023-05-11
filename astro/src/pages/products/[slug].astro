@@ -19,10 +19,11 @@ export async function getStaticPaths() {
   });
 }
 
-const { title, body, gallery } = Astro.props;
+const { title, body, gallery, slug } = Astro.props;
 
 const meta = {
-  title: `${title} | Products | Loumarc Signs `,
+  title: `${title} | Products | Loumarc Signs`,
+  canonicalURL: `https://loumarcsigns.com/products/${slug.current}`,
 };
 ---
 

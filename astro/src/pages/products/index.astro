@@ -7,9 +7,8 @@ import Card from '../../components/Card.astro';
 const products = await useSanityClient().fetch(`*[_type == "product"]`);
 
 const meta = {
-  meta: {
-    title: 'Products | Loumarc Signs',
-  },
+  title: 'Products | Loumarc Signs',
+  canonicalURL: 'https://loumarcsigns.com/products/',
 };
 ---
 

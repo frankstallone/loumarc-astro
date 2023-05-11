@@ -52,14 +52,22 @@ const canonicalURL = meta.canonicalURL || settings.url;
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<!-- <meta property="og:image" content={image} /> -->
+<meta property="og:image" content="/images/og-image.png" />
+<meta
+  property="og:image:alt"
+  content={`Loumarc Signs. ${settings.description}`}
+/>
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={canonicalURL} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
-<!-- <meta property="twitter:image" content={image} /> -->
+<meta property="twitter:image" content="/images/og-image.png" />
+<meta
+  property="twitter:image:alt"
+  content={`Loumarc Signs. ${settings.description}`}
+/>
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
