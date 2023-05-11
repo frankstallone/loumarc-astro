@@ -127,6 +127,8 @@ textarea:focus {
 
 button:not(.mobile-open),
 .button {
+  display: block;
+  max-width: fit-content;
   --tracking: 0;
   letter-spacing: var(--tracking);
   font-size: var(--step--1);
@@ -135,17 +137,9 @@ button:not(.mobile-open),
   border-radius: 40px;
   border: none;
   padding: var(--space-xs) var(--space-xl);
+  text-decoration: none;
 }
 
-.cta-message {
-  background-color: var(--gray300);
-  --spot-color: var(--wine500);
-}
-
-footer > .curve:first-child {
+footer > .slant:first-child {
   transform: rotate(180deg) translateY(-1px);
-}
-
-.gallery {
-  --grid-gap: 0;
 }

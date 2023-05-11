@@ -17,15 +17,12 @@ const meta = {
   <Header />
   <div class="section spot-color-primary page__buffer">
     <svg
-      class="curve"
+      class="slant"
+      viewBox="0 0 1440 67"
       preserveAspectRatio="none"
-      viewBox="0 0 6000 400"
-      fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path
-        d="M0,72.594c0,-0 1523.98,170.758 2192.22,170.758c1056.92,-0 3807.78,-168.077 3807.78,-168.077l0,-75.275l-6000,-0l0,72.594Z"
-      ></path>
+      <path d="M0,66.398L1440,18.066L1440,0L0,0L0,66.398Z"></path>
     </svg>
     <div class="section__inner region">
       <div class="center">
@@ -35,15 +32,12 @@ const meta = {
       </div>
     </div>
     <svg
-      class="curve"
+      class="slant"
+      viewBox="0 0 1440 67"
       preserveAspectRatio="none"
-      viewBox="0 0 6000 400"
-      fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path
-        d="M0,72.594c0,-0 1523.98,170.758 2192.22,170.758c1056.92,-0 3807.78,-168.077 3807.78,-168.077l0,-75.275l-6000,-0l0,72.594Z"
-      ></path>
+      <path d="M0,66.398L1440,18.066L1440,0L0,0L0,66.398Z"></path>
     </svg>
   </div>
   <main>
@@ -54,6 +48,7 @@ const meta = {
             {products.map((product) => (
               <li>
                 <Card
+                  dataLayout="full"
                   heading={product.title}
                   imgUrl={
                     product.mainImage
