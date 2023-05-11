@@ -36,6 +36,20 @@ const {
     ) : (
       <img src={imgUrl} alt={alt} />
     )
+    // typeof imgUrl === 'object' ? (
+    //   <picture>
+    //     <source
+    //       srcset={urlForImage(imgUrl).width(400).format('webp').url()}
+    //       type="image/webp"
+    //     />
+    //     <img
+    //       src={urlForImage(imgUrl).width(400).format('jpg').url()}
+    //       alt={alt}
+    //     />
+    //   </picture>
+    // ) : (
+    //   <img src={imgUrl} alt={alt} />
+    // )
   }
   <div class="card-content flow">
     <h3>{heading}</h3>

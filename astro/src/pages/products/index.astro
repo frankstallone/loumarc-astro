@@ -17,6 +17,7 @@ const meta = {
   <Header />
   <div class="section spot-color-primary page__buffer">
     <svg
+      aria-hidden="true"
       class="slant"
       viewBox="0 0 1440 67"
       preserveAspectRatio="none"
@@ -32,6 +33,7 @@ const meta = {
       </div>
     </div>
     <svg
+      aria-hidden="true"
       class="slant"
       viewBox="0 0 1440 67"
       preserveAspectRatio="none"
@@ -55,7 +57,7 @@ const meta = {
                       ? product.mainImage
                       : '/images/card-fallback-image.png'
                   }
-                  alt={product.mainImage ? product.mainImage.alt : null}
+                  alt={product.mainImage ? product.mainImage.alt : undefined}
                   excerpt={product.excerpt}
                   url={product.slug.current}
                 />

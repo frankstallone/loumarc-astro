@@ -19,7 +19,10 @@ const meta = {
       <h1 class="text-center font-weight-base font-size-6 max-inline-size-full">
         Bringing visibility <br />to your goals
       </h1>
-      <img src="/images/demo-sign.jpg" alt="" />
+      <img
+        src="/images/demo-sign.jpg"
+        alt="Photo of channel letter sign that gives the site presense."
+      />
     </div>
   </div>
   <main role="main" id="main">
@@ -77,7 +80,7 @@ const meta = {
                         ? product.mainImage
                         : '/images/card-fallback-image.png'
                     }
-                    alt={product.mainImage ? product.mainImage.alt : null}
+                    alt={product.mainImage ? product.mainImage.alt : undefined}
                     excerpt={product.excerpt}
                     url={product.slug.current}
                   />
@@ -90,6 +93,7 @@ const meta = {
     </article>
     <article class="region section spot-color-tertiary-dark">
       <svg
+        aria-hidden="true"
         class="slant"
         viewBox="0 0 1440 67"
         preserveAspectRatio="none"
@@ -132,12 +136,18 @@ const meta = {
               </p>
             </div>
             <div class="flex justify-center items-center">
-              <img src="/images/design.jpg" alt="" />
+              <img
+                src="/images/design.jpg"
+                alt="Designer ready to start making your brand more visible"
+              />
             </div>
           </div>
           <div class="region switcher">
             <div class="flex justify-center items-center">
-              <img src="/images/demo-sign-build.jpg" alt="" />
+              <img
+                src="/images/demo-sign-build.jpg"
+                alt="A channel letter sign that gives this site great presence"
+              />
             </div>
             <div class="flow">
               <h3>Build</h3>
@@ -154,6 +164,7 @@ const meta = {
         </div>
       </div>
       <svg
+        aria-hidden="true"
         class="slant"
         viewBox="0 0 1440 67"
         preserveAspectRatio="none"
@@ -178,12 +189,15 @@ const meta = {
             </p>
           </div>
           <div class="flex justify-center items-center">
-            <img src="/images/eddy.jpg" alt="" />
+            <img
+              src="/images/eddy.jpg"
+              alt="Photo of marketing specialist Eddy"
+            />
           </div>
         </div>
         <div class="region switcher">
           <div class="flex justify-center items-center">
-            <img src="/images/25-years.png" alt="" />
+            <img src="/images/25-years.png" alt="25 years in business!" />
           </div>
           <div class="flow">
             <h3>Building high quality signs in New Jersey</h3>

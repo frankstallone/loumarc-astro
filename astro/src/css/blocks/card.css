@@ -1,6 +1,5 @@
 .card {
   max-inline-size: var(--max-width, 400px);
-  /* background: var(--gray300); */
   border-radius: var(--border-radius);
   overflow: hidden;
 }
