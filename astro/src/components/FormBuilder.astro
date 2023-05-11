@@ -1,0 +1,85 @@
+---
+export type Slug = 'default' | 'carved';
+
+export interface FormLabelTypes {
+  name?: string;
+  email?: string;
+  phone?: string;
+  message: string;
+  submit?: string;
+}
+
+export const FormLabels: Record<Slug, FormLabelTypes> = {
+  default: {
+    name: 'Name',
+    email: 'Email',
+    phone: 'Phone',
+    message: 'What are you looking to accomplish?',
+    submit: 'Submit',
+  },
+  carved: {
+    name: 'Name',
+    email: 'Email',
+    phone: 'Phone',
+    message: 'Message',
+    submit: 'Submit',
+  },
+};
+
+interface Props {
+  slug: {
+    current: Slug;
+  };
+}
+
+const { slug } = Astro.props;
+
+const nameLabel = FormLabels[slug.current]
+  ? FormLabels[slug.current].name
+  : FormLabels['default'].name;
+
+const emailLabel = FormLabels[slug.current]
+  ? FormLabels[slug.current].email
+  : FormLabels['default'].email;
+
+const phoneLabel = FormLabels[slug.current]
+  ? FormLabels[slug.current].phone
+  : FormLabels['default'].phone;
+
+const messageLabel = FormLabels[slug.current]
+  ? FormLabels[slug.current].message
+  : FormLabels['default'].message;
+
+const submitLabel = FormLabels[slug.current]
+  ? FormLabels[slug.current].submit
+  : FormLabels['default'].submit;
+---
+
+<form class="box" method="POST" data-netlify="true">
+  <input
+    type="hidden"
+    name="subject"
+    value=`🤖: Contact form submission from /${slug}`
+  />
+  <div class="stack">
+    <p class="stack step-0">
+      <label for="name">{nameLabel}</label>
+      <input type="text" name="name" />
+    </p>
+    <p class="stack step-0">
+      <label for="email">{emailLabel}</label>
+      <input type="email" name="email" />
+    </p>
+    <p class="stack step-0">
+      <label for="phone">{phoneLabel}</label>
+      <input type="tel" name="phone" />
+    </p>
+    <p class="stack step-0">
+      <label for="message">{messageLabel}</label>
+      <textarea name="message"></textarea>
+    </p>
+    <p>
+      <button type="submit">{submitLabel}</button>
+    </p>
+  </div>
+</form>
