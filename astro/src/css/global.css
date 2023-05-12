@@ -118,6 +118,8 @@ input,
 textarea {
   border-radius: 4px;
   border: 1px solid var(--gray700);
+  padding-block: var(--space-2xs);
+  padding-inline: var(--space-xs);
 }
 
 input:focus,

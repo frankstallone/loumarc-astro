@@ -5,6 +5,10 @@ export interface FormLabelTypes {
   name?: string;
   email?: string;
   phone?: string;
+  companyName?: string;
+  budget?: string;
+  deadline?: string;
+  needs?: string;
   message: string;
   submit?: string;
 }
@@ -14,6 +18,10 @@ export const FormLabels: Record<Slug, FormLabelTypes> = {
     name: 'Name',
     email: 'Email',
     phone: 'Phone',
+    companyName: 'Company name',
+    budget: 'Budget',
+    deadline: 'Do you have any deadlines we should know about?',
+    needs: 'Do you have any specific needs we should know about?',
     message: 'What are you looking to accomplish?',
     submit: 'Submit',
   },
@@ -27,32 +35,55 @@ export const FormLabels: Record<Slug, FormLabelTypes> = {
 };
 
 interface Props {
-  slug: {
-    current: Slug;
-  };
+  slug: Slug;
 }
 
 const { slug } = Astro.props;
 
-const nameLabel = FormLabels[slug.current]
-  ? FormLabels[slug.current].name
-  : FormLabels['default'].name;
+const nameLabel =
+  FormLabels[slug] && FormLabels[slug].name
+    ? FormLabels[slug].name
+    : FormLabels['default'].name;
 
-const emailLabel = FormLabels[slug.current]
-  ? FormLabels[slug.current].email
-  : FormLabels['default'].email;
+const emailLabel =
+  FormLabels[slug] && FormLabels[slug].email
+    ? FormLabels[slug].email
+    : FormLabels['default'].email;
 
-const phoneLabel = FormLabels[slug.current]
-  ? FormLabels[slug.current].phone
-  : FormLabels['default'].phone;
+const phoneLabel =
+  FormLabels[slug] && FormLabels[slug].phone
+    ? FormLabels[slug].phone
+    : FormLabels['default'].phone;
 
-const messageLabel = FormLabels[slug.current]
-  ? FormLabels[slug.current].message
-  : FormLabels['default'].message;
+const companyLabel =
+  FormLabels[slug] && FormLabels[slug].companyName
+    ? FormLabels[slug].companyName
+    : FormLabels['default'].companyName;
 
-const submitLabel = FormLabels[slug.current]
-  ? FormLabels[slug.current].submit
-  : FormLabels['default'].submit;
+const budgetLabel =
+  FormLabels[slug] && FormLabels[slug].budget
+    ? FormLabels[slug].budget
+    : FormLabels['default'].budget;
+
+const deadlineLabel =
+  FormLabels[slug] && FormLabels[slug].deadline
+    ? FormLabels[slug].deadline
+    : FormLabels['default'].deadline;
+
+const needsLabel =
+  FormLabels[slug] && FormLabels[slug].needs
+    ? FormLabels[slug].needs
+    : FormLabels['default'].needs;
+
+const messageLabel =
+  FormLabels[slug] && FormLabels[slug].message
+    ? FormLabels[slug].message
+    : FormLabels['default'].message;
+
+const submitLabel =
+  FormLabels[slug] && FormLabels[slug].submit
+    ? FormLabels[slug].submit
+    : FormLabels['default'].submit;
 ---
 
 <form class="box" method="POST" data-netlify="true">
@@ -61,22 +92,42 @@ const submitLabel = FormLabels[slug.current]
     name="subject"
     value=`🤖: Contact form submission from /${slug}`
   />
-  <div class="stack">
-    <p class="stack step-0">
-      <label for="name">{nameLabel}</label>
-      <input type="text" name="name" />
+  <div class="stack step-0">
+    <div class="switcher max-inline-size:paragraph">
+      <p class="stack">
+        <label for="name">{nameLabel}</label>
+        <input type="text" name="name" required />
+      </p>
+      <p class="stack">
+        <label for="email">{emailLabel}</label>
+        <input type="email" name="email" required />
+      </p>
+    </div>
+    <div class="switcher max-inline-size:paragraph">
+      <p class="stack">
+        <label for="phone">{phoneLabel}</label>
+        <input type="tel" name="phone" />
+      </p>
+      <p class="stack">
+        <label for="companyName">{companyLabel}</label>
+        <input type="text" name="companyName" />
+      </p>
+    </div>
+    <p class="stack">
+      <label for="budget">{budgetLabel}</label>
+      <input type="text" name="budget" />
     </p>
-    <p class="stack step-0">
-      <label for="email">{emailLabel}</label>
-      <input type="email" name="email" />
+    <p class="stack">
+      <label for="deadline">{deadlineLabel}</label>
+      <input type="text" name="deadline" />
     </p>
-    <p class="stack step-0">
-      <label for="phone">{phoneLabel}</label>
-      <input type="tel" name="phone" />
+    <p class="stack">
+      <label for="needs">{needsLabel}</label>
+      <input type="text" name="needs" />
     </p>
-    <p class="stack step-0">
+    <p class="stack">
       <label for="message">{messageLabel}</label>
-      <textarea name="message"></textarea>
+      <textarea name="message" rows="6" required></textarea>
     </p>
     <p>
       <button type="submit">{submitLabel}</button>

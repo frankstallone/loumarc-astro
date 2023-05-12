@@ -14,6 +14,10 @@
   max-inline-size: calc(var(--measure) / 1.25) !important;
 }
 
+.max-inline-size\:paragraph {
+  max-inline-size: 50ch !important;
+}
+
 .max-inline-size-full {
   max-inline-size: 100vw;
 }
