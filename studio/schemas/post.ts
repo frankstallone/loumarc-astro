@@ -31,6 +31,12 @@ export default defineType({
       rows: 4,
     }),
     defineField({
+      name: 'metaDescription',
+      title: 'Meta Description',
+      type: 'text',
+      rows: 4,
+    }),
+    defineField({
       name: 'mainImage',
       title: 'Main image',
       type: 'image',
