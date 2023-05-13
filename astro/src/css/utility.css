@@ -244,6 +244,17 @@
   --spot-color-text: var(--sea700);
 }
 
+.spot-color-primary h1,
+.spot-color-primary h2 {
+  background-color: var(--sea700);
+  background-image: linear-gradient(0deg, var(--sea500), var(--sea700));
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+
 .spot-color-primary-dark {
   --spot-color: var(--sea1000);
   --spot-color-text: var(--sea100);
@@ -252,6 +263,16 @@
 .spot-color-secondary {
   --spot-color: var(--lime100);
   --spot-color-text: var(--lime700);
+}
+
+.spot-color-secondary h1 {
+  background-color: var(--lime700);
+  background-image: linear-gradient(0deg, var(--lime500), var(--lime700));
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
 }
 
 .spot-color-secondary-dark {
@@ -264,9 +285,30 @@
   --spot-color-text: var(--bronze700);
 }
 
+.spot-color-tertiary h1 {
+  background-color: var(--bronze700);
+  background-image: linear-gradient(0deg, var(--bronze500), var(--bronze700));
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+
 .spot-color-tertiary-dark {
   --spot-color: var(--bronze1000);
   --spot-color-text: var(--bronze100);
+}
+
+.spot-color-tertiary-dark h1,
+.spot-color-tertiary-dark h2 {
+  background-color: var(--bronze100);
+  background-image: linear-gradient(0deg, var(--bronze300), var(--bronze100));
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
 }
 
 .section__inner {
