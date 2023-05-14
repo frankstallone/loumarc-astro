@@ -1,15 +1,15 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Card from '../components/Card.astro';
-import FormBuilder from '../components/FormBuilder.astro';
-import { useSanityClient } from 'astro-sanity';
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Card from "../components/Card.astro";
+import FormBuilder from "../components/FormBuilder.astro";
+import { useSanityClient } from "astro-sanity";
 
 const products = await useSanityClient().fetch(`*[_type == "product"]`);
 
 const meta = {
-  title: 'Loumarc Signs | High-end full service sign experts',
-  canonicalURL: 'https://loumarcsigns.com',
+  title: "Loumarc Signs | High-end full service sign experts",
+  canonicalURL: "https://loumarcsigns.com",
 };
 ---
 
@@ -28,12 +28,10 @@ const meta = {
     </div>
   </div>
   <main role="main" id="main">
-    <article class="wrapper region flow">
+    <article class="wrapper region flow" data-layout="medium">
       <div class="switcher">
         <FormBuilder slug="default" />
-        <div
-          class="box flex items-center justify-center text-center rounded spot-color-secondary"
-        >
+        <div class="flex items-center justify-center text-center">
           <h3>Achieve the awareness your business deserves</h3>
         </div>
       </div>
@@ -53,7 +51,7 @@ const meta = {
                     imgUrl={
                       product.mainImage
                         ? product.mainImage
-                        : '/images/card-fallback-image.png'
+                        : "/images/card-fallback-image.png"
                     }
                     alt={product.mainImage ? product.mainImage.alt : undefined}
                     excerpt={product.excerpt}

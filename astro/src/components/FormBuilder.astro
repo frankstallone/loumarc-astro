@@ -1,5 +1,6 @@
 ---
-export type Slug = 'default' | 'carved';
+export type Slug = "default" | "carved";
+// | "how-to-gain-more-peoples-attention-with-signs-near-your-business";
 
 export interface FormLabelTypes {
   name?: string;
@@ -15,23 +16,26 @@ export interface FormLabelTypes {
 
 export const FormLabels: Record<Slug, FormLabelTypes> = {
   default: {
-    name: 'Name',
-    email: 'Email',
-    phone: 'Phone',
-    companyName: 'Company name',
-    budget: 'Budget',
-    deadline: 'Do you have any deadlines we should know about?',
-    needs: 'Do you have any specific needs we should know about?',
-    message: 'What are you looking to accomplish?',
-    submit: 'Submit',
+    name: "Name",
+    email: "Email",
+    phone: "Phone",
+    companyName: "Company name",
+    budget: "Budget",
+    deadline: "Do you have any deadlines we should know about?",
+    needs: "Do you have any specific needs we should know about?",
+    message: "What are you looking to accomplish?",
+    submit: "Submit",
   },
   carved: {
-    name: 'Name',
-    email: 'Email',
-    phone: 'Phone',
-    message: 'Message',
-    submit: 'Submit',
+    name: "Name",
+    email: "Email",
+    phone: "Phone",
+    message: "Message",
+    submit: "Submit",
   },
+  // "how-to-gain-more-peoples-attention": {
+  //   message: "What message(s) do you want to convey through your LED sign?",
+  // },
 };
 
 interface Props {
@@ -43,47 +47,47 @@ const { slug } = Astro.props;
 const nameLabel =
   FormLabels[slug] && FormLabels[slug].name
     ? FormLabels[slug].name
-    : FormLabels['default'].name;
+    : FormLabels["default"].name;
 
 const emailLabel =
   FormLabels[slug] && FormLabels[slug].email
     ? FormLabels[slug].email
-    : FormLabels['default'].email;
+    : FormLabels["default"].email;
 
 const phoneLabel =
   FormLabels[slug] && FormLabels[slug].phone
     ? FormLabels[slug].phone
-    : FormLabels['default'].phone;
+    : FormLabels["default"].phone;
 
 const companyLabel =
   FormLabels[slug] && FormLabels[slug].companyName
     ? FormLabels[slug].companyName
-    : FormLabels['default'].companyName;
+    : FormLabels["default"].companyName;
 
 const budgetLabel =
   FormLabels[slug] && FormLabels[slug].budget
     ? FormLabels[slug].budget
-    : FormLabels['default'].budget;
+    : FormLabels["default"].budget;
 
 const deadlineLabel =
   FormLabels[slug] && FormLabels[slug].deadline
     ? FormLabels[slug].deadline
-    : FormLabels['default'].deadline;
+    : FormLabels["default"].deadline;
 
 const needsLabel =
   FormLabels[slug] && FormLabels[slug].needs
     ? FormLabels[slug].needs
-    : FormLabels['default'].needs;
+    : FormLabels["default"].needs;
 
 const messageLabel =
   FormLabels[slug] && FormLabels[slug].message
     ? FormLabels[slug].message
-    : FormLabels['default'].message;
+    : FormLabels["default"].message;
 
 const submitLabel =
   FormLabels[slug] && FormLabels[slug].submit
     ? FormLabels[slug].submit
-    : FormLabels['default'].submit;
+    : FormLabels["default"].submit;
 ---
 
 <form class="box" method="POST" data-netlify="true">

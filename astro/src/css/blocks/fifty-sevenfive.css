@@ -1,0 +1,15 @@
+.fifty-sevenfive {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--grid-gap);
+}
+
+.fifty-sevenfive > :last-child {
+  flex-grow: 1;
+}
+
+.fifty-sevenfive > :first-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: 30%;
+}

@@ -22,6 +22,12 @@
   max-inline-size: 100vw;
 }
 
+/* Wrapper */
+
+.wrapper[data-layout='medium'] {
+  --measure: 100ch;
+}
+
 /* Reel */
 
 .reel[data-gap='m-l'] {
