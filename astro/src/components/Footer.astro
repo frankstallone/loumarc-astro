@@ -1,4 +1,7 @@
 ---
+import { useSanityClient } from "astro-sanity";
+import MainNavItems from "./MainNavItems.astro";
+const products = await useSanityClient().fetch(`*[_type == "product"]`);
 const year = new Date().getFullYear();
 ---
 
@@ -13,6 +16,39 @@ const year = new Date().getFullYear();
     <path id="Slant" d="M0,66.398L1440,18.066L1440,0L0,0L0,66.398Z"></path>
   </svg>
   <div class="section__inner region">
-    <small class="wrapper flow">© Copyright Loumarc Signs {year}</small>
+    <article class="wrapper" data-layout="medium">
+      <div class="grid">
+        <div class="flow">
+          <h2>Navigation</h2>
+          <ul role="list">
+            <MainNavItems />
+          </ul>
+        </div>
+        <div class="flow">
+          <h2>Products</h2>
+          <ul role="list">
+            {
+              products.map((product) => (
+                <li>
+                  <a href={product.slug.current}>{product.title}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="flow">
+          <h2>Contact</h2>
+          <p><a href="tel:+19085754000">908-575-4000</a></p>
+          <p>
+            <a
+              href="https://www.google.com/maps/dir//Loumarc+Signs,+U.S.+206,+Hillsborough+Township,+NJ/@40.5336057,-74.6624731,13z/data=!4m8!4m7!1m0!1m5!1m1!1s0x89c3eaf3d0d86145:0x79626982ac8406ff!2m2!1d-74.621274!2d40.533613"
+              >178 Route 206, Suite A, Hillsborough, NJ 08844</a
+            >
+          </p>
+          <p><small>© Copyright Loumarc Signs {year}.</small></p>
+        </div>
+      </div>
+    </article>
   </div>
 </footer>
