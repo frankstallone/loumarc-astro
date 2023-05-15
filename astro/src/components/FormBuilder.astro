@@ -82,12 +82,22 @@ const submitLabel =
     : FormLabels["default"].submit;
 ---
 
-<form name="main" class="region" method="POST" data-netlify="true">
+<form
+  name="main"
+  netlify-honeypot="bot-field"
+  class="region"
+  method="POST"
+  data-netlify="true"
+>
   <input
     type="hidden"
     name="subject"
     value=`🤖: Contact form submission from /${slug}`
   />
+  <p class="hidden">
+    <label>Do you like delicious treats?</label>
+    <input name="bot-field" />
+  </p>
   <div class="switcher step-0">
     <div class="box flow">
       <div class="switcher">
