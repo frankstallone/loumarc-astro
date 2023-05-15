@@ -1,11 +1,11 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/Header.astro';
-import PortableText from '../../components/PortableText.astro';
-import FormBuilder from '../../components/FormBuilder.astro';
-import { urlForImage } from '../../api/urlForImage';
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import PortableText from "../../components/PortableText.astro";
+import FormBuilder from "../../components/FormBuilder.astro";
+import { urlForImage } from "../../api/urlForImage";
 
-import { useSanityClient } from 'astro-sanity';
+import { useSanityClient } from "astro-sanity";
 
 export async function getStaticPaths() {
   const products = await useSanityClient().fetch(`*[_type == "product"]`);
@@ -13,7 +13,7 @@ export async function getStaticPaths() {
   return products.map((product) => {
     return {
       params: {
-        slug: product.slug?.current || '',
+        slug: product.slug?.current || "",
       },
       props: { ...product },
     };
@@ -59,7 +59,7 @@ const meta = {
                   srcset={urlForImage(image)
                     .width(432)
                     .height(324)
-                    .format('webp')
+                    .format("webp")
                     .url()}
                   type="image/webp"
                 />
@@ -67,7 +67,7 @@ const meta = {
                   src={urlForImage(image)
                     .width(432)
                     .height(324)
-                    .format('jpg')
+                    .format("jpg")
                     .url()}
                   alt={image.alt}
                 />
@@ -79,6 +79,8 @@ const meta = {
   </div>
   <main class="content region flow prose">
     <PortableText portableText={body} />
-    <FormBuilder slug={slug.current} />
   </main>
+  <article class="wrapper" data-layout="medium">
+    <FormBuilder slug={slug.current} />
+  </article>
 </Layout>

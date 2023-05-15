@@ -1,6 +1,5 @@
 ---
-export type Slug = "default" | "carved";
-// | "how-to-gain-more-peoples-attention-with-signs-near-your-business";
+import type { Slug } from "../ts/types";
 
 export interface FormLabelTypes {
   name?: string;
@@ -23,19 +22,12 @@ export const FormLabels: Record<Slug, FormLabelTypes> = {
     budget: "Budget",
     deadline: "Do you have any deadlines we should know about?",
     needs: "Do you have any specific needs we should know about?",
-    message: "What are you looking to accomplish?",
+    message: "What are your goals?",
     submit: "Submit",
   },
-  carved: {
-    name: "Name",
-    email: "Email",
-    phone: "Phone",
-    message: "Message",
-    submit: "Submit",
+  "how-to-gain-more-peoples-attention-with-signs-near-your-business": {
+    message: "What message(s) do you want to convey through your LED sign?",
   },
-  // "how-to-gain-more-peoples-attention": {
-  //   message: "What message(s) do you want to convey through your LED sign?",
-  // },
 };
 
 interface Props {
@@ -90,51 +82,53 @@ const submitLabel =
     : FormLabels["default"].submit;
 ---
 
-<form class="box" method="POST" data-netlify="true">
+<form name="main" class="region" method="POST" data-netlify="true">
   <input
     type="hidden"
     name="subject"
     value=`🤖: Contact form submission from /${slug}`
   />
-  <div class="stack step-0">
-    <div class="switcher max-inline-size:paragraph">
-      <p class="stack">
-        <label for="name">{nameLabel}</label>
-        <input type="text" name="name" required />
-      </p>
-      <p class="stack">
-        <label for="email">{emailLabel}</label>
-        <input type="email" name="email" required />
-      </p>
+  <div class="switcher step-0">
+    <div class="box flow">
+      <div class="switcher">
+        <span class="stack">
+          <label for="name">{nameLabel}</label>
+          <input type="text" name="name" required />
+        </span>
+        <span class="stack">
+          <label for="email">{emailLabel}</label>
+          <input type="email" name="email" required />
+        </span>
+      </div>
+      <div class="switcher">
+        <span class="stack">
+          <label for="phone">{phoneLabel}</label>
+          <input type="tel" name="phone" />
+        </span>
+        <span class="stack">
+          <label for="companyName">{companyLabel}</label>
+          <input type="text" name="companyName" />
+        </span>
+      </div>
+      <span class="stack">
+        <label for="budget">{budgetLabel}</label>
+        <input type="text" name="budget" />
+      </span>
+      <span class="stack">
+        <label for="deadline">{deadlineLabel}</label>
+        <input type="text" name="deadline" />
+      </span>
     </div>
-    <div class="switcher max-inline-size:paragraph">
-      <p class="stack">
-        <label for="phone">{phoneLabel}</label>
-        <input type="tel" name="phone" />
-      </p>
-      <p class="stack">
-        <label for="companyName">{companyLabel}</label>
-        <input type="text" name="companyName" />
-      </p>
-    </div>
-    <p class="stack">
-      <label for="budget">{budgetLabel}</label>
-      <input type="text" name="budget" />
-    </p>
-    <p class="stack">
-      <label for="deadline">{deadlineLabel}</label>
-      <input type="text" name="deadline" />
-    </p>
-    <p class="stack">
-      <label for="needs">{needsLabel}</label>
-      <input type="text" name="needs" />
-    </p>
-    <p class="stack">
-      <label for="message">{messageLabel}</label>
-      <textarea name="message" rows="6" required></textarea>
-    </p>
-    <p>
+    <div class="box flow">
+      <span class="stack">
+        <label for="needs">{needsLabel}</label>
+        <input type="text" name="needs" />
+      </span>
+      <span class="stack">
+        <label for="message">{messageLabel}</label>
+        <textarea name="message" rows="6" required></textarea>
+      </span>
       <button type="submit">{submitLabel}</button>
-    </p>
+    </div>
   </div>
 </form>
