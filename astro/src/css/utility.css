@@ -22,6 +22,26 @@
   max-inline-size: 100vw;
 }
 
+/* Box */
+
+.box[data-padding='xl'] {
+  --padding: var(--space-xl);
+}
+
+.box[data-padding='2xl'] {
+  --padding: var(--space-2xl);
+}
+
+.box[data-padding='3xl'] {
+  --padding: var(--space-3xl);
+}
+
+/* Switcher */
+
+.switcher[data-gap='none'] {
+  --gap: 0;
+}
+
 /* Wrapper */
 
 .wrapper[data-layout='medium'] {
@@ -53,9 +73,12 @@
   --grid-gap: var(--space-s-m);
 }
 
+.grid[data-gap='none'] {
+  --grid-gap: 0;
+}
+
 .grid[data-layout='50-50'] {
   --grid-placement: auto-fit;
-  --grid-min-item-size: clamp(16rem, 50vw, 26rem);
 }
 
 .grid[data-rows='masonry'] {
@@ -68,12 +91,110 @@
 .flex {
   display: flex;
 }
+
+flex-1 {
+  flex: 1 1 0%;
+}
+flex-auto {
+  flex: 1 1 auto;
+}
+flex-initial {
+  flex: 0 1 auto;
+}
+flex-none {
+  flex: none;
+}
+
+.justify-normal {
+  justify-content: normal;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
 .justify-center {
   justify-content: center;
 }
 
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-around {
+  justify-content: space-around;
+}
+
+.justify-evenly {
+  justify-content: space-evenly;
+}
+
+.justify-stretch {
+  justify-content: stretch;
+}
+
+.justify-items-start {
+  justify-items: start;
+}
+
+.justify-items-end {
+  justify-items: end;
+}
+
+.justify-items-center {
+  justify-items: center;
+}
+
+.justify-items-stretch {
+  justify-items: stretch;
+}
+
+.items-start {
+  align-items: flex-start;
+}
+
+.items-end {
+  align-items: flex-end;
+}
+
 .items-center {
   align-items: center;
+}
+
+.items-baseline {
+  align-items: baseline;
+}
+
+.items-stretch {
+  align-items: stretch;
+}
+
+.self-auto {
+  align-self: auto;
+}
+
+.self-start {
+  align-self: flex-start;
+}
+
+.self-end {
+  align-self: flex-end;
+}
+
+.self-center {
+  align-self: center;
+}
+
+.self-stretch {
+  align-self: stretch;
+}
+
+.self-baseline {
+  align-self: baseline;
 }
 
 /* Media */
@@ -252,7 +373,8 @@
 }
 
 .spot-color-primary h1,
-.spot-color-primary h2 {
+.spot-color-primary h2,
+.spot-color-primary h3 {
   background-color: var(--sea700);
   background-image: linear-gradient(0deg, var(--sea500), var(--sea700));
   background-size: 100%;
@@ -292,7 +414,9 @@
   --spot-color-text: var(--bronze700);
 }
 
-.spot-color-tertiary h1 {
+.spot-color-tertiary h1,
+.spot-color-tertiary h2,
+.spot-color-tertiary h3 {
   background-color: var(--bronze700);
   background-image: linear-gradient(0deg, var(--bronze500), var(--bronze700));
   background-size: 100%;
@@ -308,9 +432,10 @@
 }
 
 .spot-color-tertiary-dark h1,
-.spot-color-tertiary-dark h2 {
+.spot-color-tertiary-dark h2,
+.spot-color-tertiary-dark h3 {
   background-color: var(--bronze100);
-  background-image: linear-gradient(0deg, var(--bronze300), var(--bronze100));
+  background-image: linear-gradient(0deg, var(--bronze500), var(--bronze400));
   background-size: 100%;
   -webkit-background-clip: text;
   -moz-background-clip: text;

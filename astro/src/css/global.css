@@ -158,6 +158,6 @@ footer a:visited {
 footer a:hover,
 footer a:focus,
 footer a:active {
-  color: var(--sea200);
+  color: var(--bronze200);
   text-decoration: none;
 }
