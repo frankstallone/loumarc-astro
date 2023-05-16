@@ -263,7 +263,7 @@
 }
 
 .spot-color-primary-dark {
-  --spot-color: var(--sea1000);
+  --spot-color: var(--sea900);
   --spot-color-text: var(--sea100);
 }
 

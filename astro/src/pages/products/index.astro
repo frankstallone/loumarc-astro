@@ -1,14 +1,14 @@
 ---
-import { useSanityClient } from 'astro-sanity';
-import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/Header.astro';
-import Card from '../../components/Card.astro';
+import { useSanityClient } from "astro-sanity";
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Card from "../../components/Card.astro";
 
 const products = await useSanityClient().fetch(`*[_type == "product"]`);
 
 const meta = {
-  title: 'Products | Loumarc Signs',
-  canonicalURL: 'https://loumarcsigns.com/products/',
+  title: "Products | Loumarc Signs",
+  canonicalURL: "https://loumarcsigns.com/products/",
 };
 ---
 
@@ -54,7 +54,7 @@ const meta = {
                   imgUrl={
                     product.mainImage
                       ? product.mainImage
-                      : '/images/card-fallback-image.png'
+                      : "/images/card-fallback-image.png"
                   }
                   alt={product.mainImage ? product.mainImage.alt : undefined}
                   excerpt={product.excerpt}
