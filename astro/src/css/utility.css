@@ -409,23 +409,6 @@ flex-none {
   --spot-color-text: var(--lime100);
 }
 
-.spot-color-tertiary {
-  --spot-color: var(--bronze100);
-  --spot-color-text: var(--bronze700);
-}
-
-.spot-color-tertiary h1,
-.spot-color-tertiary h2,
-.spot-color-tertiary h3 {
-  background-color: var(--bronze700);
-  background-image: linear-gradient(0deg, var(--bronze500), var(--bronze700));
-  background-size: 100%;
-  -webkit-background-clip: text;
-  -moz-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -moz-text-fill-color: transparent;
-}
-
 .spot-color-tertiary-dark {
   --spot-color: var(--bronze1000);
   --spot-color-text: var(--bronze100);
@@ -435,7 +418,24 @@ flex-none {
 .spot-color-tertiary-dark h2,
 .spot-color-tertiary-dark h3 {
   background-color: var(--bronze100);
-  background-image: linear-gradient(0deg, var(--bronze500), var(--bronze400));
+  background-image: linear-gradient(0deg, var(--bronze300), var(--bronze100));
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+
+.spot-color-tertiary {
+  --spot-color: var(--bronze100);
+  --spot-color-text: var(--bronze700);
+}
+
+.spot-color-tertiary h1,
+.spot-color-tertiary h2,
+.spot-color-tertiary h3 {
+  background-color: var(--bronze700);
+  background-image: linear-gradient(0deg, var(--bronze700), var(--bronze400));
   background-size: 100%;
   -webkit-background-clip: text;
   -moz-background-clip: text;
