@@ -28,26 +28,30 @@ const meta = {
     </div>
   </div>
   <main role="main" id="main">
-    <article data-layout="medium">
+    <article data-layout="md">
       <div
-        class="switcher items-stretch section__inner spot-color-tertiary-dark spot-test"
+        class="switcher text-center section__inner spot-color-tertiary-dark"
         data-gap="none"
+        data-trenshold="xl"
       >
         <div
-          class="box text-center spot-color-tertiary section__inner items-center flex"
+          class="box spot-color-tertiary section__inner items-center flex lines-overlay"
           data-padding="3xl"
         >
           <h3>Achieve the awareness your business deserves</h3>
         </div>
         <p
-          class="box spot-color-tertiary-dark section__inner items-center flex"
+          class="box spot-color-tertiary-dark section__inner items-center flex lines-overlay"
           data-padding="3xl"
+          data-opacity="dark"
         >
           We guarantee your signs to be free of defects in quality, construction
           and installation for a 3 years.
         </p>
       </div>
-      <FormBuilder slug="default" />
+      <div class="wrapper" data-layout="md">
+        <FormBuilder slug="default" />
+      </div>
     </article>
     <article class="region flow">
       <div class="wrapper">
@@ -176,8 +180,10 @@ const meta = {
           </div>
           <div class="flex justify-center items-center">
             <img
-              src="/images/eddy.jpg"
+              src="/images/photo-of-eddie-palardy.jpg"
               alt="Photo of marketing specialist Eddy"
+              width="387px"
+              height="387px"
             />
           </div>
         </div>
