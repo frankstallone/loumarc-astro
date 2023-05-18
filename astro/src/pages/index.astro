@@ -4,6 +4,7 @@ import Header from "../components/Header.astro";
 import Card from "../components/Card.astro";
 import FormBuilder from "../components/FormBuilder.astro";
 import { useSanityClient } from "astro-sanity";
+import { urlForImage } from "../api/urlForImage";
 
 const products = await useSanityClient().fetch(`*[_type == "product"]`);
 
@@ -53,35 +54,57 @@ const meta = {
         <FormBuilder slug="default" />
       </div>
     </article>
-    <article class="region flow">
-      <div class="wrapper">
-        <h2>Products</h2>
+    <article class="section spot-color-gray" style="margin-block-end: -5rem;">
+      <svg
+        aria-hidden="true"
+        class="slant"
+        viewBox="0 0 1440 67"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M0,66.398L1440,18.066L1440,0L0,0L0,66.398Z"></path>
+      </svg>
+      <div class="section__inner region">
+        <div class="wrapper">
+          <h2>Products</h2>
+        </div>
+        <div class="box">
+          {
+            products && (
+              <ul role="list" class="reel">
+                {products.map((product) => (
+                  <li>
+                    <Card
+                      heading={product.title}
+                      imgUrl={
+                        product.mainImage
+                          ? product.mainImage
+                          : "/images/card-fallback-image.png"
+                      }
+                      alt={
+                        product.mainImage ? product.mainImage.alt : undefined
+                      }
+                      excerpt={product.excerpt}
+                      url={product.slug.current}
+                    />
+                  </li>
+                ))}
+              </ul>
+            )
+          }
+        </div>
       </div>
-      <div class="box">
-        {
-          products && (
-            <ul role="list" class="reel">
-              {products.map((product) => (
-                <li>
-                  <Card
-                    heading={product.title}
-                    imgUrl={
-                      product.mainImage
-                        ? product.mainImage
-                        : "/images/card-fallback-image.png"
-                    }
-                    alt={product.mainImage ? product.mainImage.alt : undefined}
-                    excerpt={product.excerpt}
-                    url={product.slug.current}
-                  />
-                </li>
-              ))}
-            </ul>
-          )
-        }
-      </div>
+      <svg
+        aria-hidden="true"
+        class="slant"
+        viewBox="0 0 1440 67"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M0,66.398L1440,18.066L1440,0L0,0L0,66.398Z"></path>
+      </svg>
     </article>
-    <article class="region section spot-color-tertiary-dark">
+    <article class="section spot-color-gray-dark">
       <svg
         aria-hidden="true"
         class="slant"
@@ -94,7 +117,7 @@ const meta = {
       <div class="section__inner region">
         <div class="wrapper">
           <h2>What to expect</h2>
-          <div class="region switcher">
+          <div class="region switcher" data-padding="l">
             <div class="flex justify-center items-center">
               <img
                 src="/images/loumarc-signs-shutterstock-meet-400.jpg"
@@ -113,7 +136,7 @@ const meta = {
               </p>
             </div>
           </div>
-          <div class="region switcher">
+          <div class="region switcher" data-padding="l">
             <div class="flow">
               <h3>Design</h3>
               <p>
@@ -132,12 +155,33 @@ const meta = {
               />
             </div>
           </div>
-          <div class="region switcher">
+          <div class="region switcher" data-padding="l">
             <div class="flex justify-center items-center">
-              <img
-                src="/images/demo-sign-build.jpg"
-                alt="A channel letter sign that gives this site great presence"
-              />
+              {
+                typeof products[1].mainImage === "object" ? (
+                  <picture>
+                    <source
+                      srcset={urlForImage(products[1].mainImage)
+                        .width(400)
+                        .format("webp")
+                        .url()}
+                      type="image/webp"
+                    />
+                    <img
+                      src={urlForImage(products[1].mainImage)
+                        .width(400)
+                        .format("jpg")
+                        .url()}
+                      alt="Photo of a sign being built"
+                    />
+                  </picture>
+                ) : (
+                  <img
+                    src={products[1].mainImage}
+                    alt="Photo of a sign being built"
+                  />
+                )
+              }
             </div>
             <div class="flow">
               <h3>Build</h3>
@@ -164,18 +208,20 @@ const meta = {
       </svg>
     </article>
     <article class="wrapper region flow">
-      <h2>Who we are</h2>
       <div class="flow">
         <div class="region switcher">
           <div class="flow">
-            <h3>Eddie Palardy</h3>
             <p>
-              Having been a business owner and coupled with his accounting
-              background, Eddie understands the needs of businesses. He brought
-              his knowledge and experience into the sign industry in 2016.
-              Having the need to grow in a more efficient and better established
-              environment, he moved to Loumarc Signs early in 2020 and has
-              quickly proved his value to our customers.
+              I'm Eddie Palardy your first point of contact. Having been a
+              business owner I know what it means to desire great brand
+              visibility. I'll be your stratgic partner to greater brand
+              awareness.
+              <p>
+                Everyone's journey and goals are different. We understand that
+                we're a step towards those goals. <a href="#contact-form"
+                  >Reach out and tell us your vision</a
+                >.
+              </p>
             </p>
           </div>
           <div class="flex justify-center items-center">

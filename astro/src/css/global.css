@@ -4,6 +4,11 @@
   Low-specificity, global styles that apply to the whole 
   project: https://cube.fyi/css.html
 */
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   color: var(--color-dark);
   background: var(--gray100);

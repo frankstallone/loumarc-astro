@@ -22,6 +22,13 @@
   max-inline-size: 100vw;
 }
 
+/* Region */
+
+.region[data-padding='l'] {
+  --region-space-top: var(--space-l-2xl);
+  --region-space-bottom: var(--space-l-2xl);
+}
+
 /* Box */
 
 .box[data-padding='xl'] {
@@ -398,7 +405,9 @@ flex-none {
   --spot-color-text: var(--lime700);
 }
 
-.spot-color-secondary h1 {
+.spot-color-secondary h1,
+.spot-color-secondary h2,
+.spot-color-secondary h3 {
   background-color: var(--lime700);
   background-image: linear-gradient(0deg, var(--lime500), var(--lime700));
   background-size: 100%;
@@ -447,13 +456,47 @@ flex-none {
   -moz-text-fill-color: transparent;
 }
 
+.spot-color-gray {
+  --spot-color: var(--gray300);
+  --spot-color-text: var(--gray1200);
+}
+
+.spot-color-gray h1,
+.spot-color-gray h2,
+.spot-color-gray h3 {
+  background-color: var(--gray1200);
+  background-image: linear-gradient(0deg, var(--gray1200), var(--gray1000));
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+
+.spot-color-gray-dark {
+  --spot-color: var(--gray1200);
+  --spot-color-text: var(--gray800);
+}
+
+.spot-color-gray-dark h1,
+.spot-color-gray-dark h2,
+.spot-color-gray-dark h3 {
+  background-color: var(--gray900);
+  background-image: linear-gradient(0deg, var(--gray900), var(--gray100));
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+
 .section__inner {
   background: var(--spot-color, var(--color-light));
   color: var(--spot-color-text, var(--color-dark));
 }
 
 .section > .slant {
-  transform: translateY(-1px);
+  transform: translateY(-8px);
 }
 
 .section > .slant:first-child {
