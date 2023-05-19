@@ -457,7 +457,7 @@ flex-none {
 }
 
 .spot-color-gray {
-  --spot-color: var(--gray300);
+  --spot-color: var(--gray500);
   --spot-color-text: var(--gray1200);
 }
 
@@ -535,4 +535,27 @@ flex-none {
 
 .lines-overlay[data-opacity='dark']::before {
   opacity: 0.5;
+}
+
+/* Object Fit
+Utilities for controlling how a replaced element's content should be resized. */
+
+.object-contain {
+  object-fit: contain;
+}
+
+.object-cover {
+  object-fit: cover;
+}
+
+.object-fill {
+  object-fit: fill;
+}
+
+.object-none {
+  object-fit: none;
+}
+
+.object-scale-down {
+  object-fit: scale-down;
 }
