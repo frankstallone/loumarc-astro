@@ -36,6 +36,10 @@ interface Props {
 
 const { slug } = Astro.props;
 
+const emailTitle = slug
+  ? `🤖: Contact form submission from /${slug}`
+  : "🤖: Contact form submission";
+
 const nameLabel =
   FormLabels[slug] && FormLabels[slug].name
     ? FormLabels[slug].name
@@ -89,13 +93,9 @@ const submitLabel =
   method="POST"
   data-netlify="true"
   id="contact-form"
-  action="/thank-you"
+  action="/thank-you/"
 >
-  <input
-    type="hidden"
-    name="subject"
-    value=`🤖: Contact form submission from /${slug}`
-  />
+  <input type="hidden" name="subject" value={emailTitle} />
   <p class="hidden">
     <label>Do you like delicious treats?</label>
     <input name="bot-field" />
