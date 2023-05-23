@@ -1,8 +1,8 @@
 ---
-import Head from '../components/Head.astro';
-import Footer from '../components/Footer.astro';
+import Head from "../components/Head.astro";
+import Footer from "../components/Footer.astro";
 
-const { meta } = Astro.props;
+const { meta, slug } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -10,6 +10,6 @@ const { meta } = Astro.props;
   <Head meta={meta} />
   <body>
     <slot />
-    <Footer />
+    {slug === "thank-you" ? null : <Footer />}
   </body>
 </html>

@@ -1,0 +1,34 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+
+const meta = {
+    title: "Thank you for contacting Loumarc Signs | High-end full service sign experts",
+    canonicalURL: "https://loumarcsigns.com",
+};
+---
+
+<Layout meta={meta} slug="thank-you">
+    <a href="#main" class="sr-only sr-only-focusable">Skip to content</a>
+    <Header location="home" />
+    <div class="center" data-location="home" id="main">
+        <div class="cover" data-location="home">
+            <div>
+                <h1
+                    class="text-center font-weight-base font-size-6 max-inline-size-full"
+                >
+                    Thank you for contacting us!
+                </h1>
+                <h2
+                    class="text-center font-weight-base font-size-6 max-inline-size-full"
+                >
+                    We'll reach out shortly.
+                </h2>
+            </div>
+            <img
+                src="/images/demo-sign.jpg"
+                alt="Photo of channel letter sign that gives the site presense."
+            />
+        </div>
+    </div>
+</Layout>
