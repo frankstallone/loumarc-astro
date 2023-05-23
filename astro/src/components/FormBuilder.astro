@@ -36,9 +36,10 @@ interface Props {
 
 const { slug } = Astro.props;
 
-const emailTitle = slug
-  ? `🤖: Contact form submission from /${slug}`
-  : "🤖: Contact form submission";
+const emailTitle =
+  slug || slug !== "default"
+    ? `🤖: Contact form submission from /${slug}`
+    : "🤖: Contact form submission";
 
 const nameLabel =
   FormLabels[slug] && FormLabels[slug].name
