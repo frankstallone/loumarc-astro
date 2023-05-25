@@ -10,6 +10,6 @@ const { meta, slug } = Astro.props;
   <Head meta={meta} />
   <body>
     <slot />
-    {slug === "thank-you" ? null : <Footer />}
+    {slug === "thank-you" || "404" ? null : <Footer />}
   </body>
 </html>
