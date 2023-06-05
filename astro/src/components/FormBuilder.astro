@@ -1,5 +1,5 @@
 ---
-import type { Slug } from "../ts/types";
+import type { Slug } from '../ts/types';
 
 export interface FormLabelTypes {
   name?: string;
@@ -15,18 +15,18 @@ export interface FormLabelTypes {
 
 export const FormLabels: Record<Slug, FormLabelTypes> = {
   default: {
-    name: "Name",
-    email: "Email",
-    phone: "Phone",
-    companyName: "Company name",
-    budget: "Budget",
-    deadline: "Do you have any deadlines we should know about?",
-    needs: "Do you have any specific needs we should know about?",
-    message: "What are your goals?",
-    submit: "Submit",
+    name: 'Name',
+    email: 'Email',
+    phone: 'Phone',
+    companyName: 'Company name',
+    budget: 'Budget',
+    deadline: 'Do you have any deadlines we should know about?',
+    needs: 'Do you have any specific needs we should know about?',
+    message: 'What are your goals?',
+    submit: 'Submit',
   },
-  "how-to-gain-more-peoples-attention-with-signs-near-your-business": {
-    message: "What message(s) do you want to convey through your LED sign?",
+  'how-to-gain-more-peoples-attention-with-signs-near-your-business': {
+    message: 'What message(s) do you want to convey through your LED sign?',
   },
 };
 
@@ -37,54 +37,54 @@ interface Props {
 const { slug } = Astro.props;
 
 const emailTitle =
-  slug && slug !== "default"
+  slug && slug !== 'default'
     ? `🤖: Contact form submission from /${slug}`
-    : "🤖: Contact form submission";
+    : '🤖: Contact form submission';
 
 const nameLabel =
   FormLabels[slug] && FormLabels[slug].name
     ? FormLabels[slug].name
-    : FormLabels["default"].name;
+    : FormLabels['default'].name;
 
 const emailLabel =
   FormLabels[slug] && FormLabels[slug].email
     ? FormLabels[slug].email
-    : FormLabels["default"].email;
+    : FormLabels['default'].email;
 
 const phoneLabel =
   FormLabels[slug] && FormLabels[slug].phone
     ? FormLabels[slug].phone
-    : FormLabels["default"].phone;
+    : FormLabels['default'].phone;
 
 const companyLabel =
   FormLabels[slug] && FormLabels[slug].companyName
     ? FormLabels[slug].companyName
-    : FormLabels["default"].companyName;
+    : FormLabels['default'].companyName;
 
 const budgetLabel =
   FormLabels[slug] && FormLabels[slug].budget
     ? FormLabels[slug].budget
-    : FormLabels["default"].budget;
+    : FormLabels['default'].budget;
 
 const deadlineLabel =
   FormLabels[slug] && FormLabels[slug].deadline
     ? FormLabels[slug].deadline
-    : FormLabels["default"].deadline;
+    : FormLabels['default'].deadline;
 
 const needsLabel =
   FormLabels[slug] && FormLabels[slug].needs
     ? FormLabels[slug].needs
-    : FormLabels["default"].needs;
+    : FormLabels['default'].needs;
 
 const messageLabel =
   FormLabels[slug] && FormLabels[slug].message
     ? FormLabels[slug].message
-    : FormLabels["default"].message;
+    : FormLabels['default'].message;
 
 const submitLabel =
   FormLabels[slug] && FormLabels[slug].submit
     ? FormLabels[slug].submit
-    : FormLabels["default"].submit;
+    : FormLabels['default'].submit;
 ---
 
 <form
@@ -98,48 +98,48 @@ const submitLabel =
 >
   <input type="hidden" name="subject" value={emailTitle} />
   <p class="hidden">
-    <label>Do you like delicious treats?</label>
-    <input name="bot-field" />
+    <label for="bot-field">Do you like delicious treats?</label>
+    <input name="bot-field" id="bot-field" />
   </p>
   <div class="switcher step-0">
     <div class="box flow">
       <div class="switcher">
         <span class="stack">
           <label for="name">{nameLabel}</label>
-          <input type="text" name="name" required />
+          <input type="text" name="name" id="name" required />
         </span>
         <span class="stack">
           <label for="email">{emailLabel}</label>
-          <input type="email" name="email" required />
+          <input type="email" name="email" id="email" required />
         </span>
       </div>
       <div class="switcher">
         <span class="stack">
           <label for="phone">{phoneLabel}</label>
-          <input type="tel" name="phone" />
+          <input type="tel" name="phone" id="phone" />
         </span>
         <span class="stack">
           <label for="companyName">{companyLabel}</label>
-          <input type="text" name="companyName" />
+          <input type="text" name="companyName" id="companyName" />
         </span>
       </div>
       <span class="stack">
         <label for="budget">{budgetLabel}</label>
-        <input type="text" name="budget" />
+        <input type="text" name="budget" id="budget" />
       </span>
       <span class="stack">
         <label for="deadline">{deadlineLabel}</label>
-        <input type="text" name="deadline" />
+        <input type="text" name="deadline" id="deadline" />
       </span>
     </div>
     <div class="box flow">
       <span class="stack">
         <label for="needs">{needsLabel}</label>
-        <input type="text" name="needs" />
+        <input type="text" name="needs" id="needs" />
       </span>
       <span class="stack">
         <label for="message">{messageLabel}</label>
-        <textarea name="message" rows="6" required></textarea>
+        <textarea name="message" id="message" rows="6" required></textarea>
       </span>
       <button type="submit">{submitLabel}</button>
     </div>
