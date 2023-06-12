@@ -1,14 +1,14 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Header from "../components/Header.astro";
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
 
 const meta = {
-    title: "Thank you for contacting Loumarc Signs | High-end full service sign experts",
-    canonicalURL: "https://loumarcsigns.com",
+    title: 'Thank you for contacting Loumarc Signs | High-end full service sign experts',
+    canonicalURL: 'https://loumarcsigns.com',
 };
 ---
 
-<Layout meta={meta} slug="404">
+<Layout meta={meta} disableFooter={true}>
     <a href="#main" class="sr-only sr-only-focusable">Skip to content</a>
     <Header location="home" />
     <div class="center" data-location="home" id="main">
