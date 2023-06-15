@@ -17,5 +17,11 @@
 }
 
 .grid[data-grid-min-item='s'] {
-  --grid-min-item-size: 200px;
+  --grid-min-item-size: 300px;
+}
+
+@media (max-width: 700px) {
+  .grid[data-grid-min-item='s'] {
+    --grid-min-item-size: 400px;
+  }
 }
