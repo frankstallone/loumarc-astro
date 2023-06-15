@@ -27,19 +27,21 @@ h3 {
   font-family: var(--font-display);
   line-height: var(--line-height-small);
   letter-spacing: var(--tracking-s);
-  font-weight: 400;
 }
 
 h1 {
   font-size: var(--step-6);
+  font-weight: 700;
 }
 
 h2 {
   font-size: var(--step-5);
+  font-weight: 600;
 }
 
 h3 {
   font-size: var(--step-4);
+  font-weight: 400;
 }
 
 /* Set line lengths */
