@@ -1,16 +1,16 @@
 ---
-import { useSanityClient } from "astro-sanity";
-import Layout from "../../layouts/Layout.astro";
-import Header from "../../components/Header.astro";
-import Card from "../../components/Card.astro";
+import { useSanityClient } from 'astro-sanity';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Card from '../../components/Card.astro';
 
 const products = await useSanityClient().fetch(`*[_type == "product"]`);
 
 const meta = {
-  title: "Products | Loumarc Signs",
-  canonicalURL: "https://loumarcsigns.com/products/",
+  title: 'Products | Loumarc Signs',
+  canonicalURL: 'https://loumarcsigns.com/products/',
   description:
-    "At Loumarc Signs, we create distinctive signs specifically crafted to fit your needs. We survey your sign site and obtain the necessary permits needed.",
+    'At Loumarc Signs, we create distinctive signs specifically crafted to fit your needs. We survey your sign site and obtain the necessary permits needed.',
 };
 
 const featuredProducts = products.filter((product) => product.featured);
@@ -48,7 +48,9 @@ const filteredProducts = products.filter((product) => !product.featured);
   </div>
   <main>
     <article class="region flow box">
-      <h2>Featured</h2>
+      <div class="wrapper">
+        <h2 class="text-center">Featured</h2>
+      </div>
       {
         featuredProducts && (
           <ul role="list" class="grid">
@@ -60,7 +62,7 @@ const filteredProducts = products.filter((product) => !product.featured);
                   imgUrl={
                     product.mainImage
                       ? product.mainImage
-                      : "/images/card-fallback-image.png"
+                      : '/images/card-fallback-image.png'
                   }
                   alt={product.mainImage ? product.mainImage.alt : undefined}
                   excerpt={product.excerpt}
@@ -71,10 +73,12 @@ const filteredProducts = products.filter((product) => !product.featured);
           </ul>
         )
       }
-      <h2>More products</h2>
+      <div class="wrapper">
+        <h2 class="text-center">More products</h2>
+      </div>
       {
         filteredProducts && (
-          <ul role="list" class="grid">
+          <ul role="list" class="grid" data-grid-min-item="s">
             {filteredProducts.map((product) => (
               <li>
                 <Card
@@ -83,11 +87,12 @@ const filteredProducts = products.filter((product) => !product.featured);
                   imgUrl={
                     product.mainImage
                       ? product.mainImage
-                      : "/images/card-fallback-image.png"
+                      : '/images/card-fallback-image.png'
                   }
                   alt={product.mainImage ? product.mainImage.alt : undefined}
                   excerpt={product.excerpt}
                   url={product.slug.current}
+                  h3className="step-3"
                 />
               </li>
             ))}

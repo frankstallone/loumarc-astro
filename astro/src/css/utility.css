@@ -71,13 +71,6 @@
   --max-width: auto;
 }
 
-/* Gallery */
-
-/* Convert to data attribute data-gap='none' */
-.gallery {
-  --grid-gap: 0;
-}
-
 /* Grid */
 
 .grid[data-gap='s-m'] {

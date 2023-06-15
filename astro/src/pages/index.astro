@@ -1,16 +1,16 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Header from "../components/Header.astro";
-import Card from "../components/Card.astro";
-import FormBuilder from "../components/FormBuilder.astro";
-import { useSanityClient } from "astro-sanity";
-import { urlForImage } from "../api/urlForImage";
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Card from '../components/Card.astro';
+import FormBuilder from '../components/FormBuilder.astro';
+import { useSanityClient } from 'astro-sanity';
+import { urlForImage } from '../api/urlForImage';
 
 const products = await useSanityClient().fetch(`*[_type == "product"]`);
 
 const meta = {
-  title: "Loumarc Signs | High-end full service sign experts",
-  canonicalURL: "https://loumarcsigns.com",
+  title: 'Loumarc Signs | High-end full service sign experts',
+  canonicalURL: 'https://loumarcsigns.com',
 };
 ---
 
@@ -19,7 +19,9 @@ const meta = {
   <Header location="home" />
   <div class="center" data-location="home">
     <div class="cover" data-location="home">
-      <h1 class="text-center font-weight-base font-size-6 max-inline-size-full">
+      <h1
+        class="text-center font-weight-base font-size-6 max-inline-size-full step-7"
+      >
         Bringing visibility <br />to your goals
       </h1>
       <img
@@ -66,7 +68,7 @@ const meta = {
       </svg>
       <div class="section__inner region">
         <div class="wrapper">
-          <h2>Products</h2>
+          <h2 class="text-center step-6">Products</h2>
         </div>
         <div class="box">
           {
@@ -79,7 +81,7 @@ const meta = {
                       imgUrl={
                         product.mainImage
                           ? product.mainImage
-                          : "/images/card-fallback-image.png"
+                          : '/images/card-fallback-image.png'
                       }
                       alt={
                         product.mainImage ? product.mainImage.alt : undefined
@@ -116,7 +118,7 @@ const meta = {
       </svg>
       <div class="section__inner region">
         <div class="wrapper">
-          <h2>What to expect</h2>
+          <h2 class="text-center step-6">What to expect</h2>
           <div class="region switcher" data-padding="l">
             <div class="flex justify-center items-center">
               <img
@@ -158,19 +160,19 @@ const meta = {
           <div class="region switcher" data-padding="l">
             <div class="flex justify-center items-center">
               {
-                typeof products[1].mainImage === "object" ? (
+                typeof products[1].mainImage === 'object' ? (
                   <picture>
                     <source
                       srcset={urlForImage(products[1].mainImage)
                         .width(400)
-                        .format("webp")
+                        .format('webp')
                         .url()}
                       type="image/webp"
                     />
                     <img
                       src={urlForImage(products[1].mainImage)
                         .width(400)
-                        .format("jpg")
+                        .format('jpg')
                         .url()}
                       alt="Photo of a sign being built"
                     />

@@ -14,3 +14,7 @@
 .cover[data-location='home'] > :first-child {
   margin-block: auto;
 }
+
+.grid[data-grid-min-item='s'] {
+  --grid-min-item-size: 15vw;
+}

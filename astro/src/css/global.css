@@ -147,6 +147,16 @@ button:not(.mobile-open),
   text-decoration: none;
 }
 
+/* Gallery */
+
+.gallery img,
+.gallery picture,
+.gallery source {
+  border-radius: var(--border-radius);
+}
+
+/* Footer */
+
 footer > .slant:first-child {
   transform: rotate(180deg) translateY(-1px);
 }
