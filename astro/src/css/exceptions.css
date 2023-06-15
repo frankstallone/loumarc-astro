@@ -5,14 +5,15 @@
 .cover[data-location='home'] {
   padding: 0;
 }
-@media (min-width: 700px) {
-  .cover[data-location='home'] h1 {
-    margin-top: 20vh;
-  }
-}
 
 .cover[data-location='home'] > :first-child {
   margin-block: auto;
+}
+
+@media (min-width: 700px) {
+  .cover[data-location='home'] > :first-child {
+    margin-block-start: 20vh;
+  }
 }
 
 .grid[data-grid-min-item='s'] {
