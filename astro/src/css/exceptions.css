@@ -17,5 +17,5 @@
 }
 
 .grid[data-grid-min-item='s'] {
-  --grid-min-item-size: 15vw;
+  --grid-min-item-size: 200px;
 }
