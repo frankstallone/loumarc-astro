@@ -53,7 +53,7 @@ const filteredProducts = products.filter((product) => !product.featured);
       </div>
       {
         featuredProducts && (
-          <ul role="list" class="grid">
+          <ul role="list" class="grid justify-items-center">
             {featuredProducts.map((product) => (
               <li>
                 <Card
@@ -78,7 +78,11 @@ const filteredProducts = products.filter((product) => !product.featured);
       </div>
       {
         filteredProducts && (
-          <ul role="list" class="grid" data-grid-min-item="s">
+          <ul
+            role="list"
+            class="grid justify-items-center"
+            data-grid-min-item="s"
+          >
             {filteredProducts.map((product) => (
               <li>
                 <Card
