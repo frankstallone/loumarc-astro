@@ -1,11 +1,11 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Header from "../components/Header.astro";
-import PortableText from "../components/PortableText.astro";
-import { urlForImage } from "../api/urlForImage";
-import FormBuilder from "../components/FormBuilder.astro";
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import PortableText from '../components/PortableText.astro';
+import { urlForImage } from '../api/urlForImage';
+import FormBuilder from '../components/FormBuilder.astro';
 
-import { useSanityClient } from "astro-sanity";
+import { useSanityClient } from 'astro-sanity';
 
 export async function getStaticPaths() {
   const posts = await useSanityClient().fetch(`*[_type == "post"]`);
@@ -13,7 +13,7 @@ export async function getStaticPaths() {
   return posts.map((post) => {
     return {
       params: {
-        slug: post.slug?.current || "",
+        slug: post.slug?.current || '',
       },
       props: { ...post },
     };
@@ -31,7 +31,7 @@ const meta = {
 
 <Layout meta={meta}>
   <Header />
-  <div class="section spot-color-secondary page__buffer">
+  <div class="section spot-color-secondary">
     <svg
       aria-hidden="true"
       class="slant"
@@ -63,11 +63,11 @@ const meta = {
       mainImage ? (
         <picture>
           <source
-            srcset={urlForImage(mainImage).width(600).format("webp").url()}
+            srcset={urlForImage(mainImage).width(600).format('webp').url()}
             type="image/webp"
           />
           <img
-            src={urlForImage(mainImage).width(600).format("jpg").url()}
+            src={urlForImage(mainImage).width(600).format('jpg').url()}
             alt={mainImage.alt}
             class="image__primary"
           />
