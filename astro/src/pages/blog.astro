@@ -5,7 +5,9 @@ import Header from '../components/Header.astro';
 import Card from '../components/Card.astro';
 import FormBuilder from '../components/FormBuilder.astro';
 
-const posts = await useSanityClient().fetch(`*[_type == "post"]`);
+const posts = await useSanityClient().fetch(
+  `*[_type == "post"] | order(_createdAt desc)`
+);
 
 const meta = {
   title: 'The latest blog posts from Loumarc Signs',
