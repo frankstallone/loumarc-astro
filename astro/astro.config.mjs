@@ -10,7 +10,7 @@ export default defineConfig({
       projectId: 'yiwm54j7',
       dataset: 'production',
       apiVersion: '2023-04-24',
-      useCdn: true,
+      useCdn: false,
     }),
     sitemap(),
   ],
