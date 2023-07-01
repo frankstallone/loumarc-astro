@@ -7,6 +7,7 @@ import { useSanityClient } from 'astro-sanity';
 import { urlForImage } from '../api/urlForImage';
 
 const products = await useSanityClient().fetch(`*[_type == "product"]`);
+const featuredProducts = products.filter((product) => product.featured);
 
 const meta = {
   title: 'Loumarc Signs | High-end full service sign experts',
@@ -73,9 +74,9 @@ const meta = {
         </div>
         <div class="box">
           {
-            products && (
+            featuredProducts && (
               <ul role="list" class="reel">
-                {products.map((product) => (
+                {featuredProducts.map((product) => (
                   <li>
                     <Card
                       heading={product.title}
