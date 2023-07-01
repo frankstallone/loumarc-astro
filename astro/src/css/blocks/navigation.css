@@ -44,7 +44,9 @@
 .desktop-nav a:hover,
 #desktop-nav a:focus,
 #desktop-nav a:active {
-  border-bottom: 2px solid var(--warmbreeze1000);
+  text-decoration: underline;
+  text-decoration-thickness: max(0.08em, 1px);
+  text-underline-offset: 0.15em;
 }
 
 #main-navigation .button:hover {

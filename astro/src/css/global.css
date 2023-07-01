@@ -89,12 +89,17 @@ svg {
 
 a {
   color: currentcolor;
-  text-decoration: none;
-  text-decoration: underline;
 }
 
 a:hover {
   text-decoration: none;
+}
+
+/* Baseline for default links */
+a:not([class]) {
+  /* Relatively sized thickness and offset */
+  text-decoration-thickness: max(0.08em, 1px);
+  text-underline-offset: 0.15em;
 }
 
 :focus {
