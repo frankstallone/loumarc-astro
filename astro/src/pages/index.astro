@@ -4,12 +4,12 @@ import Header from '../components/Header.astro';
 import Card from '../components/Card.astro';
 import FormBuilder from '../components/FormBuilder.astro';
 import { useSanityClient } from 'astro-sanity';
-import { urlForImage } from '../api/urlForImage';
 import { Picture } from '@astrojs/image/components';
 
 import headerImg from '../assets/Amazon-trusts-Loumarc-Signs-01.jpg';
 import LSMeet from '../assets/meet-loumarc-signs.jpg';
 import LSDesign from '../assets/loumarc-signs-designs.jpg';
+import LSMake from '../assets/loumarc-custom-signs.jpg';
 import LSEddie from '../assets/photo-of-eddie-palardy.jpg';
 import LS25 from '../assets/25-years.png';
 
@@ -189,32 +189,15 @@ const meta = {
           </div>
           <div class="region switcher" data-padding="l">
             <div class="flex justify-center items-center">
-              {
-                typeof products[1].mainImage === 'object' ? (
-                  <picture>
-                    <source
-                      srcset={urlForImage(products[1].mainImage)
-                        .width(400)
-                        .format('webp')
-                        .url()}
-                      type="image/webp"
-                    />
-                    <img
-                      src={urlForImage(products[1].mainImage)
-                        .width(400)
-                        .format('jpg')
-                        .url()}
-                      alt="Photo of a sign being built"
-                    />
-                  </picture>
-                ) : (
-                  <img
-                    src={products[1].mainImage}
-                    alt="Photo of a sign being built"
-                    width="400"
-                  />
-                )
-              }
+              <Picture
+                src={LSMake}
+                widths={[200, 520]}
+                aspectRatio={400 / 267}
+                alt="Loumarc Signs designs visibility for their clients"
+                class="object-contain"
+                quality={80}
+                format="avif"
+              />
             </div>
             <div class="flow">
               <h3>Build</h3>
