@@ -5,6 +5,13 @@ import Card from '../components/Card.astro';
 import FormBuilder from '../components/FormBuilder.astro';
 import { useSanityClient } from 'astro-sanity';
 import { urlForImage } from '../api/urlForImage';
+import { Image, Picture } from '@astrojs/image/components';
+
+import headerImg from '../assets/Amazon-trusts-Loumarc-Signs-01.jpg';
+import LSMeet from '../assets/meet-loumarc-signs.jpg';
+import LSDesign from '../assets/loumarc-signs-designs.jpg';
+import LSEddie from '../assets/photo-of-eddie-palardy.jpg';
+import LS25 from '../assets/25-years.png';
 
 const products = await useSanityClient().fetch(`*[_type == "product"]`);
 const featuredProducts = products.filter((product) => product.featured);
@@ -25,9 +32,14 @@ const meta = {
       >
         Bringing visibility <br />to your goals
       </h1>
-      <img
-        src="/images/demo-sign.jpg"
-        alt="Photo of channel letter sign that gives the site presense."
+      <Picture
+        src={headerImg}
+        widths={[520, 700, 2000]}
+        alt="Amazon trusts Loumarc Signs to create their signs"
+        style="height: auto;"
+        loading="eager"
+        quality={80}
+        format="webp"
       />
     </div>
   </div>
@@ -123,9 +135,13 @@ const meta = {
           <h2 class="text-center">What to expect</h2>
           <div class="region switcher" data-padding="l">
             <div class="flex justify-center items-center">
-              <img
-                src="/images/loumarc-signs-shutterstock-meet-400.jpg"
+              <Picture
+                src={LSMeet}
+                widths={[200, 520]}
                 alt="Loumarc Signs meeting client"
+                class="object-contain"
+                quality={80}
+                format="webp"
               />
             </div>
             <div class="flow">
@@ -156,9 +172,13 @@ const meta = {
               </p>
             </div>
             <div class="flex justify-center items-center">
-              <img
-                src="/images/design.jpg"
-                alt="Designer ready to start making your brand more visible"
+              <Picture
+                src={LSDesign}
+                widths={[200, 520]}
+                alt="Loumarc Signs designs visibility for their clients"
+                class="object-contain"
+                quality={80}
+                format="webp"
               />
             </div>
           </div>
@@ -186,6 +206,7 @@ const meta = {
                   <img
                     src={products[1].mainImage}
                     alt="Photo of a sign being built"
+                    width="400"
                   />
                 )
               }
@@ -235,18 +256,26 @@ const meta = {
             </p>
           </div>
           <div>
-            <img
-              src="/images/photo-of-eddie-palardy.jpg"
+            <Picture
+              src={LSEddie}
+              widths={[200, 520]}
               alt="Photo of marketing specialist Eddy"
-              width="387px"
-              height="387px"
               class="object-contain"
+              quality={80}
+              format="webp"
             />
           </div>
         </div>
         <div class="region switcher items-center">
           <div class="">
-            <img src="/images/25-years.png" alt="25 years in business!" />
+            <Picture
+              src={LS25}
+              widths={[200, 520]}
+              alt="25 years in business!"
+              class="object-contain"
+              quality={80}
+              format="webp"
+            />
           </div>
           <div class="flow">
             <h3>High-end full service sign experts</h3>
