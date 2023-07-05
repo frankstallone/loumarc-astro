@@ -5,7 +5,7 @@ import Card from '../components/Card.astro';
 import FormBuilder from '../components/FormBuilder.astro';
 import { useSanityClient } from 'astro-sanity';
 import { urlForImage } from '../api/urlForImage';
-import { Image } from '@astrojs/image/components';
+import { Image, Picture } from '@astrojs/image/components';
 
 import headerImg from '../assets/Amazon-trusts-Loumarc-Signs-01.jpg';
 import LSMeet from '../assets/meet-loumarc-signs.jpg';
@@ -32,9 +32,10 @@ const meta = {
       >
         Bringing visibility <br />to your goals
       </h1>
-      <Image
-        alt="Amazon trusts Loumarc Signs to create their signs"
+      <Picture
         src={headerImg}
+        widths={[520, 700, 2000]}
+        alt="Amazon trusts Loumarc Signs to create their signs"
         style="height: auto;"
         loading="eager"
         quality={80}
@@ -134,9 +135,10 @@ const meta = {
           <h2 class="text-center">What to expect</h2>
           <div class="region switcher" data-padding="l">
             <div class="flex justify-center items-center">
-              <Image
-                alt="Loumarc Signs meeting client"
+              <Picture
                 src={LSMeet}
+                widths={[200, 520]}
+                alt="Loumarc Signs meeting client"
                 class="object-contain"
                 quality={80}
                 format="webp"
@@ -170,9 +172,10 @@ const meta = {
               </p>
             </div>
             <div class="flex justify-center items-center">
-              <Image
-                alt="Loumarc Signs designs visibility for their clients"
+              <Picture
                 src={LSDesign}
+                widths={[200, 520]}
+                alt="Loumarc Signs designs visibility for their clients"
                 class="object-contain"
                 quality={80}
                 format="webp"
@@ -203,6 +206,7 @@ const meta = {
                   <img
                     src={products[1].mainImage}
                     alt="Photo of a sign being built"
+                    width="400"
                   />
                 )
               }
@@ -252,9 +256,10 @@ const meta = {
             </p>
           </div>
           <div>
-            <Image
-              alt="Photo of marketing specialist Eddy"
+            <Picture
               src={LSEddie}
+              widths={[200, 520]}
+              alt="Photo of marketing specialist Eddy"
               class="object-contain"
               quality={80}
               format="webp"
@@ -263,9 +268,10 @@ const meta = {
         </div>
         <div class="region switcher items-center">
           <div class="">
-            <Image
-              alt="25 years in business!"
+            <Picture
               src={LS25}
+              widths={[200, 520]}
+              alt="25 years in business!"
               class="object-contain"
               quality={80}
               format="webp"
