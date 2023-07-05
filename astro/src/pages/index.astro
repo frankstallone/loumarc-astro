@@ -5,6 +5,9 @@ import Card from '../components/Card.astro';
 import FormBuilder from '../components/FormBuilder.astro';
 import { useSanityClient } from 'astro-sanity';
 import { urlForImage } from '../api/urlForImage';
+import { Image } from '@astrojs/image/components';
+
+import headerImg from '../assets/Amazon-trusts-Loumarc-Signs-01.jpg';
 
 const products = await useSanityClient().fetch(`*[_type == "product"]`);
 const featuredProducts = products.filter((product) => product.featured);
@@ -25,9 +28,17 @@ const meta = {
       >
         Bringing visibility <br />to your goals
       </h1>
-      <img
-        src="/images/demo-sign.jpg"
+      <!-- <img
+        src={headerImg.src}
         alt="Photo of channel letter sign that gives the site presense."
+      /> -->
+      <Image
+        alt="Amazon trusts Loumarc Signs to create their signs"
+        src={headerImg}
+        fit="contain"
+        style="height: auto;"
+        loading="eager"
+        quality={100}
       />
     </div>
   </div>
