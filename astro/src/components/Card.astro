@@ -19,21 +19,22 @@ const {
   excerpt,
   dataLayout,
 } = Astro.props;
+
+const imageURL = urlForImage(imgUrl);
 ---
 
 <div class="card" data-layout={dataLayout}>
   {
     typeof imgUrl === 'object' ? (
-      <picture>
-        <source
-          srcset={urlForImage(imgUrl).width(400).format('webp').url()}
-          type="image/webp"
-        />
-        <img
-          src={urlForImage(imgUrl).width(400).format('jpg').url()}
-          alt={alt}
-        />
-      </picture>
+      <div>
+        <picture>
+          <source
+            srcset={imageURL.width(400).format('webp').url()}
+            type="image/webp"
+          />
+          <img src={imageURL.width(400).format('jpg').url()} alt={alt} />
+        </picture>
+      </div>
     ) : (
       <img src={imgUrl} alt={alt} />
     )

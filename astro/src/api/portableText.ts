@@ -12,7 +12,7 @@ const customComponents = {
           />
           <img
             class="responsive__img"
-            src="${urlForImage(value.asset).width(600).format("jpg").url()}"
+            src="${urlForImage(value.asset).width(600).format('jpg').url()}"
             alt="${value.alt}"
           />
         </picture>
