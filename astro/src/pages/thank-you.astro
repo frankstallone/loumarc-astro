@@ -1,11 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
+import { Picture } from '@astrojs/image/components';
 
 const meta = {
     title: 'Thank you for contacting Loumarc Signs | High-end full service sign experts',
     canonicalURL: 'https://loumarcsigns.com',
 };
+
+import headerImg from '../assets/Amazon-trusts-Loumarc-Signs-01.jpg';
 ---
 
 <Layout meta={meta} disableFooter={true}>
@@ -15,19 +18,27 @@ const meta = {
         <div class="cover" data-location="home">
             <div class="flow">
                 <h1
-                    class="text-center font-weight-base font-size-6 max-inline-size-full"
+                    class="text-center font-weight-base font-size-6 max-inline-size-full step-7"
                 >
                     Thank you for contacting us!
                 </h1>
                 <h2
-                    class="text-center font-weight-base font-size-6 max-inline-size-full"
+                    class="text-center font-weight-base font-size-6 max-inline-size-full step-7"
                 >
                     We'll reach out shortly.
                 </h2>
             </div>
-            <img
-                src="/images/demo-sign.jpg"
-                alt="Photo of channel letter sign that gives the site presense."
+            <Picture
+                src={headerImg}
+                widths={[520, 700, 2000]}
+                aspectRatio={2000 / 631}
+                width={2000}
+                height={631}
+                class="object-contain h-auto"
+                alt="Amazon trusts Loumarc Signs to create their signs"
+                loading="eager"
+                quality={80}
+                format="avif"
             />
         </div>
     </div>
