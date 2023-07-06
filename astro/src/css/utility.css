@@ -320,6 +320,10 @@ Utilities for controlling how grid items are aligned along their inline axis. */
   height: 75%;
 }
 
+.h-auto {
+  height: auto;
+}
+
 .currentColor {
   fill: currentColor;
 }
