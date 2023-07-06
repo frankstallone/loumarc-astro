@@ -8,6 +8,7 @@
 
 .cover[data-location='home'] > :first-child {
   margin-block: auto;
+  /* margin-block-start: 20vh; */
 }
 
 @media (min-width: 700px) {
