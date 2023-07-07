@@ -48,7 +48,7 @@ const filteredProducts = products.filter((product) => !product.featured);
     </svg>
   </div>
   <main>
-    <article class="region flow box">
+    <article class="region flow box" style="--flow-space: var(--space-l-xl)">
       <p class="mx-auto">
         At Loumarc Signs, we specialize in crafting unique signs tailored to
         your requirements. Our process starts with a thorough site survey and
@@ -58,13 +58,10 @@ const filteredProducts = products.filter((product) => !product.featured);
         maintenance for years to come. We take tremendous pride in our work and
         strive to ensure your absolute satisfaction with the final result.
       </p>
-      <div class="wrapper region">
-        <h2 class="text-center">Featured</h2>
-      </div>
-      {
-        featuredProducts && (
-          <ul role="list" class="grid justify-items-center">
-            {featuredProducts.map((product) => (
+      <ul role="list" class="grid justify-items-center">
+        {
+          featuredProducts &&
+            featuredProducts.map((product) => (
               <li>
                 <Card
                   dataLayout="full"
@@ -79,21 +76,11 @@ const filteredProducts = products.filter((product) => !product.featured);
                   url={product.slug.current}
                 />
               </li>
-            ))}
-          </ul>
-        )
-      }
-      <div class="wrapper region">
-        <h2 class="text-center">More products</h2>
-      </div>
-      {
-        filteredProducts && (
-          <ul
-            role="list"
-            class="grid justify-items-center"
-            data-grid-min-item="s"
-          >
-            {filteredProducts.map((product) => (
+            ))
+        }
+        {
+          filteredProducts &&
+            filteredProducts.map((product) => (
               <li>
                 <Card
                   dataLayout="full"
@@ -108,10 +95,9 @@ const filteredProducts = products.filter((product) => !product.featured);
                   url={product.slug.current}
                 />
               </li>
-            ))}
-          </ul>
-        )
-      }
+            ))
+        }
+      </ul>
       <div class="region prose flow">
         <p class="mx-auto">
           If you don't find the sign you need listed here, worry not! We
