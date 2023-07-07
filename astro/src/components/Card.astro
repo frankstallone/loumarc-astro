@@ -20,7 +20,10 @@ const {
   dataLayout,
 } = Astro.props;
 
-const imageURL = urlForImage(imgUrl);
+const imageURL =
+  typeof imgUrl === 'object'
+    ? urlForImage(imgUrl)
+    : '/images/card-fallback-image.png';
 ---
 
 <div class="card" data-layout={dataLayout}>

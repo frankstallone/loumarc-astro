@@ -16,6 +16,17 @@ import LS25 from '../assets/25-years.png';
 const products = await useSanityClient().fetch(`*[_type == "product"]`);
 const featuredProducts = products.filter((product) => product.featured);
 
+const moreProductsCard = {
+  title: 'More Products',
+  excerpt:
+    "We believe in the power of choice. That's why, at Loumarc Signs, we've provide a wide range of signage solutions to cater to your diverse needs.",
+  slug: {
+    current: '',
+  },
+};
+
+featuredProducts.push(moreProductsCard);
+
 const meta = {
   title: 'Loumarc Signs | High-end full service sign experts',
   canonicalURL: 'https://loumarcsigns.com',
@@ -90,10 +101,11 @@ const meta = {
         <div class="box">
           {
             featuredProducts && (
-              <ul role="list" class="reel">
+              <ul role="list" class="grid justify-items-center">
                 {featuredProducts.map((product) => (
                   <li>
                     <Card
+                      dataLayout="full"
                       heading={product.title}
                       imgUrl={
                         product.mainImage
