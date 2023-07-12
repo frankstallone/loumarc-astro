@@ -58,16 +58,16 @@ const meta = {
       <path d="M0,66.398L1440,18.066L1440,0L0,0L0,66.398Z"></path>
     </svg>
   </div>
-  <div class="gallery region center max-inline-size:measure-lg">
-    <div class="grid">
+  <div class="gallery region box">
+    <div class="grid justify-items-center">
       {
         gallery
           ? gallery.images.map((image) => (
               <picture>
                 <source
                   srcset={urlForImage(image)
-                    .width(432)
-                    .height(324)
+                    .width(600)
+                    .height(450)
                     .format('webp')
                     .quality(90)
                     .url()}
@@ -75,8 +75,8 @@ const meta = {
                 />
                 <img
                   src={urlForImage(image)
-                    .width(432)
-                    .height(324)
+                    .width(600)
+                    .height(450)
                     .format('jpg')
                     .quality(90)
                     .url()}
