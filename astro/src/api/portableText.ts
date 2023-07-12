@@ -7,12 +7,20 @@ const customComponents = {
       return `
         <picture>
           <source
-            srcset="${urlForImage(value.asset).width(600).format('webp').url()}"
+            srcset="${urlForImage(value.asset)
+              .width(900)
+              .format('webp')
+              .quality(90)
+              .url()}"
             type="image/webp"
           />
           <img
             class="responsive__img"
-            src="${urlForImage(value.asset).width(600).format('jpg').url()}"
+            src="${urlForImage(value.asset)
+              .width(900)
+              .format('jpg')
+              .quality(90)
+              .url()}"
             alt="${value.alt}"
           />
         </picture>

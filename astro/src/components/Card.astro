@@ -32,10 +32,13 @@ const imageURL =
       <div>
         <picture>
           <source
-            srcset={imageURL.width(400).format('webp').url()}
+            srcset={imageURL.width(400).format('webp').quality(90).url()}
             type="image/webp"
           />
-          <img src={imageURL.width(400).format('jpg').url()} alt={alt} />
+          <img
+            src={imageURL.width(400).format('jpg').quality(90).url()}
+            alt={alt}
+          />
         </picture>
       </div>
     ) : (

@@ -63,11 +63,19 @@ const meta = {
       mainImage ? (
         <picture>
           <source
-            srcset={urlForImage(mainImage).width(600).format('webp').url()}
+            srcset={urlForImage(mainImage)
+              .width(900)
+              .format('webp')
+              .quality(90)
+              .url()}
             type="image/webp"
           />
           <img
-            src={urlForImage(mainImage).width(600).format('jpg').url()}
+            src={urlForImage(mainImage)
+              .width(900)
+              .format('jpg')
+              .quality(90)
+              .url()}
             alt={mainImage.alt}
             class="image__primary"
           />
