@@ -1,5 +1,6 @@
 ---
 import { urlForImage } from '../api/urlForImage';
+import { Picture } from '@astrojs/image/components';
 
 export interface Props {
   url?: string;
@@ -42,7 +43,16 @@ const imageURL =
         </picture>
       </div>
     ) : (
-      <img src={imgUrl} alt={alt} />
+      <Picture
+        src={imgUrl}
+        widths={[520, 700, 615]}
+        aspectRatio={900 / 506}
+        width={900}
+        height={506}
+        alt={alt}
+        quality={80}
+        format="avif"
+      />
     )
   }
   <div class="card-content flow">

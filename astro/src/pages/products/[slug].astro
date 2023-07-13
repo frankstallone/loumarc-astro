@@ -62,28 +62,33 @@ const meta = {
     <div class="grid justify-items-center">
       {
         gallery
-          ? gallery.images.map((image) => (
-              <picture>
-                <source
-                  srcset={urlForImage(image)
-                    .width(600)
-                    .height(450)
-                    .format('webp')
-                    .quality(90)
-                    .url()}
-                  type="image/webp"
-                />
-                <img
-                  src={urlForImage(image)
-                    .width(600)
-                    .height(450)
-                    .format('jpg')
-                    .quality(90)
-                    .url()}
-                  alt={image.alt}
-                />
-              </picture>
-            ))
+          ? gallery.images.map(
+              (
+                image
+                // Images to be 4:3 ratio
+              ) => (
+                <picture>
+                  <source
+                    srcset={urlForImage(image)
+                      .width(600)
+                      .height(450)
+                      .format('webp')
+                      .quality(90)
+                      .url()}
+                    type="image/webp"
+                  />
+                  <img
+                    src={urlForImage(image)
+                      .width(600)
+                      .height(450)
+                      .format('jpg')
+                      .quality(90)
+                      .url()}
+                    alt={image.alt}
+                  />
+                </picture>
+              )
+            )
           : null
       }
     </div>
