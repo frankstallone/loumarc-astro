@@ -25,6 +25,11 @@
 /* Buttons */
 
 .button[data-color='primary'] {
+  --spot-color-text: var(--bronze900);
+  --spot-color: var(--bronzeLoud);
+}
+
+.button[data-color='secondary'] {
   --spot-color-text: var(--wine100);
   --spot-color: var(--wine800);
 }
