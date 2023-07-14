@@ -30,7 +30,7 @@ const imageURL =
 <div class="card" data-layout={dataLayout}>
   {
     typeof imgUrl === 'object' ? (
-      <div>
+      <a href={url}>
         <picture>
           <source
             srcset={imageURL.width(600).format('webp').quality(90).url()}
@@ -41,7 +41,7 @@ const imageURL =
             alt={alt}
           />
         </picture>
-      </div>
+      </a>
     ) : (
       <Picture
         src={imgUrl}
