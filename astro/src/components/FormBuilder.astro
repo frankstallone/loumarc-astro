@@ -101,33 +101,34 @@ const submitLabel =
     : FormLabels['default'].submit;
 ---
 
-<div class="region wrapper prose flow" id="contact-form">
-  <h2 class="text-center mx-auto">
-    How can we craft uniquely memorable {customCTAHeading} for you?
-  </h2>
-  <p class="mx-auto">
-    Experience the elevated visibility you earned. Whether you decide to visit
-    our Hillsborough, NJ office, give us a call at
-    <a href="tel:+19085754000">908-575-4000</a>, or write us below, we're
-    excited to assist you.
-  </p>
-  {
-    headingContext ? null : (
-      <p class="mx-auto">
-        As your preferred NJ sign company, we pride ourselves on providing a
-        range of premium sign solutions - from{' '}
-        <a href="/products/channel-letters">channel letters</a> and{' '}
-        <a href="/products/acrylic-signs">acrylic signs</a> to captivating{' '}
-        <a href="/products/cut-metal-letters">cut metal letter signs</a>.
-      </p>
-    )
-  }
-</div>
-<div class="wrapper" data-layout="md">
+<!-- <div class="" data-layout="md"></div> -->
+<div class="region wrapper flow" data-layout="md" id="contact-form">
+  <div class="flow prose">
+    <h2 class="text-center mx-auto">
+      How can we craft uniquely memorable {customCTAHeading} for you?
+    </h2>
+    <p class="mx-auto">
+      Experience the elevated visibility you earned. Whether you decide to visit
+      our Hillsborough, NJ office, give us a call at
+      <a href="tel:+19085754000">908-575-4000</a>, or write us below, we're
+      excited to assist you.
+    </p>
+    {
+      headingContext ? null : (
+        <p class="mx-auto">
+          As your preferred NJ sign company, we pride ourselves on providing a
+          range of premium sign solutions - from{' '}
+          <a href="/products/channel-letters">channel letters</a> and{' '}
+          <a href="/products/acrylic-signs">acrylic signs</a> to captivating{' '}
+          <a href="/products/cut-metal-letters">cut metal letter signs</a>.
+        </p>
+      )
+    }
+  </div>
   <form
     name="main"
     netlify-honeypot="bot-field"
-    class="region switcher"
+    class="switcher"
     method="POST"
     data-netlify="true"
     action="/thank-you/"

@@ -161,8 +161,8 @@ button:not(.mobile-open),
   --tracking: 0;
   letter-spacing: var(--tracking);
   font-size: var(--step--1);
-  background: var(--bronzeLoud);
-  color: var(--bronze900);
+  background: var(--spot-color, var(--bronzeLoud));
+  color: var(--spot-color-text, var(--bronze900));
   border-radius: 40px;
   border: none;
   padding: var(--space-xs) var(--space-xl);

@@ -1,5 +1,5 @@
 ---
-import MainNavItems from "./MainNavItems.astro";
+import MainNavItems from './MainNavItems.astro';
 interface Props {
   location?: string;
 }
@@ -77,23 +77,23 @@ const { location } = Astro.props;
 </header>
 
 <script>
-  const button = document.querySelector(".mobile-open");
-  const closeButton = document.querySelector(".mobile-close");
-  const mobileNav = document.querySelector(".mobile-nav-container");
+  const button = document.querySelector('.mobile-open');
+  const closeButton = document.querySelector('.mobile-close');
+  const mobileNav = document.querySelector('.mobile-nav-container');
 
-  button?.addEventListener("click", function () {
-    mobileNav?.classList.add("is-active");
-    button?.setAttribute("aria-expanded", "true");
+  button?.addEventListener('click', function () {
+    mobileNav?.classList.add('is-active');
+    button?.setAttribute('aria-expanded', 'true');
   });
-  closeButton?.addEventListener("click", function () {
-    mobileNav?.classList.remove("is-active");
-    button?.setAttribute("aria-expanded", "false");
+  closeButton?.addEventListener('click', function () {
+    mobileNav?.classList.remove('is-active');
+    button?.setAttribute('aria-expanded', 'false');
   });
 
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") {
-      mobileNav?.classList.remove("is-active");
-      button?.setAttribute("aria-expanded", "false");
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      mobileNav?.classList.remove('is-active');
+      button?.setAttribute('aria-expanded', 'false');
     }
   });
 </script>
