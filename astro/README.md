@@ -1,17 +1,4 @@
-# Astro Starter Kit: Basics
-
-```
-npm create astro@latest -- --template basics
-```
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-![basics](https://user-images.githubusercontent.com/4677417/186188965-73453154-fdec-4d6b-9c34-cb35c248ae5b.png)
-
+# Astro Basics
 
 ## 🚀 Project Structure
 
@@ -20,14 +7,14 @@ Inside of your Astro project, you'll see the following folders and files:
 ```
 /
 ├── public/
-│   └── favicon.svg
 ├── src/
+│   ├── api/
+│   ├── assets/
 │   ├── components/
-│   │   └── Card.astro
+│   ├── css/
 │   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
+│   ├── pages/
+│   └── ts/
 └── package.json
 ```
 
@@ -35,7 +22,7 @@ Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page
 
 There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
 
-Any static assets, like images, can be placed in the `public/` directory.
+Any static assets, like images, can be placed in the `public/` directory. However, images have been optimized using `@astrojs/image` and are stored in the `/assets/` directory. Astro is in the middle of moving to a new Assets API, so this may change in the future.
 
 ## 🧞 Commands
 
