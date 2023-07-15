@@ -5,7 +5,22 @@ This is the source code for the Loumarc Signs website. It is built using [Astro]
 
 ## Getting Started
 
+### Project Structure
 
+```
+/
+├── astro/
+│   └── public/
+├── src/
+│   ├── api/
+│   ├── assets/
+│   ├── components/
+│   ├── css/
+│   ├── layouts/
+│   ├── pages/
+│   └── ts/
+└── studio/
+```
 
 Install dependencies:
 
