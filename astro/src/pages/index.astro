@@ -9,7 +9,7 @@ import { Picture } from '@astrojs/image/components';
 import headerImg from '../assets/Amazon-trusts-Loumarc-Signs-01.jpg';
 
 const products = await useSanityClient().fetch(`*[_type == "product"]`);
-const featuredProducts = products.filter((product) => product.featured);
+// const featuredProducts = products.filter((product) => product.featured);
 
 const moreProductsCard = {
   title: 'More Products',
@@ -20,7 +20,7 @@ const moreProductsCard = {
   },
 };
 
-featuredProducts.push(moreProductsCard);
+products.push(moreProductsCard);
 
 const meta = {
   title: 'Loumarc Signs | High-end full service sign experts',
@@ -93,9 +93,9 @@ const meta = {
         </div>
         <div class="box">
           {
-            featuredProducts && (
+            products && (
               <ul role="list" class="grid justify-items-center">
-                {featuredProducts.map((product) => (
+                {products.map((product) => (
                   <li>
                     <Card
                       dataLayout="full"
