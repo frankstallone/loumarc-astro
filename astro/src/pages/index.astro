@@ -11,17 +11,6 @@ import headerImg from '../assets/Amazon-trusts-Loumarc-Signs-01.jpg';
 const products = await useSanityClient().fetch(`*[_type == "product"]`);
 // const featuredProducts = products.filter((product) => product.featured);
 
-const moreProductsCard = {
-  title: 'More Products',
-  excerpt:
-    "We believe in the power of choice. That's why, at Loumarc Signs, we've provide a wide range of signage solutions to cater to your diverse needs.",
-  slug: {
-    current: '',
-  },
-};
-
-products.push(moreProductsCard);
-
 const meta = {
   title: 'Loumarc Signs | High-end full service sign experts',
   canonicalURL: 'https://loumarcsigns.com',
