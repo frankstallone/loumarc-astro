@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import PortableText from '../../components/PortableText.astro';
 import FormBuilder from '../../components/FormBuilder.astro';
-import { urlForImage } from '../../api/urlForImage';
+import { getVanityURL } from '../../utils/index';
 
 import { useSanityClient } from 'astro-sanity';
 
@@ -27,23 +27,6 @@ const meta = {
   canonicalURL: `https://loumarcsigns.com/products/${slug.current}`,
   description: metaDescription,
 };
-
-function createVanityURL() {
-  // Converting page title to dashed lowercase string
-  const titleToDash = title.toLowerCase().replace(/\s/g, '-');
-  // Array of SEO locations
-  const seoLocations = [
-    'new-jersey',
-    'southern-new-jersey',
-    'central-new-jersey',
-    'northern-new-jersey',
-    'near-me',
-  ];
-  // Randomly select a location from the array
-  return `/${titleToDash}-${
-    seoLocations[Math.floor(Math.random() * seoLocations.length)]
-  }`;
-}
 ---
 
 <Layout meta={meta}>
@@ -84,43 +67,28 @@ function createVanityURL() {
                 image
                 // Images to be 4:3 ratio
               ) => {
-                // Constructed URL for webp image
-                const originalwebpURL = urlForImage(image)
-                  .width(600)
-                  .height(450)
-                  .format('webp')
-                  .quality(90)
-                  .url();
-                // Index of the query string
-                const originalwebpURLQueryIndex = originalwebpURL.indexOf('?');
-                // New URL with vanity string
-                const seowebp =
-                  originalwebpURL.slice(0, originalwebpURLQueryIndex) +
-                  createVanityURL() +
-                  originalwebpURL.slice(originalwebpURLQueryIndex);
-
-                // Constructed URL for jpg image
-
-                const originaljpgURL = urlForImage(image)
-                  .width(600)
-                  .height(450)
-                  .format('jpg')
-                  .quality(90)
-                  .url();
-                // Index of the query string
-                const originaljpgURLQueryIndex = originaljpgURL.indexOf('?');
-
-                // New URL with vanity string
-
-                const seojpg =
-                  originaljpgURL.slice(0, originaljpgURLQueryIndex) +
-                  createVanityURL() +
-                  originaljpgURL.slice(originaljpgURLQueryIndex);
-
                 return (
                   <picture>
-                    <source srcset={seowebp} type="image/webp" />
-                    <img src={seojpg} alt={image.alt} />
+                    <source
+                      srcset={getVanityURL(image, {
+                        title: title,
+                        width: 600,
+                        height: 450,
+                        format: 'webp',
+                        quality: 90,
+                      })}
+                      type="image/webp"
+                    />
+                    <img
+                      src={getVanityURL(image, {
+                        title: title,
+                        width: 600,
+                        height: 450,
+                        format: 'jpg',
+                        quality: 90,
+                      })}
+                      alt={image.alt}
+                    />
                   </picture>
                 );
               }
