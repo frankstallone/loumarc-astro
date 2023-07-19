@@ -8,10 +8,17 @@ interface ImageUrlBuilderOptions {
   quality: number;
 }
 
-export function getProductLocation(title: string) {
+/**
+ * Function that returns a SEO friendly string for image name
+ * @param title Page title
+ * @param secondaryInfo Array of strings to be used in image name
+ * @returns SEO friendly string for image name
+ */
+
+export function getImageName(title: string, secondaryInfo?: Array<string>) {
   // Converting page title to dashed lowercase string
   const titleToDash = title.toLowerCase().replace(/\s/g, '-');
-  // Array of SEO locations
+  // Array of SEO locations for product pages
   const seoLocations = [
     'new-jersey',
     'southern-new-jersey',
@@ -19,13 +26,28 @@ export function getProductLocation(title: string) {
     'northern-new-jersey',
     'near-me',
   ];
-  // Randomly select a location from the array
+  // Array of secondary info for creating image names, if none provided, use SEO locations are default
+  const secondaryInfoStrings = secondaryInfo ? secondaryInfo : seoLocations;
+  // Return page title and randomly selected option from given array
   return `/${titleToDash}-${
-    seoLocations[Math.floor(Math.random() * seoLocations.length)]
+    secondaryInfoStrings[
+      Math.floor(Math.random() * secondaryInfoStrings.length)
+    ]
   }`;
 }
 
-export function getVanityURL(image, options: ImageUrlBuilderOptions) {
+/**
+ * Function that returns a vanity URL for an image
+ * @param image Sanity Image Object
+ * @param options ImageUrlBuilderOptions
+ * @param secondaryInfo Array of strings to be used in image name
+ * @returns Vanity URL string
+ */
+export function getVanityURL(
+  image,
+  options: ImageUrlBuilderOptions,
+  secondaryInfo?: Array<string>
+) {
   // Constructed URL for webp image
   const originalURL = urlForImage(image)
     .width(options.width)
@@ -38,7 +60,7 @@ export function getVanityURL(image, options: ImageUrlBuilderOptions) {
   // New URL with vanity string
   const vanityURL =
     originalURL.slice(0, originalURLQueryIndex) +
-    getProductLocation(options.title) +
+    getImageName(options.title, secondaryInfo) +
     originalURL.slice(originalURLQueryIndex);
 
   return vanityURL;
