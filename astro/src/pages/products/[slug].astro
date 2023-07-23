@@ -4,6 +4,7 @@ import Header from '../../components/Header.astro';
 import PortableText from '../../components/PortableText.astro';
 import FormBuilder from '../../components/FormBuilder.astro';
 import { getVanityURL } from '../../utils/index';
+import { buildImageUrl } from '@sanity/asset-utils';
 
 import { useSanityClient } from 'astro-sanity';
 
@@ -67,6 +68,25 @@ const meta = {
                 image
                 // Images to be 4:3 ratio
               ) => {
+                const newImage = buildImageUrl(
+                  {
+                    assetId: image._key,
+                    extension: 'webp',
+                    metadata: {
+                      dimensions: {
+                        width: 600,
+                        height: 450,
+                      },
+                    },
+                    vanityFilename: 'test-string.webp',
+                  },
+                  {
+                    projectId: 'yiwm54j7',
+                    dataset: 'production',
+                    useVanityName: true,
+                  }
+                );
+                console.log(newImage);
                 return (
                   <picture>
                     <source
