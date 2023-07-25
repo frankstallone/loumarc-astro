@@ -22,6 +22,7 @@ import '../css/utilities/wrapper.css';
 import '../css/utility.css';
 import '../css/exceptions.css';
 import { getSiteSettings } from '../api/sanity';
+import { getVanityURL } from '../utils';
 
 export interface Props {
   meta: {
@@ -34,10 +35,22 @@ export interface Props {
 const { meta } = Astro.props;
 
 const settings = await getSiteSettings();
-const title = meta.title || settings.title;
+const title = meta.companyName || settings.companyName;
 const description = meta.description || settings.description;
 const canonicalURL = meta.canonicalURL || settings.url;
-// const image = new URL(Astro.props.meta.image || './social.png', Astro.site);
+
+const createOgImage = getVanityURL(
+  settings.ogImage,
+  {
+    title: 'Loumarc Signs',
+    width: 1200,
+    height: 630,
+    format: 'jpg',
+    quality: 90,
+  },
+  ['custom-sign-company-new-jersey']
+);
+const ogImage = createOgImage || '/images/og-image.png';
 ---
 
 <head>
@@ -55,7 +68,7 @@ const canonicalURL = meta.canonicalURL || settings.url;
   <meta property="og:url" content={canonicalURL} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
-  <meta property="og:image" content="/images/og-image.png" />
+  <meta property="og:image" content={ogImage} />
   <meta
     property="og:image:alt"
     content={`Loumarc Signs. ${settings.description}`}
