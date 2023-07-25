@@ -35,7 +35,7 @@ export interface Props {
 const { meta } = Astro.props;
 
 const settings = await getSiteSettings();
-const title = meta.companyName || settings.companyName;
+const title = meta.title || settings.companyName;
 const description = meta.description || settings.description;
 const canonicalURL = meta.canonicalURL || settings.url;
 

@@ -136,9 +136,10 @@ Feel free to check [our documentation](https://docs.astro.build) or jump into ou
 
 ### Sitewide
 
-- `provider`: Pulled from `siteSettings.json` in Sanity
-- `logo`: Pulled from Astro `public/images` folder.
+- `provider`: Pulled from `siteSettings.json` as `companyName`
+- `logo`: Pulled from Astro `public/images` folder or `siteSettings.json` as `ogImage`.
   - `image`: Pulled from Main Image field in Sanity for specific product
+- `streetAddress.PostalAddress`, `addressLocality`, `addressRegion`, `postalCode`: Pulled from `siteSettings.json` in Sanity
 
 ### Products
 
