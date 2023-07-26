@@ -1,6 +1,11 @@
 ---
+import { getSiteSettings } from '../api/sanity';
+
+const settings = await getSiteSettings();
+
+const phoneNumber = settings.phoneNumber;
 ---
 
 <li><a href="/products/">Products</a></li>
 <li><a href="/blog/">Blog</a></li>
-<li><a href="tel:+19085754000">(908) 575-4000</a></li>
+<li><a href="tel:+19085754000">{phoneNumber}</a></li>
