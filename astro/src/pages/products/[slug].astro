@@ -29,8 +29,8 @@ const meta = {
   description: metaDescription,
 };
 
-// Add product title to schema
-productSchema.title = title;
+// Add title to product schema object
+productSchema ? (productSchema.title = title) : null;
 ---
 
 <Layout meta={meta} productSchema={productSchema}>
