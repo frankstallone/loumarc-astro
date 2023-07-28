@@ -13,6 +13,7 @@ export default defineType({
     defineField({
       name: 'phoneNumber',
       title: 'Company telephone number',
+      description: "Telephone number, as displayed, preferrably by Google's format",
       type: 'string',
     }),
     defineField({
@@ -20,15 +21,18 @@ export default defineType({
       title: 'Company description',
       description: 'Description to be used as a default meta description',
       type: 'text',
+      validation: (Rule) => Rule.required().max(155),
     }),
     defineField({
       name: 'url',
       title: 'Domain URL',
+      description: 'The full domain URL',
       type: 'url',
     }),
     defineField({
       name: 'ogImage',
       title: 'Open Graph Image',
+      description: 'Image to be used as a default Open Graph image',
       type: 'image',
     }),
     defineField({

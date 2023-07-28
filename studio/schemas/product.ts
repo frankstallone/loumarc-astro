@@ -4,6 +4,16 @@ export default defineType({
   name: 'product',
   title: 'Product',
   type: 'document',
+  groups: [
+    {
+      name: 'seo',
+      title: 'SEO',
+    },
+    {
+      name: 'schema',
+      title: 'Schema.org',
+    },
+  ],
   fields: [
     defineField({
       name: 'title',
@@ -15,6 +25,7 @@ export default defineType({
       name: 'slug',
       title: 'Slug',
       description: 'The slug is used to generate the page URL.',
+      group: 'seo',
       type: 'slug',
       validation: (Rule) => Rule.required(),
       options: {
@@ -63,6 +74,7 @@ export default defineType({
       name: 'metaDescription',
       title: 'Meta Description',
       description: 'The meta description used for search engines.',
+      group: 'seo',
       type: 'text',
       rows: 4,
     }),
@@ -71,6 +83,44 @@ export default defineType({
       title: 'Body',
       description: 'The main content of the product page.',
       type: 'blockContent',
+    }),
+    defineField({
+      name: 'productSchema',
+      title: 'Product Schema.org fields',
+      description: 'Schema fields for SEO.',
+      group: 'schema',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'image',
+          title: 'Product photo',
+          description: 'Product photography, used for Schema.org',
+          type: 'image',
+          options: {
+            hotspot: true,
+          },
+        }),
+        defineField({
+          name: 'schemaDescription',
+          title: 'Description',
+          description: 'Description of the product, used for Schema.org',
+          type: 'text',
+        }),
+        defineField({
+          name: 'iteOfferedName',
+          title: 'Item Offered Name',
+          description: 'Offer catalog for unique custom signs, used for Schema.org',
+          type: 'array',
+          of: [
+            {
+              type: 'string',
+            },
+          ],
+          options: {
+            layout: 'tags',
+          },
+        }),
+      ],
     }),
   ],
   preview: {
