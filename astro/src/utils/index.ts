@@ -108,7 +108,7 @@ export function getProductSchema(product, siteSettings) {
       '@type': 'LocalBusiness',
       name: siteSettings.companyName,
       telephone: siteSettings.phoneNumber,
-      logo: '/images/og-image.png',
+      logo: 'https://loumarcsigns.com/images/og-image.png',
       priceRange: '$$-$$$',
       image: schemaImage,
       address: {
