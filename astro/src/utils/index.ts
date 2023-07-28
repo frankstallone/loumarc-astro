@@ -15,7 +15,10 @@ interface ImageUrlBuilderOptions {
  * @returns SEO friendly string for image name
  */
 
-export function getImageName(title: string, secondaryInfo?: Array<string>) {
+export function getImageName(
+  title: string,
+  secondaryInfo?: Array<string> | null
+) {
   // Converting page title to dashed lowercase string
   const titleToDash = title.toLowerCase().replace(/\s/g, '-');
   // Array of SEO locations for product pages
@@ -28,6 +31,8 @@ export function getImageName(title: string, secondaryInfo?: Array<string>) {
   ];
   // Array of secondary info for creating image names, if none provided, use SEO locations are default
   const secondaryInfoStrings = secondaryInfo ? secondaryInfo : seoLocations;
+  // Return page title only if secondary info is null
+  if (secondaryInfo === null) return `/${titleToDash}`;
   // Return page title and randomly selected option from given array
   return `/${titleToDash}-${
     secondaryInfoStrings[
@@ -46,7 +51,7 @@ export function getImageName(title: string, secondaryInfo?: Array<string>) {
 export function getVanityURL(
   image,
   options: ImageUrlBuilderOptions,
-  secondaryInfo?: Array<string>
+  secondaryInfo?: Array<string> | null
 ) {
   // Constructed URL for webp image
   const originalURL = urlForImage(image)
@@ -64,4 +69,73 @@ export function getVanityURL(
     originalURL.slice(originalURLQueryIndex);
 
   return vanityURL;
+}
+
+export function getProductSchema(product, siteSettings) {
+  // Creating product image for schema.org
+  const schemaImage = getVanityURL(
+    product.image,
+    {
+      title: `New Jersey ${product.title}`,
+      width: 600,
+      height: 450,
+      format: 'jpg',
+      quality: 90,
+    },
+    null
+  );
+
+  function createOffer(items: Array<string>) {
+    return items.map((item) => {
+      return {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: item,
+        },
+      };
+    });
+  }
+
+  const itemsOffered = createOffer(product.itemOfferedName);
+
+  const productSchema = {
+    '@context': 'http://schema.org/',
+    '@type': 'Service',
+    serviceType: product.title,
+    description: product.schemaDescription,
+    provider: {
+      '@type': 'LocalBusiness',
+      name: siteSettings.companyName,
+      telephone: siteSettings.phoneNumber,
+      logo: '/images/og-image.png',
+      priceRange: '$$-$$$',
+      image: schemaImage,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: siteSettings.schemaDotOrg.streetAddress,
+        addressLocality: siteSettings.schemaDotOrg.addressLocality,
+        addressRegion: siteSettings.schemaDotOrg.addressRegion,
+        postalCode: siteSettings.schemaDotOrg.postalCode,
+      },
+    },
+    areaServed: [
+      {
+        '@type': 'State',
+        name: 'New Jersey',
+        sameAs: 'https://en.wikipedia.org/wiki/New_Jersey',
+      },
+    ],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Unique Custom Signs',
+      itemListElement: itemsOffered,
+    },
+  };
+
+  return `<script type="application/ld+json">${JSON.stringify(
+    productSchema,
+    null,
+    2
+  )}</script>`;
 }

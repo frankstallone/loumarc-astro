@@ -20,16 +20,20 @@ export async function getStaticPaths() {
   });
 }
 
-const { title, body, gallery, slug, metaDescription } = Astro.props;
+const { title, body, gallery, slug, metaDescription, productSchema } =
+  Astro.props;
 
 const meta = {
   title: `${title} | Products | Loumarc Signs`,
   canonicalURL: `https://loumarcsigns.com/products/${slug.current}`,
   description: metaDescription,
 };
+
+// Add product title to schema
+productSchema.title = title;
 ---
 
-<Layout meta={meta}>
+<Layout meta={meta} productSchema={productSchema}>
   <Header />
   <div class="section spot-color-primary">
     <svg

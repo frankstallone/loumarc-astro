@@ -22,7 +22,7 @@ import '../css/utilities/wrapper.css';
 import '../css/utility.css';
 import '../css/exceptions.css';
 import { getSiteSettings } from '../api/sanity';
-import { getVanityURL } from '../utils';
+import { getProductSchema, getVanityURL } from '../utils';
 
 export interface Props {
   meta: {
@@ -31,8 +31,13 @@ export interface Props {
     canonicalURL?: URL | string;
     image?: string;
   };
+  productSchema?: {
+    image: string;
+    description: string;
+    itemOfferedName: Array<string>;
+  };
 }
-const { meta } = Astro.props;
+const { meta, productSchema } = Astro.props;
 
 const settings = await getSiteSettings();
 const title = meta.title || settings.companyName;
@@ -51,6 +56,12 @@ const createOgImage = getVanityURL(
   ['custom-sign-company-new-jersey']
 );
 const ogImage = createOgImage || '/images/og-image.png';
+
+let schema = null;
+if (productSchema) {
+  // This creates the product schema string
+  schema = getProductSchema(productSchema, settings);
+}
 ---
 
 <head>
@@ -124,6 +135,7 @@ const ogImage = createOgImage || '/images/og-image.png';
     type="font/woff"
     crossorigin="anonymous"
   />
+  {schema && <Fragment set:html={schema} />}
   <!-- Hotjar Tracking Code for https://www.loumarcsigns.com/ -->
   <script>
     (function (h, o, t, j, a, r) {

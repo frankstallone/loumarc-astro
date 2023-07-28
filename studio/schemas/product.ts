@@ -107,7 +107,7 @@ export default defineType({
           type: 'text',
         }),
         defineField({
-          name: 'iteOfferedName',
+          name: 'itemOfferedName',
           title: 'Item Offered Name',
           description: 'Offer catalog for unique custom signs, used for Schema.org',
           type: 'array',
