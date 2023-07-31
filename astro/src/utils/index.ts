@@ -66,6 +66,7 @@ export function getVanityURL(
   const vanityURL =
     originalURL.slice(0, originalURLQueryIndex) +
     getImageName(options.title, secondaryInfo) +
+    `.${options.format}` +
     originalURL.slice(originalURLQueryIndex);
 
   return vanityURL;
