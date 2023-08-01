@@ -25,8 +25,8 @@ export default defineConfig({
     assets: true,
   },
   redirects: {
-    '/carved/': '/carved-signs/',
-    '/sandblasted/': '/sandblasted-signs/',
-    '/post-panel/': '/post-panel-signs/',
+    '/products/carved/': '/products/carved-signs/',
+    '/products/sandblasted/': '/products/sandblasted-signs/',
+    '/products/post-panel/': '/products/post-panel-signs/',
   },
 });
