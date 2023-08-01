@@ -3,20 +3,30 @@ import sanity from 'astro-sanity';
 import sitemap from '@astrojs/sitemap';
 import image from '@astrojs/image';
 
-import purgecss from "astro-purgecss";
+import purgecss from 'astro-purgecss';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [sanity({
-    projectId: 'yiwm54j7',
-    dataset: 'production',
-    apiVersion: '2023-04-24',
-    useCdn: false
-  }), sitemap(), image({
-    serviceEntryPoint: '@astrojs/image/sharp'
-  }), purgecss()],
+  integrations: [
+    sanity({
+      projectId: 'yiwm54j7',
+      dataset: 'production',
+      apiVersion: '2023-04-24',
+      useCdn: false,
+    }),
+    sitemap(),
+    image({
+      serviceEntryPoint: '@astrojs/image/sharp',
+    }),
+    purgecss(),
+  ],
   site: 'https://loumarcsigns.com',
   experimental: {
-    assets: true
-  }
+    assets: true,
+  },
+  redirects: {
+    '/carved/': '/carved-signs/',
+    '/sandblasted/': '/sandblasted-signs/',
+    '/post-panel/': '/post-panel-signs/',
+  },
 });
