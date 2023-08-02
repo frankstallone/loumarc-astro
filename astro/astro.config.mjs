@@ -21,9 +21,6 @@ export default defineConfig({
     purgecss(),
   ],
   site: 'https://loumarcsigns.com',
-  experimental: {
-    assets: true,
-  },
   redirects: {
     '/products/carved/': '/products/carved-signs/',
     '/products/sandblasted/': '/products/sandblasted-signs/',
