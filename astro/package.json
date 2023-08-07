@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@astrojs/image": "^0.17.2",
+    "@astrojs/partytown": "^1.2.3",
     "@astrojs/sitemap": "^2.0.1",
     "astro": "^2.9.6",
     "astro-purgecss": "^2.3.0",
