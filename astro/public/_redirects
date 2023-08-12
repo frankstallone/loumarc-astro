@@ -1,0 +1,5 @@
+# Redirects from what the browser requests to what we serve
+
+/products/carved/ /products/carved-signs/
+/products/sandblasted/ /products/sandblasted-signs/
+/products/post-panel/ /products/post-panel-signs/
