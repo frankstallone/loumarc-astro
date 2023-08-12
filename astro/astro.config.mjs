@@ -27,9 +27,4 @@ export default defineConfig({
     }),
   ],
   site: 'https://loumarcsigns.com',
-  redirects: {
-    '/products/carved/': '/products/carved-signs/',
-    '/products/sandblasted/': '/products/sandblasted-signs/',
-    '/products/post-panel/': '/products/post-panel-signs/',
-  },
 });
