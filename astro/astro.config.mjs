@@ -8,6 +8,9 @@ import partytown from '@astrojs/partytown';
 
 // https://astro.build/config
 export default defineConfig({
+  experimental: {
+    viewTransitions: true,
+  },
   integrations: [
     sanity({
       projectId: 'yiwm54j7',

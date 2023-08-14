@@ -62,7 +62,7 @@ export function getVanityURL(
     .url();
   // Index of the query string
   const originalURLQueryIndex = originalURL.indexOf('?');
-  // New URL with vanity string
+  // New URL with vanity string <originalURLQueryIndex> + <vanityString> + <originalURLQueryIndex>
   const vanityURL =
     originalURL.slice(0, originalURLQueryIndex) +
     getImageName(options.title, secondaryInfo) +
