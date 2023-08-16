@@ -84,9 +84,10 @@ const meta = {
           {
             products && (
               <ul role="list" class="grid justify-items-center">
-                {products.map((product) => (
+                {products.map((product, index) => (
                   <li>
                     <Card
+                      index={index}
                       dataLayout="full"
                       heading={product.title}
                       imgUrl={

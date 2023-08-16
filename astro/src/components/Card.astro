@@ -10,6 +10,7 @@ export interface Props {
   excerpt: string;
   dataLayout?: string;
   h3className?: string;
+  index: number;
 }
 
 const {
@@ -19,6 +20,7 @@ const {
   heading,
   excerpt,
   dataLayout,
+  index
 } = Astro.props;
 
 const fallbackImage = '/images/card-fallback-image.png';
@@ -31,11 +33,11 @@ const formattedURL = `${url}/`;
       <a href={formattedURL}>
         <picture>
           <source
-            srcset={getVanityURL(imgUrl, {title: heading, width: 600, height: 450, format: 'webp', quality: 90})})}
+            srcset={getVanityURL({imgObj: imgUrl, title: heading, width: 600, height: 450, format: 'webp', quality: 90, index: index})})}
             type="image/webp"
           />
           <img
-            src={getVanityURL(imgUrl, {title: heading, width: 600, height: 450, format: 'jpg', quality: 90})})}
+            src={getVanityURL({imgObj: imgUrl, title: heading, width: 600, height: 450, format: 'jpg', quality: 90, index: index})})}
             alt={alt}
           />
         </picture>

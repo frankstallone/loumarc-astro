@@ -49,9 +49,10 @@ const meta = {
       {
         posts && (
           <ul role="list" class="grid" data-layout="50-50" data-rows="masonry">
-            {posts.map((post) => (
+            {posts.map((post, index) => (
               <li>
                 <Card
+                  index={index}
                   dataLayout="full"
                   heading={post.title}
                   imgUrl={

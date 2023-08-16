@@ -61,9 +61,10 @@ const filteredProducts = products.filter((product) => !product.featured);
       <ul role="list" class="grid justify-items-center">
         {
           featuredProducts &&
-            featuredProducts.map((product) => (
+            featuredProducts.map((product, index) => (
               <li>
                 <Card
+                  index={index}
                   dataLayout="full"
                   heading={product.title}
                   imgUrl={
@@ -80,9 +81,10 @@ const filteredProducts = products.filter((product) => !product.featured);
         }
         {
           filteredProducts &&
-            filteredProducts.map((product) => (
+            filteredProducts.map((product, index) => (
               <li>
                 <Card
+                  index={index}
                   dataLayout="full"
                   heading={product.title}
                   imgUrl={

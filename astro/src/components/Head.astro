@@ -45,15 +45,14 @@ const description = meta.description || settings.description;
 const canonicalURL = meta.canonicalURL || settings.url;
 
 const createOgImage = getVanityURL(
-  settings.ogImage,
   {
-    title: 'Loumarc Signs',
+    imgObj: settings.ogImage,
+    title: 'Loumarc Signs Custom Sign Company New Jersey',
     width: 1200,
     height: 630,
     format: 'jpg',
     quality: 90,
   },
-  ['custom-sign-company-new-jersey']
 );
 const ogImage = createOgImage || '/images/og-image.png';
 

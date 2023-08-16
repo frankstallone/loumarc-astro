@@ -68,28 +68,32 @@ productSchema ? (productSchema.title = title) : null;
         gallery
           ? gallery.images.map(
               (
-                image
-                // Images to be 4:3 ratio
+                image,
+                index
               ) => {
                 return (
                   <picture>
                     <source
-                      srcset={getVanityURL(image, {
+                      srcset={getVanityURL({
+                        imgObj: image,
                         title: title,
                         width: 600,
                         height: 450,
                         format: 'webp',
                         quality: 90,
+                        index: index,
                       })}
                       type="image/webp"
                     />
                     <img
-                      src={getVanityURL(image, {
+                      src={getVanityURL({
+                        imgObj: image,
                         title: title,
                         width: 600,
                         height: 450,
                         format: 'jpg',
                         quality: 90,
+                        index: index,
                       })}
                       alt={image.alt}
                     />
