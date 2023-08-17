@@ -61,18 +61,18 @@ export function getVanityURL(
   options: ImageUrlBuilderOptions,
   secondaryInfo?: Array<string> | null
 ) {
-  // Constructed URL for webp image
+  // Constructed Sanity URL for webp image
   const originalURL = urlForImage(options.imgObj)
     .width(options.width)
     .height(options.height)
     .format(options.format)
     .quality(options.quality)
     .url();
-  // Index of the query string
+  // Index of the query string for .slice() method below
   const originalURLQueryIndex = originalURL.indexOf('?');
   const pageTitleDashed = spaceToDash(options.title);
 
-  // Return URL with page title only if secondary info is null
+  // Return URL with page title only if secondary info is null or there is no index
   if (secondaryInfo === null || options.index === undefined)
     return (
       originalURL.slice(0, originalURLQueryIndex) +
