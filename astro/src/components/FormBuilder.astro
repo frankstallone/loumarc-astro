@@ -106,8 +106,8 @@ const submitLabel =
     : FormLabels['default'].submit;
 ---
 
-<div class="region wrapper flow" data-layout="md" id="contact-form">
-  <div class="flow prose">
+<div id="contact-form">
+  <div class="region flow prose">
     <h2 class="text-center mx-auto">
       How can we craft uniquely memorable {customCTAHeading} for you?
     </h2>
@@ -132,7 +132,7 @@ const submitLabel =
   <form
     name="main"
     netlify-honeypot="bot-field"
-    class="switcher"
+    class="switcher region"
     method="POST"
     data-netlify="true"
     action="/thank-you/"
@@ -143,7 +143,7 @@ const submitLabel =
       <input name="bot-field" id="bot-field" />
     </p>
     <div class="switcher step-0">
-      <div class="box flow">
+      <div class="flow">
         <div class="switcher">
           <span class="stack">
             <label for="name">{nameLabel}</label>
@@ -173,7 +173,7 @@ const submitLabel =
           <input type="text" name="deadline" id="deadline" />
         </span>
       </div>
-      <div class="box flow">
+      <div class="flow">
         <span class="stack">
           <label for="needs">{needsLabel}</label>
           <input type="text" name="needs" id="needs" />

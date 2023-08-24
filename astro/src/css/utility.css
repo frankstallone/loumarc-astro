@@ -2,6 +2,10 @@
 
 /* Width */
 
+.w-full {
+  width: 100%;
+}
+
 .max-inline-size\:measure-lg {
   max-inline-size: calc(var(--measure) * 1.25) !important;
 }
@@ -536,14 +540,6 @@ Utilities for controlling how grid items are aligned along their inline axis. */
 
 .section > .slant:first-child {
   transform: rotate(180deg) translateY(-1px);
-}
-
-.page__buffer {
-  margin-block-start: 20vh;
-}
-
-.image__primary {
-  width: 100%;
 }
 
 .rounded {

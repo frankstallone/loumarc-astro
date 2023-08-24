@@ -13,6 +13,7 @@ const customComponents = {
               .quality(90)
               .url()}"
             type="image/webp"
+            class="h-auto"
           />
           <img
             class="responsive__img"
@@ -22,6 +23,7 @@ const customComponents = {
               .quality(90)
               .url()}"
             alt="${value.alt}"
+            class="h-auto"
           />
         </picture>
       `;
