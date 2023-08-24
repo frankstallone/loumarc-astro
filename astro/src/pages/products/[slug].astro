@@ -84,8 +84,10 @@ productSchema ? (productSchema.title = title) : null;
                         index: index,
                       })}
                       type="image/webp"
-                    />
-                    <img
+                      width="600",
+                      height="450",
+                      />
+                      <img
                       src={getVanityURL({
                         imgObj: image,
                         title: title,
@@ -95,6 +97,8 @@ productSchema ? (productSchema.title = title) : null;
                         quality: 90,
                         index: index,
                       })}
+                      width="600",
+                      height="450",
                       alt={image.alt}
                     />
                   </picture>

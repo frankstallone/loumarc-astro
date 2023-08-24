@@ -35,10 +35,14 @@ const formattedURL = `${url}/`;
           <source
             srcset={getVanityURL({imgObj: imgUrl, title: heading, width: 600, height: 450, format: 'webp', quality: 90, index: index})}
             type="image/webp"
-          />
-          <img
+            width="600"
+            height="450"
+            />
+            <img
             src={getVanityURL({imgObj: imgUrl, title: heading, width: 600, height: 450, format: 'jpg', quality: 90, index: index})}
             alt={alt}
+            width="600"
+            height="450"
           />
         </picture>
       </a>
