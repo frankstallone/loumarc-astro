@@ -74,7 +74,7 @@
   --font-base-weight: 300;
   --font-display: 'Facundo', 'sans-serif';
   --gutter: var(--space-s-m);
-  --border-radius: var(--step-1);
+  --border-radius: var(--step-0);
   --transition-base: 250ms ease-in-out;
   --transition-movement: 200ms linear;
   --transition-fade: 200ms ease;

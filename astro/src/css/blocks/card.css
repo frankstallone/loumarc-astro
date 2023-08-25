@@ -1,6 +1,5 @@
 .card {
   max-inline-size: var(--max-width, 400px);
-  border-radius: var(--border-radius);
   overflow: hidden;
 }
 .card > a {
@@ -17,7 +16,6 @@
   object-fit: cover;
   object-position: center;
   aspect-ratio: 16 / 9;
-  border-radius: var(--border-radius);
 }
 .card-content {
   padding: var(--space-s-m);
