@@ -16,8 +16,7 @@
     "@sanity/astro": "2.1.1",
     "@sanity/image-url": "^1.0.2",
     "astro": "^3.4.0",
-    "astro-purgecss": "^3.2.1",
-    "sharp": "^0.32.1"
+    "astro-purgecss": "^3.2.1"
   },
   "devDependencies": {
     "prettier": "^2.8.8",
