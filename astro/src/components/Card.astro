@@ -1,5 +1,5 @@
 ---
-import { Picture } from '@astrojs/image/components';
+import { Picture } from 'astro:assets';
 import { getVanityURL } from '../utils/index';
 
 export interface Props {
@@ -52,7 +52,6 @@ const formattedURL = `${url}/`;
       <Picture
         src={fallbackImage}
         widths={[520, 700, 615]}
-        aspectRatio={900 / 506}
         width={900}
         height={506}
         alt={alt}

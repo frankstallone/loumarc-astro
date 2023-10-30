@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
-import { Picture } from '@astrojs/image/components';
+import { Picture } from 'astro:assets';
 
 const meta = {
     title: 'Thank you for contacting Loumarc Signs | High-end full service sign experts',
@@ -31,7 +31,6 @@ import headerImg from '../assets/Amazon-trusts-Loumarc-Signs-01.jpg';
             <Picture
                 src={headerImg}
                 widths={[520, 700, 2000]}
-                aspectRatio={2000 / 631}
                 width={2000}
                 height={631}
                 class="object-contain h-auto"

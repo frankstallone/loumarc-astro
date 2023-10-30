@@ -3,12 +3,12 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Card from '../components/Card.astro';
 import FormBuilder from '../components/FormBuilder.astro';
-import { useSanityClient } from 'astro-sanity';
-import { Picture } from '@astrojs/image/components';
+import { sanityClient } from "sanity:client";
+import { Picture } from 'astro:assets';
 
 import headerImg from '../assets/Amazon-trusts-Loumarc-Signs-01.jpg';
 
-const products = await useSanityClient().fetch(`*[_type == "product"]`);
+const products = await sanityClient.fetch(`*[_type == "product"]`);
 // const featuredProducts = products.filter((product) => product.featured);
 
 const meta = {
@@ -30,7 +30,6 @@ const meta = {
       <Picture
         src={headerImg}
         widths={[520, 700, 2000]}
-        aspectRatio={2000 / 631}
         width={2000}
         height={631}
         class="object-contain h-auto"

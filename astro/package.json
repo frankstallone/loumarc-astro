@@ -1,7 +1,7 @@
 {
   "name": "loumarc-signs-astro-2023",
   "type": "module",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -10,20 +10,19 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/image": "^0.17.2",
     "@astrojs/partytown": "^1.2.3",
     "@astrojs/sitemap": "^2.0.1",
-    "astro": "^2.9.6",
-    "astro-purgecss": "^2.3.0",
-    "astro-sanity": "^1.1.7",
-    "sharp": "^0.32.1"
+    "@portabletext/to-html": "^2.0.5",
+    "@sanity/astro": "2.1.1",
+    "@sanity/image-url": "^1.0.2",
+    "astro": "^3.4.0",
+    "astro-purgecss": "^3.2.1"
   },
   "devDependencies": {
     "prettier": "^2.8.8",
     "prettier-plugin-astro": "^0.8.1"
   },
   "engines": {
-    "node": ">=18.17.1",
-    "npm": ">=10.0.0"
+    "node": ">=18.16.0"
   }
 }

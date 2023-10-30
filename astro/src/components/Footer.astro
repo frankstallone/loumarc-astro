@@ -1,7 +1,7 @@
 ---
-import { useSanityClient } from 'astro-sanity';
+import { sanityClient } from 'sanity:client';
 import MainNavItems from './MainNavItems.astro';
-import { Picture } from '@astrojs/image/components';
+import { Picture } from 'astro:assets';
 import { getSiteSettings } from '../api/sanity';
 
 const settings = await getSiteSettings();
@@ -15,7 +15,7 @@ import LSEddie from '../assets/photo-of-eddie-palardy.jpg';
 import LS25 from '../assets/25-years.png';
 
 const year = new Date().getFullYear();
-const products = await useSanityClient().fetch(`*[_type == "product"]`);
+const products = await sanityClient.fetch(`*[_type == "product"]`);
 const { overlay } = Astro.props;
 
 const overlayStyles = overlay ? 'margin-block-start: -4rem;' : '';
@@ -39,7 +39,6 @@ const overlayStyles = overlay ? 'margin-block-start: -4rem;' : '';
           <Picture
             src={LSMeet}
             widths={[200, 520]}
-            aspectRatio={400 / 267}
             alt="Loumarc Signs meeting client"
             class="object-contain"
             quality={80}
@@ -76,7 +75,6 @@ const overlayStyles = overlay ? 'margin-block-start: -4rem;' : '';
           <Picture
             src={LSDesign}
             widths={[200, 520]}
-            aspectRatio={400 / 267}
             alt="Loumarc Signs designs visibility for their clients"
             class="object-contain"
             quality={80}
@@ -89,7 +87,6 @@ const overlayStyles = overlay ? 'margin-block-start: -4rem;' : '';
           <Picture
             src={LSMake}
             widths={[200, 520]}
-            aspectRatio={400 / 267}
             alt="Loumarc Signs designs visibility for their clients"
             class="object-contain"
             quality={80}
@@ -142,7 +139,6 @@ const overlayStyles = overlay ? 'margin-block-start: -4rem;' : '';
         <Picture
           src={LSEddie}
           widths={[200, 520]}
-          aspectRatio={864 / 864}
           alt="Photo of marketing specialist Eddy"
           class="object-contain"
           quality={80}
@@ -155,7 +151,6 @@ const overlayStyles = overlay ? 'margin-block-start: -4rem;' : '';
         <Picture
           src={LS25}
           widths={[200, 520]}
-          aspectRatio={442 / 409}
           alt="25 years in business!"
           class="object-contain"
           quality={80}
