@@ -1,11 +1,11 @@
 ---
-import { useSanityClient } from 'astro-sanity';
+import { sanityClient } from 'sanity:client';
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Card from '../../components/Card.astro';
 import FormBuilder from '../../components/FormBuilder.astro';
 
-const products = await useSanityClient().fetch(`*[_type == "product"]`);
+const products = await sanityClient.fetch(`*[_type == "product"]`);
 
 const meta = {
   title: 'Products | Loumarc Signs',

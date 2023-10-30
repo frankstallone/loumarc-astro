@@ -1,13 +1,13 @@
-import { useSanityClient, groq } from 'astro-sanity';
+import { sanityClient } from 'sanity:client';
 
 export async function getFirstBlogPost() {
-  const query = groq`*[_type == "post"][0]`;
-  const firstPost = await useSanityClient().fetch(query);
+  const firstPost = await sanityClient.fetch(`*[_type == "post"][0]`);
   return firstPost;
 }
 
 export async function getSiteSettings() {
-  const query = groq`*[_type == "siteSettings" && _id == "siteSettings"][0]`;
-  const siteSettings = await useSanityClient().fetch(query);
+  const siteSettings = await sanityClient.fetch(
+    `*[_type == "siteSettings" && _id == "siteSettings"][0]`
+  );
   return siteSettings;
 }

@@ -4,11 +4,10 @@ import Header from '../components/Header.astro';
 import PortableText from '../components/PortableText.astro';
 import { urlForImage } from '../api/urlForImage';
 import FormBuilder from '../components/FormBuilder.astro';
-
-import { useSanityClient } from 'astro-sanity';
+import { sanityClient } from 'sanity:client';
 
 export async function getStaticPaths() {
-  const posts = await useSanityClient().fetch(`*[_type == "post"]`);
+  const posts = await sanityClient.fetch(`*[_type == "post"]`);
 
   return posts.map((post) => {
     return {

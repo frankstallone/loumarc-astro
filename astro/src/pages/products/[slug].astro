@@ -5,10 +5,10 @@ import PortableText from '../../components/PortableText.astro';
 import FormBuilder from '../../components/FormBuilder.astro';
 import { getVanityURL } from '../../utils/index';
 
-import { useSanityClient } from 'astro-sanity';
+import { sanityClient } from 'sanity:client';
 
 export async function getStaticPaths() {
-  const products = await useSanityClient().fetch(`*[_type == "product"]`);
+  const products = await sanityClient.fetch(`*[_type == "product"]`);
 
   return products.map((product) => {
     return {
