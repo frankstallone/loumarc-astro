@@ -1,6 +1,6 @@
 ---
-import { PortableText as PortableTextInternal } from 'astro-portabletext';
 import { urlForImage } from '../api/urlForImage';
+import { toHTML } from '@portabletext/to-html';
 
 const { portableText } = Astro.props;
 const components = {
@@ -34,4 +34,4 @@ const components = {
 };
 ---
 
-<PortableTextInternal value={portableText} components={components} />
+<Fragment set:html={toHTML(portableText, { components: components })} />

@@ -12,10 +12,10 @@
 	"dependencies": {
 		"@astrojs/partytown": "^1.2.3",
 		"@astrojs/sitemap": "^2.0.1",
+		"@portabletext/to-html": "^2.0.5",
 		"@sanity/astro": "2.1.1",
 		"@sanity/image-url": "^1.0.2",
 		"astro": "^3.4.0",
-		"astro-portabletext": "^0.9.6",
 		"astro-purgecss": "^3.2.1",
 		"sharp": "^0.32.1"
 	},
