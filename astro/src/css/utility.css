@@ -629,3 +629,77 @@ Utilities for controlling how a replaced element's content should be positioned 
 .object-top {
   object-position: top;
 }
+
+/* Flow
+Utilities for controlling flow space */
+
+.flow-space-3xs {
+  --flow-space: clamp(0.3125rem, 0.29rem + 0.11vw, 0.375rem);
+}
+
+.flow-space-2xs {
+  --flow-space: clamp(0.5625rem, 0.49rem + 0.34vw, 0.75rem);
+}
+
+.flow-space-xs {
+  --flow-space: clamp(0.875rem, 0.78rem + 0.46vw, 1.125rem);
+}
+
+.flow-space-s {
+  --flow-space: clamp(1.125rem, 0.98rem + 0.69vw, 1.5rem);
+}
+
+.flow-space-m {
+  --flow-space: clamp(1.6875rem, 1.47rem + 1.03vw, 2.25rem);
+}
+
+.flow-space-l {
+  --flow-space: clamp(2.25rem, 1.97rem + 1.38vw, 3rem);
+}
+
+.flow-space-2xl {
+  --flow-space: clamp(4.5rem, 3.93rem + 2.76vw, 6rem);
+}
+
+.flow-space-s-m {
+  --flow-space: clamp(1.125rem, 0.7rem + 2.07vw, 2.25rem);
+}
+
+.flow-space-m-l {
+  --flow-space: clamp(1.6875rem, 1.19rem + 2.41vw, 3rem);
+}
+
+.flow-space-l-xl {
+  --flow-space: clamp(2.25rem, 1.4rem + 4.14vw, 4.5rem);
+}
+
+.flow-space-xl-2xl {
+  --flow-space: clamp(3.375rem, 2.38rem + 4.83vw, 6rem);
+}
+
+/* Gutter
+Utilities for controlling gutter space */
+
+.gutter-2xs {
+  --gutter: clamp(0.5625rem, 0.49rem + 0.34vw, 0.75rem);
+}
+
+.gutter-xs {
+  --gutter: clamp(0.875rem, 0.78rem + 0.46vw, 1.125rem);
+}
+
+.gutter-s {
+  --gutter: clamp(1.125rem, 0.98rem + 0.69vw, 1.5rem);
+}
+
+.gutter-m {
+  --gutter: clamp(1.6875rem, 1.47rem + 1.03vw, 2.25rem);
+}
+
+.gutter-s-m {
+  --gutter: clamp(1.125rem, 0.7rem + 2.07vw, 2.25rem);
+}
+
+.gutter-m-l {
+  --gutter: clamp(1.6875rem, 1.19rem + 2.41vw, 3rem);
+}
