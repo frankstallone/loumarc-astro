@@ -242,77 +242,6 @@ Utilities for controlling how grid items are aligned along their inline axis. */
   aspect-ratio: 16 / 9;
 }
 
-/* Margin
-Utilities for controlling margin */
-
-.my-m-l {
-  margin-bottom: clamp(1.6875rem, 1.19rem + 2.41vw, 3rem);
-  margin-top: clamp(1.6875rem, 1.19rem + 2.41vw, 3rem);
-}
-
-.mt-xl-2xl {
-  margin-top: clamp(3.375rem, 2.38rem + 4.83vw, 6rem);
-}
-
-.mt-s-l {
-  margin-top: clamp(1.125rem, 0.41rem + 3.45vw, 3rem);
-}
-
-.mt-l-xl {
-  margin-top: clamp(2.25rem, 1.4rem + 4.14vw, 4.5rem);
-}
-
-.mt-l {
-  margin-top: clamp(2.25rem, 1.97rem + 1.38vw, 3rem);
-}
-
-.mb-l-xl {
-  margin-bottom: clamp(2.25rem, 1.4rem + 4.14vw, 4.5rem);
-}
-
-.mt-s {
-  margin-top: clamp(1.125rem, 0.98rem + 0.69vw, 1.5rem);
-}
-
-.ml-auto {
-  margin-left: auto;
-}
-
-.mr-auto {
-  margin-right: auto;
-}
-
-.mt-m-l {
-  margin-top: clamp(1.6875rem, 1.19rem + 2.41vw, 3rem);
-}
-
-.mt-2xs-xs {
-  margin-top: clamp(0.5625rem, 0.35rem + 1.03vw, 1.125rem);
-}
-
-.mb-xl-2xl {
-  margin-bottom: clamp(3.375rem, 2.38rem + 4.83vw, 6rem);
-}
-
-.mb-3xs {
-  margin-bottom: clamp(0.3125rem, 0.29rem + 0.11vw, 0.375rem);
-}
-
-.mt-m {
-  margin-top: clamp(1.6875rem, 1.47rem + 1.03vw, 2.25rem);
-}
-
-.mb-m-l {
-  margin-bottom: clamp(1.6875rem, 1.19rem + 2.41vw, 3rem);
-}
-
-.mx-auto {
-  margin-inline: auto;
-}
-.my-auto {
-  margin-block: auto;
-}
-
 /* Font */
 
 .uppercase {
@@ -690,76 +619,147 @@ Utilities for controlling how a replaced element's content should be positioned 
   object-position: top;
 }
 
+/* Margin
+Utilities for controlling margin */
+
+.my-m-l {
+  margin-bottom: clamp(1.5rem, calc(1.15rem + 1.74vw), 2.5rem);
+  margin-top: clamp(1.5rem, calc(1.15rem + 1.74vw), 2.5rem);
+}
+
+.mt-xl-2xl {
+  margin-top: clamp(3rem, calc(2.3rem + 3.48vw), 5rem);
+}
+
+.mt-s-l {
+  margin-top: clamp(1.125rem, 0.41rem + 3.45vw, 3rem);
+}
+
+.mt-l-xl {
+  margin-top: clamp(2rem, calc(1.39rem + 3.04vw), 3.75rem);
+}
+
+.mt-l {
+  margin-top: clamp(2rem, calc(1.83rem + 0.87vw), 2.5rem);
+}
+
+.mb-l-xl {
+  margin-bottom: clamp(2rem, calc(1.39rem + 3.04vw), 3.75rem);
+}
+
+.mt-s {
+  margin-top: clamp(1rem, calc(0.91rem + 0.43vw), 1.25rem);
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.mr-auto {
+  margin-right: auto;
+}
+
+.mt-m-l {
+  margin-top: clamp(1.5rem, calc(1.15rem + 1.74vw), 2.5rem);
+}
+
+.mt-2xs-xs {
+  margin-top: clamp(0.75rem, calc(0.68rem + 0.33vw), 0.94rem);
+}
+
+.mb-xl-2xl {
+  margin-bottom: clamp(3rem, calc(2.3rem + 3.48vw), 5rem);
+}
+
+.mb-3xs {
+  margin-bottom: clamp(0.25rem, calc(0.23rem + 0.11vw), 0.31rem);
+}
+
+.mt-m {
+  margin-top: clamp(1.5rem, calc(1.37rem + 0.65vw), 1.88rem);
+}
+
+.mb-m-l {
+  margin-bottom: clamp(1.5rem, calc(1.15rem + 1.74vw), 2.5rem);
+}
+
+.mx-auto {
+  margin-inline: auto;
+}
+.my-auto {
+  margin-block: auto;
+}
+
 /* Flow
 Utilities for controlling flow space */
 
 .flow-space-3xs {
-  --flow-space: clamp(0.3125rem, 0.29rem + 0.11vw, 0.375rem);
+  --flow-space: clamp(0.25rem, calc(0.23rem + 0.11vw), 0.31rem);
 }
 
 .flow-space-2xs {
-  --flow-space: clamp(0.5625rem, 0.49rem + 0.34vw, 0.75rem);
+  --flow-space: clamp(0.5rem, calc(0.46rem + 0.22vw), 0.63rem);
 }
 
 .flow-space-xs {
-  --flow-space: clamp(0.875rem, 0.78rem + 0.46vw, 1.125rem);
+  --flow-space: clamp(0.75rem, calc(0.68rem + 0.33vw), 0.94rem);
 }
 
 .flow-space-s {
-  --flow-space: clamp(1.125rem, 0.98rem + 0.69vw, 1.5rem);
+  --flow-space: clamp(1rem, calc(0.91rem + 0.43vw), 1.25rem);
 }
 
 .flow-space-m {
-  --flow-space: clamp(1.6875rem, 1.47rem + 1.03vw, 2.25rem);
+  --flow-space: clamp(1.5rem, calc(1.37rem + 0.65vw), 1.88rem);
 }
 
 .flow-space-l {
-  --flow-space: clamp(2.25rem, 1.97rem + 1.38vw, 3rem);
+  --flow-space: clamp(2rem, calc(1.83rem + 0.87vw), 2.5rem);
 }
 
 .flow-space-2xl {
-  --flow-space: clamp(4.5rem, 3.93rem + 2.76vw, 6rem);
+  --flow-space: clamp(4rem, calc(3.65rem + 1.74vw), 5rem);
 }
 
 .flow-space-s-m {
-  --flow-space: clamp(1.125rem, 0.7rem + 2.07vw, 2.25rem);
+  --flow-space: clamp(1rem, calc(0.7rem + 1.52vw), 1.88rem);
 }
 
 .flow-space-m-l {
-  --flow-space: clamp(1.6875rem, 1.19rem + 2.41vw, 3rem);
+  --flow-space: clamp(1.5rem, calc(1.15rem + 1.74vw), 2.5rem);
 }
 
 .flow-space-l-xl {
-  --flow-space: clamp(2.25rem, 1.4rem + 4.14vw, 4.5rem);
+  --flow-space: clamp(2rem, calc(1.39rem + 3.04vw), 3.75rem);
 }
 
 .flow-space-xl-2xl {
-  --flow-space: clamp(3.375rem, 2.38rem + 4.83vw, 6rem);
+  --flow-space: clamp(3rem, calc(2.3rem + 3.48vw), 5rem);
 }
 
 /* Gutter
 Utilities for controlling gutter space */
 
 .gutter-2xs {
-  --gutter: clamp(0.5625rem, 0.49rem + 0.34vw, 0.75rem);
+  --gutter: clamp(0.5rem, calc(0.46rem + 0.22vw), 0.63rem);
 }
 
 .gutter-xs {
-  --gutter: clamp(0.875rem, 0.78rem + 0.46vw, 1.125rem);
+  --gutter: clamp(0.75rem, calc(0.68rem + 0.33vw), 0.94rem);
 }
 
 .gutter-s {
-  --gutter: clamp(1.125rem, 0.98rem + 0.69vw, 1.5rem);
+  --gutter: clamp(1rem, calc(0.91rem + 0.43vw), 1.25rem);
 }
 
 .gutter-m {
-  --gutter: clamp(1.6875rem, 1.47rem + 1.03vw, 2.25rem);
+  --gutter: clamp(1.5rem, calc(1.37rem + 0.65vw), 1.88rem);
 }
 
 .gutter-s-m {
-  --gutter: clamp(1.125rem, 0.7rem + 2.07vw, 2.25rem);
+  --gutter: clamp(1rem, calc(0.7rem + 1.52vw), 1.88rem);
 }
 
 .gutter-m-l {
-  --gutter: clamp(1.6875rem, 1.19rem + 2.41vw, 3rem);
+  --gutter: clamp(1.5rem, calc(1.15rem + 1.74vw), 2.5rem);
 }
