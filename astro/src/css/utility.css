@@ -242,15 +242,75 @@ Utilities for controlling how grid items are aligned along their inline axis. */
   aspect-ratio: 16 / 9;
 }
 
-/* Margin */
+/* Margin
+Utilities for controlling margin */
 
-.mx-auto {
+.my-m-l {
+  margin-bottom: clamp(1.6875rem, 1.19rem + 2.41vw, 3rem);
+  margin-top: clamp(1.6875rem, 1.19rem + 2.41vw, 3rem);
+}
+
+.mt-xl-2xl {
+  margin-top: clamp(3.375rem, 2.38rem + 4.83vw, 6rem);
+}
+
+.mt-s-l {
+  margin-top: clamp(1.125rem, 0.41rem + 3.45vw, 3rem);
+}
+
+.mt-l-xl {
+  margin-top: clamp(2.25rem, 1.4rem + 4.14vw, 4.5rem);
+}
+
+.mt-l {
+  margin-top: clamp(2.25rem, 1.97rem + 1.38vw, 3rem);
+}
+
+.mb-l-xl {
+  margin-bottom: clamp(2.25rem, 1.4rem + 4.14vw, 4.5rem);
+}
+
+.mt-s {
+  margin-top: clamp(1.125rem, 0.98rem + 0.69vw, 1.5rem);
+}
+
+.ml-auto {
   margin-left: auto;
+}
+
+.mr-auto {
   margin-right: auto;
 }
+
+.mt-m-l {
+  margin-top: clamp(1.6875rem, 1.19rem + 2.41vw, 3rem);
+}
+
+.mt-2xs-xs {
+  margin-top: clamp(0.5625rem, 0.35rem + 1.03vw, 1.125rem);
+}
+
+.mb-xl-2xl {
+  margin-bottom: clamp(3.375rem, 2.38rem + 4.83vw, 6rem);
+}
+
+.mb-3xs {
+  margin-bottom: clamp(0.3125rem, 0.29rem + 0.11vw, 0.375rem);
+}
+
+.mt-m {
+  margin-top: clamp(1.6875rem, 1.47rem + 1.03vw, 2.25rem);
+}
+
+.mb-m-l {
+  margin-bottom: clamp(1.6875rem, 1.19rem + 2.41vw, 3rem);
+}
+
+.mx-auto {
+  margin-inline: auto;
+}
 .my-auto {
-  margin-top: auto;
-  margin-bottom: auto;
+  margin-block: auto;
 }
 
 /* Font */
