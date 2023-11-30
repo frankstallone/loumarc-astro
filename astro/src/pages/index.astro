@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Card from '../components/Card.astro';
 import FormBuilder from '../components/FormBuilder.astro';
-import { sanityClient } from "sanity:client";
+import { sanityClient } from 'sanity:client';
 import { Picture } from 'astro:assets';
 
 import headerImg from '../assets/Amazon-trusts-Loumarc-Signs-01.jpg';
@@ -23,7 +23,8 @@ const meta = {
   <div class="center" data-location="home">
     <div class="cover" data-location="home">
       <h1
-        class="text-center font-weight-base font-size-6 max-inline-size-full step-7" style="letter-spacing: -0.075ch;"
+        class="text-center font-weight-base font-size-6 max-inline-size-full step-7"
+        style="letter-spacing: -0.075ch;"
       >
         Bringing visibility <br />to your goals
       </h1>
@@ -82,7 +83,11 @@ const meta = {
         <div class="box">
           {
             products && (
-              <ul role="list" class="grid justify-items-center">
+              <ul
+                role="list"
+                class="grid justify-items-center"
+                style="--grid-gap: var(--space-xl-2xl);"
+              >
                 {products.map((product, index) => (
                   <li>
                     <Card
