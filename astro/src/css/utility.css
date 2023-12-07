@@ -62,7 +62,7 @@
 /* Switcher */
 
 .switcher[data-gap='none'] {
-  --gap: 0;
+  --gutter: 0;
 }
 
 .switcher[data-trenshold='xl'] {
