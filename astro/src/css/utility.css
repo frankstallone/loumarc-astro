@@ -125,6 +125,22 @@ flex-none {
   flex: none;
 }
 
+/* Flex Direction
+Utilities for controlling the direction of flex items. */
+
+.flex-row {
+  flex-direction: row;
+}
+.flex-row-reverse {
+  flex-direction: row-reverse;
+}
+.flex-col {
+  flex-direction: column;
+}
+.flex-col-reverse {
+  flex-direction: column-reverse;
+}
+
 .justify-normal {
   justify-content: normal;
 }
@@ -762,4 +778,45 @@ Utilities for controlling gutter space */
 
 .gutter-m-l {
   --gutter: clamp(1.5rem, calc(1.15rem + 1.74vw), 2.5rem);
+}
+
+/* Line height */
+
+.leading-0 {
+  line-height: 0;
+}
+
+/* Place Content
+Utilities for controlling how content is justified and aligned at the same time. */
+
+.place-content-center {
+  place-content: center;
+}
+
+.place-content-start {
+  place-content: start;
+}
+
+.place-content-end {
+  place-content: end;
+}
+
+.place-content-between {
+  place-content: space-between;
+}
+
+.place-content-around {
+  place-content: space-around;
+}
+
+.place-content-evenly {
+  place-content: space-evenly;
+}
+
+.place-content-baseline {
+  place-content: baseline;
+}
+
+.place-content-stretch {
+  place-content: stretch;
 }
