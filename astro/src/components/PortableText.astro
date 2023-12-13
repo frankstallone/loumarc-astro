@@ -1,18 +1,9 @@
 ---
 import { urlForImage } from '../api/urlForImage';
 import { toHTML } from '@portabletext/to-html';
+import { idsForHeadings } from '../utils';
 
 const { portableText } = Astro.props;
-
-// This will console correctly for all headings
-// Example: <h2 id="6e3d31305fd8">1. Simulated Products: Affordable Alternatives</h2>
-// portableText.map((item) => {
-//   if (item._type === 'block' && /^h\d/.test(item.style)) {
-//     console.log(
-//       `<${item.style} id="${item._key}">${item.children[0].text}</${item.style}>`
-//     );
-//   }
-// });
 
 const components = {
   types: {
@@ -41,12 +32,22 @@ const components = {
         </picture>
       `;
     },
-    block: ({ value }) => {
-      const { node, children } = value;
-      const { style, _key } = node;
-      if (/^h\d/.test(style)) {
-        return `<${style} id="${_key}">${children}</${style}>`;
-      }
+  },
+  block: {
+    h1: ({ value }) => {
+      const { children } = value;
+      const content = children[0].text;
+      return idsForHeadings({ content, htmlTag: 'h1' });
+    },
+    h2: ({ value }) => {
+      const { children } = value;
+      const content = children[0].text;
+      return idsForHeadings({ content, htmlTag: 'h2' });
+    },
+    h3: ({ value }) => {
+      const { children } = value;
+      const content = children[0].text;
+      return idsForHeadings({ content, htmlTag: 'h3' });
     },
   },
 };
