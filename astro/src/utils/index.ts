@@ -10,6 +10,11 @@ interface ImageUrlBuilderOptions {
   imgObj: any; // Sanity image object
 }
 
+export interface PortableTextHeading {
+  content: string;
+  htmlTag: string;
+}
+
 /**
  * Turns a page title into dash-seperated lowercase string
  * @param title Page title string
@@ -163,4 +168,26 @@ export function getProductSchema(product, siteSettings) {
     null,
     2
   )}</script>`;
+}
+
+/**
+ * Function that removes colons and periods from a string
+ * @param string `string` to remove characters from
+ * returns `string` without colons and periods
+ */
+
+export function removeColonsAndPeriods(string) {
+  return string.replace(/[:.]/g, '');
+}
+
+/**
+ * Function that returns a string with an html heading tag and id
+ * @param portableTextHeading `PortableTextHeading` object
+ * returns `string` with html heading tag and id
+ */
+
+export function idsForHeadings(portableTextHeading: PortableTextHeading) {
+  const { content, htmlTag } = portableTextHeading;
+  const id = removeColonsAndPeriods(spaceToDash(content));
+  return `<${htmlTag} id="${id}">${content}</${htmlTag}>`;
 }

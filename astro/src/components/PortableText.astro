@@ -1,8 +1,10 @@
 ---
 import { urlForImage } from '../api/urlForImage';
 import { toHTML } from '@portabletext/to-html';
+import { idsForHeadings } from '../utils';
 
 const { portableText } = Astro.props;
+
 const components = {
   types: {
     image: ({ value }) => {
@@ -29,6 +31,23 @@ const components = {
           />
         </picture>
       `;
+    },
+  },
+  block: {
+    h1: ({ value }) => {
+      const { children } = value;
+      const content = children[0].text;
+      return idsForHeadings({ content, htmlTag: 'h1' });
+    },
+    h2: ({ value }) => {
+      const { children } = value;
+      const content = children[0].text;
+      return idsForHeadings({ content, htmlTag: 'h2' });
+    },
+    h3: ({ value }) => {
+      const { children } = value;
+      const content = children[0].text;
+      return idsForHeadings({ content, htmlTag: 'h3' });
     },
   },
 };
