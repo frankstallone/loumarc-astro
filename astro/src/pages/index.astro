@@ -6,7 +6,7 @@ import FormBuilder from '../components/FormBuilder.astro';
 import { sanityClient } from 'sanity:client';
 import { Picture } from 'astro:assets';
 
-import headerImg from '../assets/Amazon-trusts-Loumarc-Signs-Channel-Letters-Signs-01.jpg';
+import heroImage from '../assets/Amazon-trusts-Loumarc-Signs-Channel-Letters-Signs-02.jpg';
 
 const products = await sanityClient.fetch(`*[_type == "product"]`);
 // const featuredProducts = products.filter((product) => product.featured);
@@ -29,10 +29,10 @@ const meta = {
         Bringing visibility <br />to your goals
       </h1>
       <Picture
-        src={headerImg}
+        src={heroImage}
         widths={[520, 700, 2000]}
-        width={4000}
-        height={1454}
+        width={2333}
+        height={1371}
         class="object-contain h-auto"
         alt="Amazon trusts Loumarc Signs to create their signs"
         loading="eager"
