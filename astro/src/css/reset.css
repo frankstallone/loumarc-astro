@@ -54,6 +54,7 @@ picture {
   sharpe-margin: 1rem;
   height: auto;
   vertical-align: middle;
+  max-width: 100%;
 }
 
 /* Inherit fonts for inputs and buttons */
