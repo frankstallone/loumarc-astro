@@ -61,11 +61,7 @@ const filteredProducts = products.filter((product) => !product.featured);
         We take tremendous pride in our work and strive to ensure your absolute
         satisfaction with the final result.
       </p>
-      <ul
-        role="list"
-        class="grid justify-items-center"
-        style="--grid-gap: var(--space-xl-2xl);"
-      >
+      <ul role="list" class="grid justify-items-center">
         {
           featuredProducts &&
             featuredProducts.map((product, index) => (
@@ -107,7 +103,7 @@ const filteredProducts = products.filter((product) => !product.featured);
             ))
         }
       </ul>
-      <div class="prose flow">
+      <div class="prose flow flow-space-2xl">
         <p class="mx-auto">
           If you don't find the sign you need listed here, worry not! We
           specialize in crafting various types of signs <a
