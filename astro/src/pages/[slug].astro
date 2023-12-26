@@ -57,7 +57,7 @@ const meta = {
       <path d="M0,66.398L1440,18.066L1440,0L0,0L0,66.398Z"></path>
     </svg>
   </div>
-  <div class="center region">
+  <div class="center relative z-10" style="margin-top: -5rem">
     {
       mainImage ? (
         <picture>
@@ -68,7 +68,7 @@ const meta = {
               .quality(90)
               .url()}
             type="image/webp"
-            class="h-auto"
+            class="w-full"
           />
           <img
             src={urlForImage(mainImage)
@@ -77,7 +77,7 @@ const meta = {
               .quality(90)
               .url()}
             alt={mainImage.alt}
-            class="w-full h-auto"
+            class="w-full"
           />
         </picture>
       ) : null
