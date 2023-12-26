@@ -45,6 +45,11 @@
   --region-space-bottom: var(--space-l-2xl);
 }
 
+.region[data-padding='m'] {
+  --region-space-top: var(--space-m-l);
+  --region-space-bottom: var(--space-m-l);
+}
+
 /* Box */
 
 .box[data-padding='xl'] {
