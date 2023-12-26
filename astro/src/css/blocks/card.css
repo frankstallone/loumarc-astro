@@ -1,5 +1,6 @@
 .card {
   max-inline-size: var(--max-width, 400px);
+  background-color: var(--gray300);
   overflow: hidden;
 }
 .card > a {

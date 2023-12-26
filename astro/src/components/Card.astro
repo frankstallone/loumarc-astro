@@ -20,31 +20,49 @@ const {
   heading,
   excerpt,
   dataLayout,
-  index
+  index,
 } = Astro.props;
 
 const fallbackImage = '/images/card-fallback-image.png';
 const formattedURL = `${url}/`;
 ---
 
-<div class="card" data-layout={dataLayout}>
+<div class="card rounded" data-layout={dataLayout}>
   {
     typeof imgUrl === 'object' ? (
       <a href={formattedURL}>
         <picture>
           <source
-            srcset={getVanityURL({imgObj: imgUrl, title: heading, width: 600, height: 450, format: 'webp', quality: 90, index: index})}
+            srcset={getVanityURL({
+              imgObj: imgUrl,
+              title: heading,
+              width: 600,
+              height: 450,
+              format: 'webp',
+              quality: 90,
+              index: index,
+            })}
             type="image/webp"
             width="600"
             height="450"
-            class="h-auto rounded"
-            />
-            <img
-            src={getVanityURL({imgObj: imgUrl, title: heading, width: 600, height: 450, format: 'jpg', quality: 90, index: index})}
+            class="h-auto"
+            style="border-top: var(--border-radius);"
+          />
+          <img
+            src={getVanityURL({
+              imgObj: imgUrl,
+              title: heading,
+              width: 600,
+              height: 450,
+              format: 'jpg',
+              quality: 90,
+              index: index,
+            })}
             alt={alt}
             width="600"
             height="450"
-            class="h-auto rounded"
+            class="h-auto"
+            style="border-top: var(--border-radius);"
           />
         </picture>
       </a>
@@ -60,7 +78,7 @@ const formattedURL = `${url}/`;
       />
     )
   }
-  <div class="card-content flow">
+  <div class="card-content flow prose">
     <h3>{heading}</h3>
     <p>{excerpt}</p>
     <a class="button" href={formattedURL} data-color="primary">Read more</a>
