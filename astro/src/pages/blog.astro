@@ -46,10 +46,18 @@ const meta = {
     </svg>
   </div>
   <main id="main">
-    <article class="region flow box">
+    <article
+      class="relative flow box"
+      style="margin-top: -5rem; --spot-color: transparent; --padding: 0 var(--space-s) var(--space-s);"
+    >
       {
         posts && (
-          <ul role="list" class="grid" data-layout="50-50" data-rows="masonry">
+          <ul
+            role="list"
+            class="grid my-0"
+            data-layout="50-50"
+            data-rows="masonry"
+          >
             {posts.map((post, index) => (
               <li>
                 <Card

@@ -48,19 +48,12 @@ const filteredProducts = products.filter((product) => !product.featured);
     </svg>
   </div>
   <main>
-    <article class="region flow box" style="--flow-space: var(--space-l-xl)">
-      <h2 class="step-2 mx-auto text-center">
+    <article class="flow box relative" style="--flow-space: var(--space-l-xl);">
+      <h2 class="step-2 mx-auto">
         At Loumarc Signs, we specialize in crafting unique signs tailored to
         your requirements.
       </h2>
-      <p class="mx-auto mb-xl-2xl">
-        Our process starts with a thorough site survey and acquiring all
-        necessary permits. We then design and produce stunning signs that bring
-        your vision to life. Our dedicated team of professionals install your
-        sign with utmost care and provide ongoing maintenance for years to come.
-        We take tremendous pride in our work and strive to ensure your absolute
-        satisfaction with the final result.
-      </p>
+
       <ul role="list" class="grid justify-items-center">
         {
           featuredProducts &&
@@ -103,7 +96,15 @@ const filteredProducts = products.filter((product) => !product.featured);
             ))
         }
       </ul>
-      <div class="prose flow flow-space-2xl">
+      <div class="prose flow">
+        <p class="mx-auto">
+          Our process starts with a thorough site survey and acquiring all
+          necessary permits. We then design and produce stunning signs that
+          bring your vision to life. Our dedicated team of professionals install
+          your sign with utmost care and provide ongoing maintenance for years
+          to come. We take tremendous pride in our work and strive to ensure
+          your absolute satisfaction with the final result.
+        </p>
         <p class="mx-auto">
           If you don't find the sign you need listed here, worry not! We
           specialize in crafting various types of signs <a
