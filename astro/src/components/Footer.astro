@@ -32,15 +32,15 @@ const overlayStyles = overlay ? 'margin-block-start: -4rem;' : '';
     <path d="M0,66.398L1440,18.066L1440,0L0,0L0,66.398Z"></path>
   </svg>
   <div class="section__inner region">
-    <div class="wrapper">
-      <h2 class="text-center">What to expect</h2>
-      <div class="region switcher" data-padding="m">
+    <div class="wrapper" style="--measure: 100rem;">
+      <h2 class="text-center mx-auto mb-l-xl">What to expect</h2>
+      <div class="region switcher">
         <div class="flex justify-center items-center">
           <Picture
             src={LSMeet}
             widths={[200, 520]}
             alt="Loumarc Signs meeting client"
-            class="object-contain"
+            class="object-cover image-negative-block-margin"
             quality={80}
             format="avif"
           />
@@ -59,7 +59,7 @@ const overlayStyles = overlay ? 'margin-block-start: -4rem;' : '';
           </p>
         </div>
       </div>
-      <div class="region switcher" data-padding="m">
+      <div class="region switcher">
         <div class="flow prose">
           <h3>Design</h3>
           <p>
@@ -76,19 +76,19 @@ const overlayStyles = overlay ? 'margin-block-start: -4rem;' : '';
             src={LSDesign}
             widths={[200, 520]}
             alt="Loumarc Signs designs visibility for their clients"
-            class="object-contain"
+            class="object-cover image-negative-block-margin"
             quality={80}
             format="avif"
           />
         </div>
       </div>
-      <div class="region switcher" data-padding="m">
+      <div class="region switcher">
         <div class="flex justify-center items-center">
           <Picture
             src={LSMake}
             widths={[200, 520]}
             alt="Loumarc Signs designs visibility for their clients"
-            class="object-contain"
+            class="object-cover image-negative-block-margin"
             quality={80}
             format="avif"
           />
@@ -119,7 +119,7 @@ const overlayStyles = overlay ? 'margin-block-start: -4rem;' : '';
     <path d="M0,66.398L1440,18.066L1440,0L0,0L0,66.398Z"></path>
   </svg>
 </article>
-<article class="wrapper region flow">
+<article class="wrapper region flow" style="--measure: 100rem;">
   <div class="switcher items-center mb-l-xl">
     <div class="flow">
       <p class="step-2 mx-auto">
@@ -141,7 +141,7 @@ const overlayStyles = overlay ? 'margin-block-start: -4rem;' : '';
         src={LSEddie}
         widths={[200, 520]}
         alt="Photo of marketing specialist Eddy"
-        class="object-contain"
+        class="object-cover rounded-full"
         quality={80}
         format="avif"
       />
@@ -153,7 +153,7 @@ const overlayStyles = overlay ? 'margin-block-start: -4rem;' : '';
         src={LS25}
         widths={[200, 520]}
         alt="25 years in business!"
-        class="object-contain"
+        class="object-contain image-negative-block-margin"
         quality={80}
         format="avif"
       />

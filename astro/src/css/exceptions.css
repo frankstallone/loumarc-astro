@@ -20,3 +20,27 @@
 .grid[data-grid-min-item='s'] {
   --grid-min-item-size: 300px;
 }
+
+@media (min-width: 35em) {
+  .image-negative-block-margin {
+    margin-block-start: calc(2 * var(--negative-gutter));
+    margin-block-end: calc(2 * var(--negative-gutter));
+  }
+}
+
+/* Media queries
+@media (min-width: 35em) {
+}
+
+@media (min-width: 50em) {
+}
+
+@media (min-width: 80em) {
+}
+
+@media (min-width: 90em) {
+}
+
+@media (min-width: 120em) {
+}
+*/

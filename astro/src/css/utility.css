@@ -556,6 +556,10 @@ Utilities for controlling how grid items are aligned along their inline axis. */
   border-radius: var(--border-radius);
 }
 
+.rounded-full {
+  border-radius: 100%;
+}
+
 .lines-overlay {
   position: relative;
   z-index: 0;
