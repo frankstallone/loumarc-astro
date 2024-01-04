@@ -5,6 +5,9 @@ import PortableText from '../components/PortableText.astro';
 import { urlForImage } from '../api/urlForImage';
 import FormBuilder from '../components/FormBuilder.astro';
 import { sanityClient } from 'sanity:client';
+import type { Props as HeadProps } from '../components/Head.astro';
+import type { SanityProps } from '../ts/types';
+type Props = HeadProps & SanityProps;
 
 export async function getStaticPaths() {
   const posts = await sanityClient.fetch(`*[_type == "post"]`);

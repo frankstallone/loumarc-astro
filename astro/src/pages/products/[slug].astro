@@ -4,10 +4,14 @@ import Header from '../../components/Header.astro';
 import PortableText from '../../components/PortableText.astro';
 import FormBuilder from '../../components/FormBuilder.astro';
 import { getVanityURL } from '../../utils/index';
+import type { GetStaticPaths } from 'astro';
+import type { Props as HeadProps } from '../../components/Head.astro';
+import type { SanityProps } from '../../ts/types'
+type Props = HeadProps & SanityProps;
 
 import { sanityClient } from 'sanity:client';
 
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   const products = await sanityClient.fetch(`*[_type == "product"]`);
 
   return products.map((product) => {

@@ -24,7 +24,7 @@ import '../css/exceptions.css';
 import { getSiteSettings } from '../api/sanity';
 import { getProductSchema, getVanityURL } from '../utils';
 
-export interface Props {
+export type Props = {
   meta: {
     title?: string;
     description?: string;
@@ -32,11 +32,13 @@ export interface Props {
     image?: string;
   };
   productSchema?: {
+    title?: string;
     image: string;
     description: string;
     itemOfferedName: Array<string>;
   };
-}
+  overlay?: boolean;
+};
 const { meta, productSchema } = Astro.props;
 
 const settings = await getSiteSettings();
@@ -44,16 +46,14 @@ const title = meta.title || settings.companyName;
 const description = meta.description || settings.description;
 const canonicalURL = meta.canonicalURL || settings.url;
 
-const createOgImage = getVanityURL(
-  {
-    imgObj: settings.ogImage,
-    title: 'Loumarc Signs Custom Sign Company New Jersey',
-    width: 1200,
-    height: 630,
-    format: 'jpg',
-    quality: 90,
-  },
-);
+const createOgImage = getVanityURL({
+  imgObj: settings.ogImage,
+  title: 'Loumarc Signs Custom Sign Company New Jersey',
+  width: 1200,
+  height: 630,
+  format: 'jpg',
+  quality: 90,
+});
 const ogImage = createOgImage || '/images/og-image.png';
 
 let schema = null;
@@ -152,7 +152,10 @@ if (productSchema) {
     })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
   </script>
   <!-- Google tag (gtag.js) -->
-  <script async type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=G-G4P6ZWLZZ5"
+  <script
+    async
+    type="text/partytown"
+    src="https://www.googletagmanager.com/gtag/js?id=G-G4P6ZWLZZ5"
   ></script>
   <script type="text/partytown">
     window.dataLayer = window.dataLayer || [];
