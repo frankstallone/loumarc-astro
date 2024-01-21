@@ -1,5 +1,5 @@
 import { defineConfig } from 'astro/config';
-import sanity from "@sanity/astro";
+import { sanityIntegration } from "@sanity/astro";
 import sitemap from '@astrojs/sitemap';
 import purgecss from 'astro-purgecss';
 import partytown from '@astrojs/partytown';
@@ -7,7 +7,7 @@ import partytown from '@astrojs/partytown';
 // https://astro.build/config
 export default defineConfig({
 	integrations: [
-		sanity({
+		sanityIntegration({
 			projectId: 'yiwm54j7',
 			dataset: 'production',
 			apiVersion: '2023-04-24',
