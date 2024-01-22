@@ -38,7 +38,8 @@ const overlayStyles = overlay ? 'margin-block-start: -4rem;' : '';
         <div class="flex justify-center items-center">
           <Picture
             src={LSMeet}
-            widths={[200, 520, 800]}
+            widths={[300, 500, LSMeet.width]}
+            sizes={`(max-width: 360px) 300px, (max-width: 720px) 500px, ${LSMeet.width}px`}
             alt="Loumarc Signs meeting client"
             class="object-cover image-negative-block-margin"
             quality={80}
@@ -74,7 +75,8 @@ const overlayStyles = overlay ? 'margin-block-start: -4rem;' : '';
         <div class="flex justify-center items-center">
           <Picture
             src={LSDesign}
-            widths={[200, 520, 800]}
+            widths={[300, 500, LSDesign.width]}
+            sizes={`(max-width: 360px) 300px, (max-width: 720px) 500px, ${LSDesign.width}px`}
             alt="Loumarc Signs designs visibility for their clients"
             class="object-cover image-negative-block-margin"
             quality={80}
@@ -86,7 +88,8 @@ const overlayStyles = overlay ? 'margin-block-start: -4rem;' : '';
         <div class="flex justify-center items-center">
           <Picture
             src={LSMake}
-            widths={[200, 520, 800]}
+            widths={[300, 500, LSMake.width]}
+            sizes={`(max-width: 360px) 300px, (max-width: 720px) 500px, ${LSMake.width}px`}
             alt="Loumarc Signs designs visibility for their clients"
             class="object-cover image-negative-block-margin"
             quality={80}
@@ -137,7 +140,8 @@ const overlayStyles = overlay ? 'margin-block-start: -4rem;' : '';
     <div class="flex justify-center">
       <Picture
         src={LSEddie}
-        widths={[200, 520, 800]}
+        widths={[300, 400, LSEddie.width]}
+        sizes={`(max-width: 360px) 300px, (max-width: 720px) 400px, ${LSEddie.width}px`}
         alt="Photo of marketing specialist Eddy"
         class="object-cover rounded-full"
         width={400}
@@ -150,7 +154,8 @@ const overlayStyles = overlay ? 'margin-block-start: -4rem;' : '';
     <div class="flex justify-center">
       <Picture
         src={LS25}
-        widths={[200, 520, 800]}
+        widths={[300, 400, LS25.width]}
+        sizes={`(max-width: 360px) 300px, (max-width: 720px) 400px, ${LS25.width}px`}
         alt="25 years in business!"
         class="object-cover"
         width={400}

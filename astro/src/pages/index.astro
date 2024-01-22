@@ -9,7 +9,6 @@ import { Picture } from 'astro:assets';
 import heroImage from '../assets/Amazon-trusts-Loumarc-Signs-Channel-Letters-Signs-02.jpg';
 
 const products = await sanityClient.fetch(`*[_type == "product"]`);
-// const featuredProducts = products.filter((product) => product.featured);
 
 const meta = {
   title: 'Loumarc Signs | High-end full service sign experts',
@@ -30,7 +29,8 @@ const meta = {
       </h1>
       <Picture
         src={heroImage}
-        widths={[520, 700, 2000]}
+        widths={[300, 800, 2000, heroImage.width]}
+        sizes={`(max-width: 360px) 300px, (max-width: 720px) 800px, (max-width: 1600px) 2000px, ${heroImage.width}px`}
         class="object-contain h-auto"
         alt="Amazon trusts Loumarc Signs to create their signs"
         fetchpriority={'high'}

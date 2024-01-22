@@ -1,6 +1,7 @@
 ---
 import { Picture } from 'astro:assets';
 import { getVanityURL } from '../utils/index';
+import fallbackImage from '../assets/card-fallback-image.png';
 
 export interface Props {
   url?: string;
@@ -23,7 +24,6 @@ const {
   index,
 } = Astro.props;
 
-const fallbackImage = '/images/card-fallback-image.png';
 const formattedURL = `${url}/`;
 ---
 
@@ -69,7 +69,8 @@ const formattedURL = `${url}/`;
     ) : (
       <Picture
         src={fallbackImage}
-        widths={[520, 700, 615]}
+        widths={[300, 500, 615, fallbackImage.width]}
+        sizes={`(max-width: 360px) 300px, (max-width: 720px) 500px, (max-width: 1600px) 615px, ${fallbackImage.width}px`}
         alt={alt}
         quality={80}
         formats={['avif', 'webp']}

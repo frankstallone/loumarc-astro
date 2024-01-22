@@ -9,7 +9,7 @@ const meta = {
   canonicalURL: 'https://loumarcsigns.com',
 };
 
-import headerImg from '../assets/Amazon-trusts-Loumarc-Signs-01.jpg';
+import heroImage from '../assets/Amazon-trusts-Loumarc-Signs-01.jpg';
 ---
 
 <Layout meta={meta} overlay={true}>
@@ -30,13 +30,13 @@ import headerImg from '../assets/Amazon-trusts-Loumarc-Signs-01.jpg';
         </h2>
       </div>
       <Picture
-        src={headerImg}
-        widths={[520, 700, 2000]}
-        width={2000}
-        height={631}
+        src={heroImage}
+        widths={[300, 800, 2000, heroImage.width]}
+        sizes={`(max-width: 360px) 300px, (max-width: 720px) 800px, (max-width: 1600px) 2000px, ${heroImage.width}px`}
         class="object-contain h-auto"
         alt="Amazon trusts Loumarc Signs to create their signs"
-        fetchpriority="high"
+        fetchpriority={'high'}
+        loading={'eager'}
         quality={80}
         formats={['avif', 'webp']}
       />
