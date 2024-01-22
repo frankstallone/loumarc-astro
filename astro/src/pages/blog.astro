@@ -6,7 +6,7 @@ import Card from '../components/Card.astro';
 import FormBuilder from '../components/FormBuilder.astro';
 
 const posts = await sanityClient.fetch(
-  `*[_type == "post"] | order(_createdAt desc)`
+  `*[_type == "post"] | order(_createdAt desc)`,
 );
 
 const meta = {
@@ -72,6 +72,7 @@ const meta = {
                   alt={post.mainImage ? post.mainImage.alt : undefined}
                   excerpt={post.excerpt}
                   url={`/${post.slug.current}`}
+                  eager={true}
                 />
               </li>
             ))}

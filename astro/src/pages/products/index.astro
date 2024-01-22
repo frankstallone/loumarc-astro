@@ -71,6 +71,7 @@ const filteredProducts = products.filter((product) => !product.featured);
                   alt={product.mainImage ? product.mainImage.alt : undefined}
                   excerpt={product.excerpt}
                   url={product.slug.current}
+                  eager={true}
                 />
               </li>
             ))
@@ -91,6 +92,7 @@ const filteredProducts = products.filter((product) => !product.featured);
                   alt={product.mainImage ? product.mainImage.alt : undefined}
                   excerpt={product.excerpt}
                   url={product.slug.current}
+                  eager={true}
                 />
               </li>
             ))
