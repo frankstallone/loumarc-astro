@@ -70,11 +70,9 @@ const formattedURL = `${url}/`;
       <Picture
         src={fallbackImage}
         widths={[520, 700, 615]}
-        width={900}
-        height={506}
         alt={alt}
         quality={80}
-        format="avif"
+        formats={['avif', 'webp']}
       />
     )
   }
