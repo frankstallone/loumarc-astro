@@ -33,7 +33,11 @@ const filteredProducts = products.filter((product) => !product.featured);
     <div class="section__inner region">
       <div class="center">
         <div class="box">
-          <h1>Products</h1>
+          <h1 class="skewer leading-2">Products</h1>
+          <h2 class="step-2 skewer">
+            At Loumarc Signs, we specialize in crafting unique signs tailored to
+            your requirements.
+          </h2>
         </div>
       </div>
     </div>
@@ -49,12 +53,12 @@ const filteredProducts = products.filter((product) => !product.featured);
   </div>
   <main>
     <article class="flow box relative" style="--flow-space: var(--space-l-xl);">
-      <h2 class="step-2 mx-auto">
-        At Loumarc Signs, we specialize in crafting unique signs tailored to
-        your requirements.
-      </h2>
-
-      <ul role="list" class="grid justify-items-center">
+      <ul
+        role="list"
+        class="grid justify-items-center"
+        data-layout="50-50"
+        data-rows="masonry"
+      >
         {
           featuredProducts &&
             featuredProducts.map((product, index) => (

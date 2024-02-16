@@ -31,7 +31,7 @@ const meta = {
     <div class="section__inner region">
       <div class="center">
         <div class="box">
-          <h1>Blog posts from Loumarc Signs</h1>
+          <h1 class="skewer leading-2">Blog posts from Loumarc Signs</h1>
         </div>
       </div>
     </div>
@@ -46,15 +46,12 @@ const meta = {
     </svg>
   </div>
   <main id="main">
-    <article
-      class="relative flow box"
-      style="margin-top: -5rem; --spot-color: transparent; --padding: 0 var(--space-s) var(--space-s);"
-    >
+    <article class="relative flow box" style="--spot-color: transparent;">
       {
         posts && (
           <ul
             role="list"
-            class="grid my-0"
+            class="grid justify-items-center"
             data-layout="50-50"
             data-rows="masonry"
           >
