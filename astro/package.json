@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "@astrojs/partytown": "^2.0.4",
-    "@astrojs/sitemap": "^3.0.5",
+    "@astrojs/sitemap": "^3.1.1",
     "@portabletext/to-html": "^2.0.5",
     "@sanity/astro": "2.2.0",
     "@sanity/image-url": "^1.0.2",
-    "astro": "^4.2.1",
+    "astro": "^4.5.7",
     "astro-purgecss": "^4.1.0"
   },
   "devDependencies": {
