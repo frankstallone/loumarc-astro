@@ -483,6 +483,7 @@ Utilities for controlling how grid items are aligned along their inline axis. */
 .spot-color-tertiary-dark h1,
 .spot-color-tertiary-dark h2,
 .spot-color-tertiary-dark h3 {
+  color: var(--bronze100);
   background-color: var(--bronze100);
   background-image: linear-gradient(0deg, var(--bronze300), var(--bronze100));
   background-size: 100%;
@@ -500,8 +501,9 @@ Utilities for controlling how grid items are aligned along their inline axis. */
 .spot-color-tertiary h1,
 .spot-color-tertiary h2,
 .spot-color-tertiary h3 {
+  color: var(--bronze700);
   background-color: var(--bronze700);
-  background-image: linear-gradient(0deg, var(--bronze700), var(--bronze600));
+  background-image: linear-gradient(0deg, var(--bronze700), var(--bronze500));
   background-size: 100%;
   -webkit-background-clip: text;
   -moz-background-clip: text;
@@ -517,6 +519,7 @@ Utilities for controlling how grid items are aligned along their inline axis. */
 .spot-color-gray h1,
 .spot-color-gray h2,
 .spot-color-gray h3 {
+  color: var(--gray1200);
   background-color: var(--gray1200);
   background-image: linear-gradient(0deg, var(--gray1200), var(--gray1100));
   background-size: 100%;
@@ -534,6 +537,7 @@ Utilities for controlling how grid items are aligned along their inline axis. */
 .spot-color-gray-dark h1,
 .spot-color-gray-dark h2,
 .spot-color-gray-dark h3 {
+  color: var(--gray900);
   background-color: var(--gray900);
   background-image: linear-gradient(0deg, var(--gray800), var(--gray100));
   background-size: 100%;
