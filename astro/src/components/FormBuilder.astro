@@ -148,11 +148,23 @@ const submitLabel =
         <div class="switcher">
           <span class="stack">
             <label for="name">{nameLabel}</label>
-            <input type="text" name="name" id="name" required />
+            <input
+              type="text"
+              name="name"
+              id="name"
+              required
+              aria-required="true"
+            />
           </span>
           <span class="stack">
             <label for="email">{emailLabel}</label>
-            <input type="email" name="email" id="email" required />
+            <input
+              type="email"
+              name="email"
+              id="email"
+              required
+              aria-required="true"
+            />
           </span>
         </div>
         <div class="switcher">
@@ -181,7 +193,12 @@ const submitLabel =
         </span>
         <span class="stack">
           <label for="message">{messageLabel}</label>
-          <textarea name="message" id="message" rows="6" required></textarea>
+          <textarea
+            name="message"
+            id="message"
+            rows="6"
+            required
+            aria-required="true"></textarea>
         </span>
         <button type="submit">{submitLabel}</button>
       </div>
