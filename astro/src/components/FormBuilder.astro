@@ -106,8 +106,12 @@ const submitLabel =
     : FormLabels['default'].submit;
 ---
 
-<div id="contact-form">
-  <div class="region flow prose box" style="--padding: var(--space-s) 0;">
+<section id="contact-form">
+  <aside
+    class="region flow prose box"
+    style="--padding: var(--space-s) 0;"
+    aria-label="Contact us section"
+  >
     <h2 class="mx-auto mb-l-xl">
       How can we craft uniquely memorable {customCTAHeading} for you?
     </h2>
@@ -128,7 +132,7 @@ const submitLabel =
         </p>
       )
     }
-  </div>
+  </aside>
   <form
     name="main"
     netlify-honeypot="bot-field"
@@ -204,4 +208,4 @@ const submitLabel =
       </div>
     </div>
   </form>
-</div>
+</section>

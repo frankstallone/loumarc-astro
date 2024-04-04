@@ -7,7 +7,7 @@ interface Props {
 const { location } = Astro.props;
 ---
 
-<header id="main-navigation" class="cluster" data-location={location}>
+<div id="main-navigation" class="cluster" data-location={location}>
   <nav class="mobile-nav" aria-label="mobile">
     <button
       class="mobile-open"
@@ -64,7 +64,7 @@ const { location } = Astro.props;
         src="/images/logo-horizontal.svg"
         width="124.997px"
         height="26px"
-        alt="Loumarc Signs"
+        alt="Loumarc Signs logo"
       /><div class="sr-only">Loumarc Signs</div></a
     >
   </span>
@@ -74,7 +74,7 @@ const { location } = Astro.props;
     </ul>
   </nav>
   <a class="button" href="#contact-form">Contact</a>
-</header>
+</div>
 
 <script>
   const button = document.querySelector('.mobile-open');

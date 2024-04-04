@@ -18,29 +18,31 @@ const meta = {
 
 <Layout meta={meta}>
   <a href="#main" class="sr-only sr-only-focusable">Skip to content</a>
-  <Header location="home" />
-  <div class="center" data-location="home">
-    <div class="cover" data-location="home">
-      <h1
-        class="text-center font-weight-base font-size-6 max-inline-size-full step-7"
-        style="letter-spacing: -0.075ch;"
-      >
-        Bringing visibility <br />to your goals
-      </h1>
-      <Picture
-        src={heroImage}
-        widths={[300, 800, 2000, heroImage.width]}
-        sizes={`(max-width: 360px) 300px, (max-width: 720px) 800px, (max-width: 1600px) 2000px, ${heroImage.width}px`}
-        class="object-contain h-auto"
-        alt="Amazon trusts Loumarc Signs to create their signs"
-        fetchpriority={'high'}
-        loading={'eager'}
-        quality={80}
-        formats={['avif', 'webp']}
-        decoding="sync"
-      />
-    </div>
-  </div>
+  <header>
+    <Header location="home" />
+    <section class="center" data-location="home">
+      <div class="cover" data-location="home">
+        <h1
+          class="text-center font-weight-base font-size-6 max-inline-size-full step-7"
+          style="letter-spacing: -0.075ch;"
+        >
+          Bringing visibility <br />to your goals
+        </h1>
+        <Picture
+          src={heroImage}
+          widths={[300, 800, 2000, heroImage.width]}
+          sizes={`(max-width: 360px) 300px, (max-width: 720px) 800px, (max-width: 1600px) 2000px, ${heroImage.width}px`}
+          class="object-contain h-auto"
+          alt="Amazon trusts Loumarc Signs to create their signs"
+          fetchpriority={'high'}
+          loading={'eager'}
+          quality={80}
+          formats={['avif', 'webp']}
+          decoding="sync"
+        />
+      </div>
+    </section>
+  </header>
   <main role="main" id="main">
     <article data-layout="md">
       <div

@@ -32,34 +32,36 @@ const meta = {
 ---
 
 <Layout meta={meta}>
-  <Header />
-  <div class="section spot-color-gray">
-    <svg
-      aria-hidden="true"
-      class="slant"
-      viewBox="0 0 1440 67"
-      preserveAspectRatio="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M0,66.398L1440,18.066L1440,0L0,0L0,66.398Z"></path>
-    </svg>
-    <div class="section__inner region">
-      <div class="center">
-        <div class="box">
-          <h1 class="skewer leading-2">{title}</h1>
+  <header>
+    <Header />
+    <div class="section spot-color-gray">
+      <svg
+        aria-hidden="true"
+        class="slant"
+        viewBox="0 0 1440 67"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M0,66.398L1440,18.066L1440,0L0,0L0,66.398Z"></path>
+      </svg>
+      <div class="section__inner region">
+        <div class="center">
+          <div class="box">
+            <h1 class="skewer leading-2">{title}</h1>
+          </div>
         </div>
       </div>
+      <svg
+        aria-hidden="true"
+        class="slant"
+        viewBox="0 0 1440 67"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M0,66.398L1440,18.066L1440,0L0,0L0,66.398Z"></path>
+      </svg>
     </div>
-    <svg
-      aria-hidden="true"
-      class="slant"
-      viewBox="0 0 1440 67"
-      preserveAspectRatio="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M0,66.398L1440,18.066L1440,0L0,0L0,66.398Z"></path>
-    </svg>
-  </div>
+  </header>
   <div class="center relative z-10" style="margin-top: -5rem">
     {
       mainImage ? (
