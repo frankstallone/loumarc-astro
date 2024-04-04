@@ -1,0 +1,101 @@
+---
+import type { Slug } from '../ts/types';
+
+export interface FormLabelTypes {
+  name?: string;
+  email?: string;
+  phone?: string;
+  message: string;
+  submit?: string;
+}
+
+export const FormLabels: Record<Slug, FormLabelTypes> = {
+  default: {
+    name: 'Name',
+    email: 'Email',
+    phone: 'Phone',
+    message: 'Where have you found issues using our website?',
+    submit: 'Submit',
+  },
+  'how-to-gain-more-peoples-attention-with-signs-near-your-business': {
+    message: 'What message(s) do you want to convey through your LED sign?',
+  },
+};
+
+const emailTitle = '🤖: Accessibility form submission';
+
+const nameLabel = FormLabels['default'].name;
+
+const emailLabel = FormLabels['default'].email;
+
+const phoneLabel = FormLabels['default'].phone;
+
+const messageLabel = FormLabels['default'].message;
+
+const submitLabel = FormLabels['default'].submit;
+---
+
+<section id="contact-form">
+  <div class="region flow prose box" style="--padding: var(--space-s) 0;">
+    <h2 class="mx-auto">How can we do better?</h2>
+  </div>
+  <form
+    name="main"
+    netlify-honeypot="bot-field"
+    class="switcher region wrapper"
+    style=" --region-space-top: 0; --gutter: 0;"
+    method="POST"
+    data-netlify="true"
+    action="/thank-you/"
+  >
+    <input type="hidden" name="subject" value={emailTitle} />
+    <p class="hidden">
+      <label for="bot-field">Do you like delicious treats?</label>
+      <input name="bot-field" id="bot-field" />
+    </p>
+    <div class="switcher step-0" style="--gutter: initial;">
+      <div class="flow">
+        <div class="switcher">
+          <span class="stack">
+            <label for="name">{nameLabel}</label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              required
+              aria-required="true"
+            />
+          </span>
+          <span class="stack">
+            <label for="email">{emailLabel}</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              required
+              aria-required="true"
+            />
+          </span>
+        </div>
+        <div class="switcher">
+          <span class="stack">
+            <label for="phone">{phoneLabel}</label>
+            <input type="tel" name="phone" id="phone" />
+          </span>
+        </div>
+      </div>
+      <div class="flow">
+        <span class="stack">
+          <label for="message">{messageLabel}</label>
+          <textarea
+            name="message"
+            id="message"
+            rows="6"
+            required
+            aria-required="true"></textarea>
+        </span>
+        <button type="submit">{submitLabel}</button>
+      </div>
+    </div>
+  </form>
+</section>
