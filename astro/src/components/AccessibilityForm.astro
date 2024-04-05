@@ -1,7 +1,7 @@
 ---
 import type { Slug } from '../ts/types';
 
-export interface FormLabelTypes {
+export interface AccessibilityFormLabelTypes {
   name?: string;
   email?: string;
   phone?: string;
@@ -9,7 +9,7 @@ export interface FormLabelTypes {
   submit?: string;
 }
 
-export const FormLabels: Record<Slug, FormLabelTypes> = {
+export const FormLabels: Record<Slug, AccessibilityFormLabelTypes> = {
   default: {
     name: 'Name',
     email: 'Email',
@@ -23,15 +23,10 @@ export const FormLabels: Record<Slug, FormLabelTypes> = {
 };
 
 const emailTitle = '🤖: Accessibility form submission';
-
 const nameLabel = FormLabels['default'].name;
-
 const emailLabel = FormLabels['default'].email;
-
 const phoneLabel = FormLabels['default'].phone;
-
 const messageLabel = FormLabels['default'].message;
-
 const submitLabel = FormLabels['default'].submit;
 ---
 
@@ -40,7 +35,7 @@ const submitLabel = FormLabels['default'].submit;
     <h2 class="mx-auto">How can we do better?</h2>
   </div>
   <form
-    name="main"
+    name="accessibility"
     netlify-honeypot="bot-field"
     class="switcher region wrapper"
     style=" --region-space-top: 0; --gutter: 0;"
