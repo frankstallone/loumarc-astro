@@ -5,16 +5,16 @@ import PortableText from '../../components/PortableText.astro';
 import FormBuilder from '../../components/FormBuilder.astro';
 import { getVanityURL } from '../../utils/index';
 import type { GetStaticPaths } from 'astro';
-import type { Props as HeadProps } from '../../components/Head.astro';
 import type { SanityProps } from '../../ts/types'
-type Props = HeadProps & SanityProps;
+
+interface Props extends SanityProps {};
 
 import { sanityClient } from 'sanity:client';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const products = await sanityClient.fetch(`*[_type == "product"]`);
 
-  return products.map((product) => {
+  return products.map((product: any) => {
     return {
       params: {
         slug: product.slug?.current || '',
@@ -26,9 +26,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 const { title, body, gallery, slug, metaDescription, productSchema } =
   Astro.props;
-
-const meta = {
+  const meta = {
   title: `${title} | Products | Loumarc Signs`,
+  // @ts-ignore
   canonicalURL: `https://loumarcsigns.com/products/${slug.current}/`,
   description: metaDescription,
 };
@@ -75,8 +75,8 @@ productSchema ? (productSchema.title = title) : null;
         gallery
           ? gallery.images.map(
               (
-                image,
-                index
+                image: { alt: string; asset: { _ref: string } },
+                index: number
               ) => {
                 return (
                   <picture>
@@ -122,6 +122,7 @@ productSchema ? (productSchema.title = title) : null;
     <PortableText portableText={body} />
   </main>
   <article class="content">
+    <!-- @ts-ignore -->
     <FormBuilder slug={slug.current} headingContext={title} />
   </article>
 </Layout>

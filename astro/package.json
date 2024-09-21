@@ -8,7 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "lint:astro": "astro check"
+    "lint": "astro check"
   },
   "dependencies": {
     "@astrojs/partytown": "^2.1.2",

@@ -5,14 +5,14 @@ import PortableText from '../components/PortableText.astro';
 import { urlForImage } from '../api/urlForImage';
 import FormBuilder from '../components/FormBuilder.astro';
 import { sanityClient } from 'sanity:client';
-import type { Props as HeadProps } from '../components/Head.astro';
 import type { SanityProps } from '../ts/types';
-type Props = HeadProps & SanityProps;
+
+interface Props extends SanityProps {}
 
 export async function getStaticPaths() {
   const posts = await sanityClient.fetch(`*[_type == "post"]`);
 
-  return posts.map((post) => {
+  return posts.map((post: any) => {
     return {
       params: {
         slug: post.slug?.current || '',
@@ -26,6 +26,7 @@ const { title, mainImage, body, slug, metaDescription } = Astro.props;
 
 const meta = {
   title: `${title} | Blog | Loumarc Signs `,
+  // @ts-ignore
   canonicalURL: `https://loumarcsigns.com/${slug.current}/`,
   description: metaDescription,
 };
@@ -81,7 +82,7 @@ const meta = {
               .format('jpg')
               .quality(90)
               .url()}
-            alt={mainImage.alt}
+            alt="Blog post photo"
             class="w-full"
           />
         </picture>
@@ -92,6 +93,7 @@ const meta = {
     <PortableText portableText={body} />
   </main>
   <article class="content">
+    <!-- @ts-ignore -->
     <FormBuilder slug={slug.current} />
   </article>
 </Layout>

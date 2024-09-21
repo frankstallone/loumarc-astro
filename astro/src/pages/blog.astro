@@ -57,7 +57,7 @@ const meta = {
             data-layout="50-50"
             data-rows="masonry"
           >
-            {posts.map((post, index) => (
+            {posts.map((post: any, index: number) => (
               <li>
                 <Card
                   index={index}
@@ -81,6 +81,7 @@ const meta = {
     </article>
   </main>
   <article class="wrapper" data-layout="md">
+    <!-- @ts-ignore -->
     <FormBuilder slug="blog" />
   </article>
 </Layout>

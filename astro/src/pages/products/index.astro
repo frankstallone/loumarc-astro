@@ -14,7 +14,7 @@ const meta = {
     'At Loumarc Signs, we create distinctive signs specifically crafted to fit your needs. We survey your sign site and obtain the necessary permits needed.',
 };
 
-const filteredProducts = products.filter((product) => !product.featured);
+const filteredProducts = products.filter((product: any) => !product.featured);
 ---
 
 <Layout meta={meta}>
@@ -62,7 +62,7 @@ const filteredProducts = products.filter((product) => !product.featured);
       >
         {
           filteredProducts &&
-            filteredProducts.map((product, index) => (
+            filteredProducts.map((product: any, index: number) => (
               <li>
                 <Card
                   index={index}
@@ -110,6 +110,7 @@ const filteredProducts = products.filter((product) => !product.featured);
     </article>
   </main>
   <article class="wrapper" data-layout="md">
+    <!-- @ts-ignore -->
     <FormBuilder slug="products" />
   </article>
 </Layout>

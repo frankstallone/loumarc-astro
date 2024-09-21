@@ -1,12 +1,14 @@
 ---
 import Head from '../components/Head.astro';
 import Footer from '../components/Footer.astro';
-import type { Props } from '../components/Head.astro';
+import type { Header } from '../ts/types';
+
+interface Props extends Header {}
 
 const { meta, productSchema, overlay } = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <Head meta={meta} productSchema={productSchema} />
   <body>

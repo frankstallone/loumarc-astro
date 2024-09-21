@@ -23,22 +23,10 @@ import '../css/utility.css';
 import '../css/exceptions.css';
 import { getSiteSettings } from '../api/sanity';
 import { getProductSchema, getVanityURL } from '../utils';
+import type { Header } from '../ts/types';
 
-export type Props = {
-  meta: {
-    title?: string;
-    description?: string;
-    canonicalURL?: URL | string;
-    image?: string;
-  };
-  productSchema?: {
-    title?: string;
-    image: string;
-    description: string;
-    itemOfferedName: Array<string>;
-  };
-  overlay?: boolean;
-};
+interface Props extends Header {}
+
 const { meta, productSchema } = Astro.props;
 
 const settings = await getSiteSettings();
@@ -136,7 +124,7 @@ if (productSchema) {
   />
   {schema && <Fragment set:html={schema} />}
   <!-- Hotjar Tracking Code for https://www.loumarcsigns.com/ -->
-  <script type="text/partytown">
+  <script is:inline type="text/partytown">
     (function (h, o, t, j, a, r) {
       h.hj =
         h.hj ||
@@ -154,10 +142,10 @@ if (productSchema) {
   <!-- Google tag (gtag.js) -->
   <script
     async
+    is:inline
     type="text/partytown"
-    src="https://www.googletagmanager.com/gtag/js?id=G-G4P6ZWLZZ5"
-  ></script>
-  <script type="text/partytown">
+    src="https://www.googletagmanager.com/gtag/js?id=G-G4P6ZWLZZ5"></script>
+  <script is:inline type="text/partytown">
     window.dataLayer = window.dataLayer || [];
     function gtag() {
       dataLayer.push(arguments);

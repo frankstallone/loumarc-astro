@@ -33,7 +33,7 @@ export function spaceToDash(title: string) {
 
 export function getSeoStrings(
   index: number,
-  secondaryInfo?: Array<string> | null
+  secondaryInfo?: Array<string> | null,
 ) {
   // Array of SEO locations for product pages
   const seoLocations = [
@@ -64,7 +64,7 @@ export function getSeoStrings(
  */
 export function getVanityURL(
   options: ImageUrlBuilderOptions,
-  secondaryInfo?: Array<string> | null
+  secondaryInfo?: Array<string> | null,
 ) {
   // Constructed Sanity URL for webp image
   const originalURL = urlForImage(options.imgObj)
@@ -101,7 +101,7 @@ export function getVanityURL(
  * @returns
  */
 
-export function getProductSchema(product, siteSettings) {
+export function getProductSchema(product: any, siteSettings: any) {
   // Creating product image for schema.org
   const schemaImage = getVanityURL(
     {
@@ -112,7 +112,7 @@ export function getProductSchema(product, siteSettings) {
       format: 'jpg',
       quality: 90,
     },
-    null
+    null,
   );
   // Creates an array of Offers for schema.org
   function createOffer(items: Array<string>) {
@@ -166,7 +166,7 @@ export function getProductSchema(product, siteSettings) {
   return `<script type="application/ld+json">${JSON.stringify(
     productSchema,
     null,
-    2
+    2,
   )}</script>`;
 }
 
@@ -176,7 +176,7 @@ export function getProductSchema(product, siteSettings) {
  * returns `string` without colons and periods
  */
 
-export function removeColonsAndPeriods(string) {
+export function removeColonsAndPeriods(string: string) {
   return string.replace(/[:.]/g, '');
 }
 

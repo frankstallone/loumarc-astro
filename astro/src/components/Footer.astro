@@ -319,7 +319,7 @@ const overlayStyles = overlay ? 'margin-block-start: -4rem;' : '';
           <h2>Products</h2>
           <ul role="list">
             {
-              products.map((product) => (
+              products.map((product: any) => (
                 <li>
                   <a href={`/products/${product.slug.current}`}>
                     {product.title}
