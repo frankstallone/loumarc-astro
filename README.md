@@ -26,10 +26,10 @@ Install dependencies:
 
 ```bash
 cd astro/
-npm install
+npm i
 
 cd sanity/
-npm install
+npm i
 ```
 
 Looking for help with Astro? Start with their [Getting Started guide](https://docs.astro.build/en/getting-started/).
