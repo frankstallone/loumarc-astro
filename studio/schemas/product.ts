@@ -57,12 +57,6 @@ export default defineType({
       type: 'gallery',
     }),
     defineField({
-      name: 'featured',
-      title: 'Featured',
-      description: 'Featured products Cards show up first.',
-      type: 'boolean',
-    }),
-    defineField({
       name: 'excerpt',
       title: 'Excerpt',
       description:

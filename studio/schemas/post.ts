@@ -5,7 +5,6 @@ export default defineType({
   title: 'Blog post',
   type: 'document',
   initialValue: () => ({
-    featured: false,
     publishedAt: new Date().toISOString().substring(0, 10),
   }),
   fields: [
@@ -76,13 +75,6 @@ export default defineType({
       title: 'Published at',
       description: 'The date the blog post was published.',
       type: 'date',
-    }),
-    defineField({
-      name: 'featured',
-      title: 'Featured',
-      description:
-        'Whether the blog post should be featured on the blog landing page (Currently not used).',
-      type: 'boolean',
     }),
     defineField({
       name: 'body',

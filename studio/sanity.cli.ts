@@ -5,4 +5,5 @@ export default defineCliConfig({
     projectId: 'yiwm54j7',
     dataset: 'production',
   },
+  studioHost: 'loumarc'
 })
