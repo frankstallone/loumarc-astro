@@ -13,8 +13,6 @@ const meta = {
   description:
     'At Loumarc Signs, we create distinctive signs specifically crafted to fit your needs. We survey your sign site and obtain the necessary permits needed.',
 };
-
-const filteredProducts = products.filter((product: any) => !product.featured);
 ---
 
 <Layout meta={meta}>
@@ -61,8 +59,8 @@ const filteredProducts = products.filter((product: any) => !product.featured);
         data-rows="masonry"
       >
         {
-          filteredProducts &&
-            filteredProducts.map((product: any, index: number) => (
+          products &&
+            products.map((product: any, index: number) => (
               <li>
                 <Card
                   index={index}
