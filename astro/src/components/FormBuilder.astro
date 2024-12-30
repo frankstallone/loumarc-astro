@@ -126,6 +126,7 @@ const submitLabel =
   </aside>
   <form
     name="main"
+    data-netlify-recaptcha="true"
     netlify-honeypot="bot-field"
     class="switcher region wrapper"
     style=" --region-space-top: 0; --gutter: 0;"
@@ -195,6 +196,9 @@ const submitLabel =
             required
             aria-required="true"></textarea>
         </span>
+        <div class="stack">
+          <div data-netlify-recaptcha="true"><!-- recaptcha --></div>
+        </div>
         <button type="submit">{submitLabel}</button>
       </div>
     </div>
