@@ -21,7 +21,7 @@ const { overlay } = Astro.props;
 const overlayStyles = overlay ? 'margin-block-start: -4rem;' : '';
 ---
 
-<article class="section spot-color-gray-dark" style=`${overlayStyles}`>
+<article class="section spot-color-gray-dark" style={overlayStyles}>
   <svg
     aria-hidden="true"
     class="slant"
