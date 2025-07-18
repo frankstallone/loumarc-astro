@@ -205,3 +205,11 @@ footer a:active {
   color: var(--bronze200);
   text-decoration: none;
 }
+
+/* Captcha */
+
+cap-widget {
+  --cap-border-radius: 4px;
+  --cap-widget-width: 100%;
+  --cap-border-color: var(--gray700);
+}
