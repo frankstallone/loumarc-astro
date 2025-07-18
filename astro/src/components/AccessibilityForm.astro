@@ -89,8 +89,16 @@ const submitLabel = FormLabels['default'].submit;
             required
             aria-required="true"></textarea>
         </span>
-        <button type="submit">{submitLabel}</button>
+        <cap-widget id="access-cap" data-cap-api-endpoint="/api/"></cap-widget>
+        <button type="submit" id="access-submit">{submitLabel}</button>
       </div>
     </div>
   </form>
+  <script>
+    const aCap = document.getElementById('access-cap');
+    const aBtn = document.getElementById('access-submit');
+    aBtn?.setAttribute('disabled', '');
+    aCap?.addEventListener('solve', () => aBtn?.removeAttribute('disabled'));
+    aCap?.addEventListener('reset', () => aBtn?.setAttribute('disabled', ''));
+  </script>
 </section>
