@@ -1,7 +1,3 @@
-import Cap from '@cap.js/server';
-
-const cap = new Cap({ tokens_store_path: '/tmp/tokens.json' });
-
 export async function handler(event) {
   const body = JSON.parse(event.body || '{}');
   const token = body.payload?.data?.['cap-token'];
@@ -13,11 +9,23 @@ export async function handler(event) {
     };
   }
 
-  const result = await cap.validateToken(token);
-  if (!result.valid) {
+  try {
+    const res = await fetch(`${process.env.URL}/api/validate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token }),
+    });
+    const result = await res.json();
+    if (!result.valid) {
+      return {
+        statusCode: 401,
+        body: JSON.stringify({ success: false, message: 'Invalid Cap token' }),
+      };
+    }
+  } catch (err) {
     return {
-      statusCode: 401,
-      body: JSON.stringify({ success: false, message: 'Invalid Cap token' }),
+      statusCode: 500,
+      body: JSON.stringify({ success: false, message: 'Validation failed' }),
     };
   }
 
