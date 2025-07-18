@@ -29,4 +29,6 @@ dist/
 *.local
 
 # Local Netlify folder
-.netlify
+
+# Cap.js data
+.data/
