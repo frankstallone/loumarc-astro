@@ -195,8 +195,18 @@ const submitLabel =
             required
             aria-required="true"></textarea>
         </span>
-        <button type="submit">{submitLabel}</button>
+        <span class="stack">
+          <cap-widget id="main-cap" data-cap-api-endpoint="/api/"></cap-widget>
+        </span>
+        <button type="submit" id="main-submit">{submitLabel}</button>
       </div>
     </div>
   </form>
+  <script>
+    const cap = document.getElementById('main-cap');
+    const btn = document.getElementById('main-submit');
+    btn?.setAttribute('disabled', '');
+    cap?.addEventListener('solve', () => btn?.removeAttribute('disabled'));
+    cap?.addEventListener('reset', () => btn?.setAttribute('disabled', ''));
+  </script>
 </section>
