@@ -1,4 +1,4 @@
-# Astro Basics
+# Loumarc Signs Marketing Site
 
 ## 🚀 Project Structure
 
@@ -22,11 +22,11 @@ Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page
 
 There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
 
-Any static assets, like images, can be placed in the `public/` directory. However, images have been optimized using `@astrojs/image` and are stored in the `/assets/` directory. Astro is in the middle of moving to a new Assets API, so this may change in the future.
+Any static assets, like images, can be placed in the `public/` directory. However, images [optimized by astro](https://docs.astro.build/en/guides/images/) and are stored in the `/assets/` directory.
 
-## 🧞 Commands
+## 🧞 Astro Commands
 
-All commands are run from the root of the project, from a terminal:
+All commands are run from the `/astro` directory of the project, from a terminal:
 
 | Command                | Action                                           |
 | :--------------------- | :----------------------------------------------- |
