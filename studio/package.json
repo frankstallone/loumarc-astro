@@ -15,20 +15,20 @@
     "sanity"
   ],
   "dependencies": {
-    "@sanity/icons": "^2.4.1",
-    "@sanity/ui": "^2.8.9",
-    "@sanity/vision": "^3.57.4",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "sanity": "^3.57.4",
-    "styled-components": "^6.1.13"
+    "@sanity/icons": "^3.7.4",
+    "@sanity/ui": "^2.16.7",
+    "@sanity/vision": "^4.0.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "sanity": "^4.0.1",
+    "styled-components": "^6.1.19"
   },
   "devDependencies": {
-    "@sanity/eslint-config-studio": "^2.0.4",
-    "@types/react": "^18.3.8",
-    "eslint": "^8.6.0",
-    "prettier": "^3.3.3",
-    "typescript": "^4.0.0"
+    "@sanity/eslint-config-studio": "^5.0.2",
+    "@types/react": "^19.1.8",
+    "eslint": "^9.31.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.8.3"
   },
   "engines": {
     "node": ">=20.12.2"
