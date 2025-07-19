@@ -7,7 +7,7 @@ This repository contains the source code for the Loumarc Signs website. The proj
 - **`studio/`** – The [Sanity.io](https://www.sanity.io/) Studio used to manage all site content.
 
 ## Requirements
-- Node.js `>=20`
+- Node.js `>=22`
 - npm
 
 ## Project Structure
