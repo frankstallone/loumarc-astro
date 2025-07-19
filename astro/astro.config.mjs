@@ -1,5 +1,5 @@
 import { defineConfig } from 'astro/config';
-import { sanityIntegration } from "@sanity/astro";
+import sanityIntegration from "@sanity/astro";
 import sitemap from '@astrojs/sitemap';
 import purgecss from 'astro-purgecss';
 import partytown from '@astrojs/partytown';
