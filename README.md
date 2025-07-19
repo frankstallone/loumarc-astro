@@ -73,6 +73,18 @@ cd ../studio
 npm run build
 ```
 
+## Astro Commands
+
+Run these commands from the `/astro` directory to work with the Astro site:
+
+| Command | Action |
+| :--------------------- | :--------------------------------------------- |
+| `npm run dev` | Start the Astro site locally |
+| `npm run build` | Build the site for production |
+| `npm run preview` | Preview the built site |
+| `npm run astro` | Access the Astro CLI |
+| `npm run lint` | Run Astro checks |
+
 ## Sanity Studio Commands
 
 Run these commands from the `/studio` directory to work with the Sanity Studio:
