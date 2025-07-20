@@ -36,7 +36,7 @@ const submitLabel = FormLabels['default'].submit;
   </div>
   <form
     name="accessibility"
-    netlify-honeypot="bot-field"
+    netlify-honeypot="additional-info"
     class="switcher region wrapper"
     style=" --region-space-top: 0; --gutter: 0;"
     method="POST"
@@ -45,8 +45,8 @@ const submitLabel = FormLabels['default'].submit;
   >
     <input type="hidden" name="subject" value={emailTitle} />
     <p class="hidden">
-      <label for="bot-field">Do you like delicious treats?</label>
-      <input name="bot-field" id="bot-field" />
+      <label for="additional-info">Do you like delicious treats?</label>
+      <input name="additional-info" id="additional-info" />
     </p>
     <div class="switcher step-0" style="--gutter: initial;">
       <div class="flow">
