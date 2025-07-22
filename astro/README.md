@@ -1,5 +1,17 @@
 # Loumarc Signs Marketing Site
 
+## Environment Variables for Netlify Deployment
+
+To enable spam management and CapJS validation, set the following environment variables in your Netlify site settings:
+
+- `NETLIFY_API_TOKEN`: Personal access token for Netlify API (required for marking submissions as spam)
+- `URL`: The base URL of your deployed site (e.g., `https://loumarcsigns.com`)
+- `SITE_ID`: Your Netlify site ID (only required for testing the API token with the temporary function)
+
+You can set these in the Netlify dashboard under **Site settings → Build & deploy → Environment**.
+
+---
+
 Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
 
 There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.

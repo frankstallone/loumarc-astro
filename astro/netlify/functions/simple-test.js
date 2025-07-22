@@ -1,9 +1,9 @@
 export async function handler(event) {
-  console.log('submission-created triggered');
+  console.log('Simple test function triggered');
   return {
     statusCode: 200,
     body: JSON.stringify({
-      message: 'submission-created working',
+      message: 'Simple test working',
       method: event.httpMethod,
     }),
   };
