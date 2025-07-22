@@ -4,7 +4,20 @@ export async function handler(event) {
     headers: event.headers,
   });
 
-  const body = JSON.parse(event.body || '{}');
+  let body;
+  try {
+    body = JSON.parse(event.body || '{}');
+  } catch (parseError) {
+    console.error('JSON parse error:', parseError, 'Raw body:', event.body);
+    return {
+      statusCode: 400,
+      body: JSON.stringify({
+        success: false,
+        message: 'Invalid JSON in request body',
+      }),
+    };
+  }
+
   const token = body.payload?.data?.['cap-token'];
   const submissionId = body.payload?.id; // Extract submission ID for later use
 

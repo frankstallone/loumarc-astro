@@ -2,7 +2,7 @@
 
 ## Relevant Files
 
-- `netlify/functions/submission-created.js` - Main function that handles form submissions and needs enhancement for spam management (includes debugging logs for token validation results and submission IDs)
+- `netlify/functions/submission-created.js` - Main function that handles form submissions and needs enhancement for spam management (includes debugging logs for token validation results and submission IDs, with improved error handling)
 - `netlify/functions/cap.js` - CapJS validation service that provides the token validation endpoint
 - `src/components/FormBuilder.astro` - Main contact form component with CapJS integration
 - `src/components/AccessibilityForm.astro` - Accessibility form component with CapJS integration
@@ -50,7 +50,7 @@
   - [x] 4.6 Add logging for debugging: token validation results, submission IDs processed
 
 - [ ] 5.0 Testing and Validation
-  - [ ] 5.1 Test spam flagging with FormBuilder.astro form by submitting without solving CapJS
+  - [x] 5.1 Test spam flagging with FormBuilder.astro form by submitting without solving CapJS (runtime error identified and fixed)
   - [ ] 5.2 Test spam flagging with AccessibilityForm.astro form by submitting without solving CapJS
   - [ ] 5.3 Verify legitimate submissions (with valid CapJS tokens) are processed normally
   - [ ] 5.4 Test error scenarios: invalid API token, network timeouts, missing submission ID
