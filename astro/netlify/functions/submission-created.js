@@ -1,4 +1,9 @@
 export async function handler(event) {
+  console.log('🚨 submission-created function triggered!', {
+    method: event.httpMethod,
+    headers: event.headers,
+  });
+
   const body = JSON.parse(event.body || '{}');
   const token = body.payload?.data?.['cap-token'];
   const submissionId = body.payload?.id; // Extract submission ID for later use
