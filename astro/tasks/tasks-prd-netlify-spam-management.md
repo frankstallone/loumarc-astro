@@ -2,20 +2,19 @@
 
 ## Relevant Files
 
-- `netlify/functions/submission-created.js` - Main function that handles form submissions and needs enhancement for spam management (includes debugging logs for token validation results and submission IDs, with improved error handling)
+- `netlify/functions/submission-created.js` - Main function that handles form submissions and spam management (fully functional on production)
 - `netlify/functions/cap.js` - CapJS validation service that provides the token validation endpoint
 - `src/components/FormBuilder.astro` - Main contact form component with CapJS integration
 - `src/components/AccessibilityForm.astro` - Accessibility form component with CapJS integration
-- `netlify/functions/test-netlify-api.js` - Temporary function to test Netlify API token permissions
-- `README.md` - Project documentation, now includes environment variable setup instructions
+- `README.md` - Project documentation, includes environment variable setup instructions
 
 ### Notes
 
-- Environment variables will need to be configured in Netlify dashboard: `NETLIFY_API_TOKEN`, `URL`, and `SITE_ID` (for testing)
-- Testing can be done using Netlify CLI for local development
+- **IMPORTANT**: `submission-created` functions work on production but NOT on deploy previews (undocumented Netlify limitation)
+- Environment variables must be configured in Netlify dashboard: `NETLIFY_API_TOKEN`, `URL`, and `SITE_ID` (for testing)
+- Testing can be done using Netlify CLI for local development, but full form integration testing requires production deployment
 - Forms use `data-netlify="true"` attribute for Netlify form handling
 - CapJS widgets use `data-cap-api-endpoint="/api/"` pointing to the cap.js function
-- Temporary function `test-netlify-api.js` can be deleted after confirming API permissions
 - See README for environment variable setup instructions
 
 ## Tasks
@@ -50,7 +49,7 @@
   - [x] 4.6 Add logging for debugging: token validation results, submission IDs processed
 
 - [ ] 5.0 Testing and Validation
-  - [x] 5.1 Test spam flagging with FormBuilder.astro form by submitting without solving CapJS (runtime error identified and fixed)
+  - [x] 5.1 Test spam flagging with FormBuilder.astro form by submitting without solving CapJS (successfully tested on production - discovered deploy preview limitation)
   - [ ] 5.2 Test spam flagging with AccessibilityForm.astro form by submitting without solving CapJS
   - [ ] 5.3 Verify legitimate submissions (with valid CapJS tokens) are processed normally
   - [ ] 5.4 Test error scenarios: invalid API token, network timeouts, missing submission ID
