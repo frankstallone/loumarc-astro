@@ -49,7 +49,7 @@
   - [x] 4.6 Add logging for debugging: token validation results, submission IDs processed
 
 - [ ] 5.0 Testing and Validation
-  - [x] 5.1 Test spam flagging with FormBuilder.astro form by submitting without solving CapJS (✅ TESTED: Function detects missing tokens, ⚠️ FIXED: Added spam flagging for missing tokens too)
+  - [x] 5.1 Test spam flagging with FormBuilder.astro form by submitting without solving CapJS (✅ TESTED: Function detects missing tokens, ⚠️ FIXED: Added spam flagging for missing tokens, 🔧 FIXED: Async timing issue - now waits for API completion)
   - [ ] 5.2 Test spam flagging with AccessibilityForm.astro form by submitting without solving CapJS
   - [ ] 5.3 Verify legitimate submissions (with valid CapJS tokens) are processed normally
   - [ ] 5.4 Test error scenarios: invalid API token, network timeouts, missing submission ID

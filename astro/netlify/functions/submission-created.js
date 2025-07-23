@@ -41,13 +41,15 @@ export async function handler(event) {
       console.warn(
         `[Debug] Missing Cap token for submission ID: ${submissionId}`,
       );
-      // Trigger spam flagging for missing token
-      markSubmissionAsSpam(submissionId).catch((err) => {
+      // Trigger spam flagging for missing token (wait for completion)
+      try {
+        await markSubmissionAsSpam(submissionId);
+      } catch (err) {
         console.error(
           'Failed to mark submission as spam (missing token):',
           err,
         );
-      });
+      }
       return {
         statusCode: 400,
         body: JSON.stringify({ success: false, message: 'Missing Cap token' }),
@@ -67,10 +69,12 @@ export async function handler(event) {
         validationResult,
       );
       if (!validationResult.valid) {
-        // Trigger spam flagging asynchronously
-        markSubmissionAsSpam(submissionId).catch((err) => {
+        // Trigger spam flagging (wait for completion)
+        try {
+          await markSubmissionAsSpam(submissionId);
+        } catch (err) {
           console.error('Failed to mark submission as spam:', err);
-        });
+        }
         return {
           statusCode: 401,
           body: JSON.stringify({
