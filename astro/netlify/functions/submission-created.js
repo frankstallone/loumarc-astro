@@ -22,10 +22,24 @@ export async function handler(event) {
     // Debug: Log the raw token value and type
     console.log(`[Debug] Raw token received:`, typeof token, token);
 
-    // Handle token array format - extract first token if it's an array
+    // Handle token array format - extract first token if it's an array or JSON string array
     if (Array.isArray(token) && token.length > 0) {
       token = token[0];
       console.log(`[Debug] Extracted token from array:`, token);
+    } else if (
+      typeof token === 'string' &&
+      token.startsWith('[') &&
+      token.endsWith(']')
+    ) {
+      try {
+        const parsedToken = JSON.parse(token);
+        if (Array.isArray(parsedToken) && parsedToken.length > 0) {
+          token = parsedToken[0];
+          console.log(`[Debug] Extracted token from JSON string array:`, token);
+        }
+      } catch (e) {
+        console.log(`[Debug] Failed to parse token as JSON:`, e.message);
+      }
     }
 
     if (
