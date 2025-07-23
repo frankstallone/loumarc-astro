@@ -110,14 +110,27 @@ export async function handler(event) {
 
 // Helper for spam flagging logic
 async function markSubmissionAsSpam(submissionId) {
+  console.log(
+    `[SpamFlag] Starting spam flagging process for submission: ${submissionId}`,
+  );
+
   const token = process.env.NETLIFY_API_TOKEN;
   if (!token) {
-    console.error('NETLIFY_API_TOKEN is not set');
+    console.error(
+      '[SpamFlag] NETLIFY_API_TOKEN is not set in environment variables',
+    );
     return;
   }
+  console.log(
+    `[SpamFlag] API token available, length: ${token.length} characters`,
+  );
+
   const url = `https://api.netlify.com/api/v1/submissions/${submissionId}/spam`;
+  console.log(`[SpamFlag] Making API call to: ${url}`);
+
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 5000);
+
   try {
     const res = await fetch(url, {
       method: 'PUT',
@@ -128,17 +141,24 @@ async function markSubmissionAsSpam(submissionId) {
       signal: controller.signal,
     });
     clearTimeout(timeout);
+
+    console.log(`[SpamFlag] API response status: ${res.status}`);
+
     if (res.ok) {
-      console.log(`[SpamFlag] Submission ${submissionId} marked as spam.`);
+      console.log(
+        `[SpamFlag] SUCCESS: Submission ${submissionId} marked as spam.`,
+      );
     } else {
       const text = await res.text();
-      console.error(`Failed to mark submission as spam: ${res.status} ${text}`);
+      console.error(`[SpamFlag] FAILED: ${res.status} - ${text}`);
     }
   } catch (err) {
+    clearTimeout(timeout);
     if (err.name === 'AbortError') {
-      console.error('Spam flagging request timed out');
+      console.error('[SpamFlag] ERROR: Request timed out after 5 seconds');
     } else {
-      console.error('Error marking submission as spam:', err);
+      console.error('[SpamFlag] ERROR: Network or other error:', err.message);
+      console.error('[SpamFlag] ERROR Stack:', err.stack);
     }
   }
 }
