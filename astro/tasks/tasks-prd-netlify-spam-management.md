@@ -52,7 +52,7 @@
 - [ ] 5.0 Testing and Validation
   - [x] 5.1 Test spam flagging with FormBuilder.astro form by submitting without solving CapJS (✅ SUCCESS: All functionality working perfectly - submissions flagged as spam and moved to spam section)
   - [ ] 5.2 Test spam flagging with AccessibilityForm.astro form by submitting without solving CapJS
-  - [x] 5.3 Verify legitimate submissions (with valid CapJS tokens) are processed normally (⚠️ ISSUE FOUND: CapJS tokens not being captured from forms, ✅ FIXED: Added hidden token fields and capture logic to both forms, ⚠️ ISSUE FOUND: CapJS returns token arrays but validation expects single strings, ✅ FIXED: Extract first token from array)
+  - [x] 5.3 Verify legitimate submissions (with valid CapJS tokens) are processed normally (⚠️ ISSUE FOUND: CapJS tokens not being captured from forms, ✅ FIXED: Added hidden token fields and capture logic to both forms, ⚠️ ISSUE FOUND: CapJS returns token arrays but validation expects single strings, ✅ FIXED: Extract first token from array, ⚠️ ISSUE FOUND: Validation returns `success` property but code checked `valid` property, ✅ FIXED: Changed to check `validationResult.success`)
   - [ ] 5.4 Test error scenarios: invalid API token, network timeouts, missing submission ID
   - [x] 5.5 Confirm spam submissions appear in Netlify dashboard Spam section (✅ CONFIRMED: Submissions properly moved to spam section)
   - [x] 5.6 Verify email notifications are NOT sent for flagged spam submissions (✅ CONFIRMED: No email notifications sent for spam)

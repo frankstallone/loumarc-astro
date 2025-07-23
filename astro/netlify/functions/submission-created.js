@@ -19,13 +19,9 @@ export async function handler(event) {
     let token = body.payload?.data?.['cap-token'];
     const submissionId = body.payload?.id; // Extract submission ID for later use
 
-    // Debug: Log the raw token value and type
-    console.log(`[Debug] Raw token received:`, typeof token, token);
-
     // Handle token array format - extract first token if it's an array or JSON string array
     if (Array.isArray(token) && token.length > 0) {
       token = token[0];
-      console.log(`[Debug] Extracted token from array:`, token);
     } else if (
       typeof token === 'string' &&
       token.startsWith('[') &&
@@ -35,10 +31,9 @@ export async function handler(event) {
         const parsedToken = JSON.parse(token);
         if (Array.isArray(parsedToken) && parsedToken.length > 0) {
           token = parsedToken[0];
-          console.log(`[Debug] Extracted token from JSON string array:`, token);
         }
       } catch (e) {
-        console.log(`[Debug] Failed to parse token as JSON:`, e.message);
+        // Ignore JSON parsing errors, keep original token
       }
     }
 
@@ -76,9 +71,8 @@ export async function handler(event) {
       };
     }
 
-    let validationResult = { valid: false };
+    let validationResult = { success: false };
     try {
-      console.log(`[Debug] Sending token to validation:`, typeof token, token);
       const res = await fetch(`${process.env.URL}/api/validate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -89,7 +83,7 @@ export async function handler(event) {
         `[Debug] Submission ID: ${submissionId}, CapJS token validation result:`,
         validationResult,
       );
-      if (!validationResult.valid) {
+      if (!validationResult.success) {
         // Trigger spam flagging (wait for completion)
         try {
           await markSubmissionAsSpam(submissionId);
