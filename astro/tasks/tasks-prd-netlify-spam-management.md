@@ -29,7 +29,7 @@
   - [x] 2.1 Modify `netlify/functions/submission-created.js` to extract submission ID from `body.payload.id`
   - [x] 2.2 Add validation to ensure submission ID exists and is in correct format before proceeding
   - [x] 2.3 Update the existing CapJS token validation logic to capture the validation result
-  - [x] 2.4 Add conditional logic to trigger spam flagging when `result.valid` is false
+  - [x] 2.4 Add conditional logic to trigger spam flagging when `result.valid` is false OR when token is missing
   - [x] 2.5 Ensure the function maintains existing behavior for valid submissions (return 200 status)
 
 - [x] 3.0 Implement Netlify API Integration for Spam Flagging
@@ -49,7 +49,7 @@
   - [x] 4.6 Add logging for debugging: token validation results, submission IDs processed
 
 - [ ] 5.0 Testing and Validation
-  - [x] 5.1 Test spam flagging with FormBuilder.astro form by submitting without solving CapJS (successfully tested on production - discovered deploy preview limitation)
+  - [x] 5.1 Test spam flagging with FormBuilder.astro form by submitting without solving CapJS (✅ TESTED: Function detects missing tokens, ⚠️ FIXED: Added spam flagging for missing tokens too)
   - [ ] 5.2 Test spam flagging with AccessibilityForm.astro form by submitting without solving CapJS
   - [ ] 5.3 Verify legitimate submissions (with valid CapJS tokens) are processed normally
   - [ ] 5.4 Test error scenarios: invalid API token, network timeouts, missing submission ID

@@ -41,6 +41,13 @@ export async function handler(event) {
       console.warn(
         `[Debug] Missing Cap token for submission ID: ${submissionId}`,
       );
+      // Trigger spam flagging for missing token
+      markSubmissionAsSpam(submissionId).catch((err) => {
+        console.error(
+          'Failed to mark submission as spam (missing token):',
+          err,
+        );
+      });
       return {
         statusCode: 400,
         body: JSON.stringify({ success: false, message: 'Missing Cap token' }),
