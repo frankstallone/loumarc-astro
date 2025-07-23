@@ -111,9 +111,12 @@ const submitLabel = FormLabels['default'].submit;
       aBtn?.removeAttribute('disabled');
       // Capture the CapJS token from the widget
       if (aTokenInput) {
-        aTokenInput.value = aCap.getToken
-          ? aCap.getToken()
-          : event.detail?.token || '';
+        let token = aCap.getToken ? aCap.getToken() : event.detail?.token || '';
+        // If token is an array, take the first element
+        if (Array.isArray(token)) {
+          token = token[0];
+        }
+        aTokenInput.value = token;
       }
     });
 

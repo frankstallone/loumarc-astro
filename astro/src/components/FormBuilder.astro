@@ -214,9 +214,12 @@ const submitLabel =
       btn?.removeAttribute('disabled');
       // Capture the CapJS token from the widget
       if (tokenInput) {
-        tokenInput.value = cap.getToken
-          ? cap.getToken()
-          : event.detail?.token || '';
+        let token = cap.getToken ? cap.getToken() : event.detail?.token || '';
+        // If token is an array, take the first element
+        if (Array.isArray(token)) {
+          token = token[0];
+        }
+        tokenInput.value = token;
       }
     });
 
