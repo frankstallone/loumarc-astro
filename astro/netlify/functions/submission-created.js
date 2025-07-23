@@ -16,8 +16,17 @@ export async function handler(event) {
       };
     }
 
-    const token = body.payload?.data?.['cap-token'];
+    let token = body.payload?.data?.['cap-token'];
     const submissionId = body.payload?.id; // Extract submission ID for later use
+
+    // Debug: Log the raw token value and type
+    console.log(`[Debug] Raw token received:`, typeof token, token);
+
+    // Handle token array format - extract first token if it's an array
+    if (Array.isArray(token) && token.length > 0) {
+      token = token[0];
+      console.log(`[Debug] Extracted token from array:`, token);
+    }
 
     if (
       !submissionId ||
@@ -55,6 +64,7 @@ export async function handler(event) {
 
     let validationResult = { valid: false };
     try {
+      console.log(`[Debug] Sending token to validation:`, typeof token, token);
       const res = await fetch(`${process.env.URL}/api/validate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
