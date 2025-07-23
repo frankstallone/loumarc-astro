@@ -1,9 +1,6 @@
 export async function handler(event) {
   try {
-    console.log('🚨 submission-created function triggered!', {
-      method: event.httpMethod,
-      headers: event.headers,
-    });
+    console.log('submission-created function triggered');
 
     let body;
     try {
@@ -114,10 +111,6 @@ export async function handler(event) {
 
 // Helper for spam flagging logic
 async function markSubmissionAsSpam(submissionId) {
-  console.log(
-    `[SpamFlag] Starting spam flagging process for submission: ${submissionId}`,
-  );
-
   const token = process.env.NETLIFY_API_TOKEN;
   if (!token) {
     console.error(
@@ -125,13 +118,8 @@ async function markSubmissionAsSpam(submissionId) {
     );
     return;
   }
-  console.log(
-    `[SpamFlag] API token available, length: ${token.length} characters`,
-  );
 
   const url = `https://api.netlify.com/api/v1/submissions/${submissionId}/spam`;
-  console.log(`[SpamFlag] Making API call to: ${url}`);
-
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 5000);
 
@@ -146,23 +134,22 @@ async function markSubmissionAsSpam(submissionId) {
     });
     clearTimeout(timeout);
 
-    console.log(`[SpamFlag] API response status: ${res.status}`);
-
     if (res.ok) {
       console.log(
-        `[SpamFlag] SUCCESS: Submission ${submissionId} marked as spam.`,
+        `[SpamFlag] Submission ${submissionId} marked as spam successfully`,
       );
     } else {
       const text = await res.text();
-      console.error(`[SpamFlag] FAILED: ${res.status} - ${text}`);
+      console.error(
+        `[SpamFlag] Failed to mark submission as spam: ${res.status} - ${text}`,
+      );
     }
   } catch (err) {
     clearTimeout(timeout);
     if (err.name === 'AbortError') {
-      console.error('[SpamFlag] ERROR: Request timed out after 5 seconds');
+      console.error('[SpamFlag] Request timed out after 5 seconds');
     } else {
-      console.error('[SpamFlag] ERROR: Network or other error:', err.message);
-      console.error('[SpamFlag] ERROR Stack:', err.stack);
+      console.error('[SpamFlag] Network error:', err.message);
     }
   }
 }

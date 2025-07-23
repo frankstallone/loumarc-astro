@@ -197,16 +197,35 @@ const submitLabel =
         </span>
         <span class="stack">
           <cap-widget id="main-cap" data-cap-api-endpoint="/api/"></cap-widget>
+          <input type="hidden" name="cap-token" id="cap-token" />
         </span>
         <button type="submit" id="main-submit">{submitLabel}</button>
       </div>
     </div>
   </form>
   <script>
-    const cap = document.getElementById('main-cap');
+    const cap = document.getElementById('main-cap') as any;
     const btn = document.getElementById('main-submit');
+    const tokenInput = document.getElementById('cap-token') as HTMLInputElement;
+
     btn?.setAttribute('disabled', '');
-    cap?.addEventListener('solve', () => btn?.removeAttribute('disabled'));
-    cap?.addEventListener('reset', () => btn?.setAttribute('disabled', ''));
+
+    cap?.addEventListener('solve', (event: any) => {
+      btn?.removeAttribute('disabled');
+      // Capture the CapJS token from the widget
+      if (tokenInput) {
+        tokenInput.value = cap.getToken
+          ? cap.getToken()
+          : event.detail?.token || '';
+      }
+    });
+
+    cap?.addEventListener('reset', () => {
+      btn?.setAttribute('disabled', '');
+      // Clear the token when reset
+      if (tokenInput) {
+        tokenInput.value = '';
+      }
+    });
   </script>
 </section>

@@ -92,16 +92,37 @@ const submitLabel = FormLabels['default'].submit;
         <span class="stack">
           <cap-widget id="access-cap" data-cap-api-endpoint="/api/"
           ></cap-widget>
+          <input type="hidden" name="cap-token" id="access-cap-token" />
         </span>
         <button type="submit" id="access-submit">{submitLabel}</button>
       </div>
     </div>
   </form>
   <script>
-    const aCap = document.getElementById('access-cap');
+    const aCap = document.getElementById('access-cap') as any;
     const aBtn = document.getElementById('access-submit');
+    const aTokenInput = document.getElementById(
+      'access-cap-token'
+    ) as HTMLInputElement;
+
     aBtn?.setAttribute('disabled', '');
-    aCap?.addEventListener('solve', () => aBtn?.removeAttribute('disabled'));
-    aCap?.addEventListener('reset', () => aBtn?.setAttribute('disabled', ''));
+
+    aCap?.addEventListener('solve', (event: any) => {
+      aBtn?.removeAttribute('disabled');
+      // Capture the CapJS token from the widget
+      if (aTokenInput) {
+        aTokenInput.value = aCap.getToken
+          ? aCap.getToken()
+          : event.detail?.token || '';
+      }
+    });
+
+    aCap?.addEventListener('reset', () => {
+      aBtn?.setAttribute('disabled', '');
+      // Clear the token when reset
+      if (aTokenInput) {
+        aTokenInput.value = '';
+      }
+    });
   </script>
 </section>
