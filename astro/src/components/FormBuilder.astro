@@ -131,9 +131,10 @@ const submitLabel =
     style=" --region-space-top: 0; --gutter: 0;"
     method="POST"
     data-netlify="true"
-    action="/thank-you/"
+    action="/forms/submit"
   >
     <input type="hidden" name="subject" value={emailTitle} />
+    <input type="hidden" name="form-name" value="main" />
     <p class="hidden">
       <label for="additional-info">Do you like delicious treats?</label>
       <input name="additional-info" id="additional-info" />
@@ -200,6 +201,7 @@ const submitLabel =
           <input type="hidden" name="cap-token" id="cap-token" />
         </span>
         <button type="submit" id="main-submit">{submitLabel}</button>
+        <p id="main-success" style="display:none" aria-live="polite"></p>
       </div>
     </div>
   </form>
@@ -207,6 +209,8 @@ const submitLabel =
     const cap = document.getElementById('main-cap') as any;
     const btn = document.getElementById('main-submit');
     const tokenInput = document.getElementById('cap-token') as HTMLInputElement;
+    const form = document.querySelector('form[name="main"]') as HTMLFormElement | null;
+    const successMsg = document.getElementById('main-success') as HTMLParagraphElement | null;
 
     btn?.setAttribute('disabled', '');
 
@@ -230,6 +234,47 @@ const submitLabel =
       // Clear the token when reset
       if (tokenInput) {
         tokenInput.value = '';
+      }
+    });
+
+    // Progressive enhancement: inline success + redirect for GA
+    form?.addEventListener('submit', async (e) => {
+      if (!(window as any).fetch) return; // fallback to normal submit if no fetch
+      e.preventDefault();
+      btn?.setAttribute('disabled', '');
+      const fd = new FormData(form!);
+      if (!fd.get('form-name')) fd.set('form-name', 'main');
+      try {
+        const res = await fetch('/forms/submit', {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: fd,
+        });
+        if (res.ok) {
+          if (successMsg) {
+            successMsg.textContent = 'Thanks! We\'ll be in touch shortly.';
+            successMsg.style.display = '';
+          }
+          btn && (btn.textContent = 'Thanks! Redirecting…');
+          setTimeout(() => {
+            window.location.assign('/thank-you/');
+          }, 600);
+        } else {
+          // Reset Cap on failure and re-enable submit
+          (cap && cap.reset) && cap.reset();
+          btn?.removeAttribute('disabled');
+          if (successMsg) {
+            successMsg.textContent = 'There was a problem submitting. Please try again.';
+            successMsg.style.display = '';
+          }
+        }
+      } catch (err) {
+        (cap && cap.reset) && cap.reset();
+        btn?.removeAttribute('disabled');
+        if (successMsg) {
+          successMsg.textContent = 'Network error. Please try again.';
+          successMsg.style.display = '';
+        }
       }
     });
   </script>

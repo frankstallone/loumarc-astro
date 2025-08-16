@@ -6,6 +6,10 @@
 [functions]
   directory = "netlify/functions"
 
+[[edge_functions]]
+  path = "/forms/*"
+  function = "forms-gate"
+
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/cap/:splat"
