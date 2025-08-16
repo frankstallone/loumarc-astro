@@ -197,11 +197,21 @@ const submitLabel =
             aria-required="true"></textarea>
         </span>
         <span class="stack">
-          <cap-widget id="main-cap" data-cap-api-endpoint="/api/"></cap-widget>
+          <cap-widget
+            id="main-cap"
+            data-cap-api-endpoint="/api/"
+            aria-describedby="main-cap-hint"></cap-widget>
           <input type="hidden" name="cap-token" id="cap-token" />
         </span>
-        <button type="submit" id="main-submit">{submitLabel}</button>
-        <p id="main-success" style="display:none" aria-live="polite"></p>
+        <span class="stack"
+          ><button type="submit" id="main-submit">{submitLabel}</button></span
+        >
+        <span class="stack">
+          <p id="main-cap-hint" style="display:none" aria-live="polite">
+            Please verify you're human to continue.
+          </p>
+          <p id="main-success" style="display:none" aria-live="polite"></p>
+        </span>
       </div>
     </div>
   </form>
@@ -209,13 +219,24 @@ const submitLabel =
     const cap = document.getElementById('main-cap') as any;
     const btn = document.getElementById('main-submit');
     const tokenInput = document.getElementById('cap-token') as HTMLInputElement;
-    const form = document.querySelector('form[name="main"]') as HTMLFormElement | null;
-    const successMsg = document.getElementById('main-success') as HTMLParagraphElement | null;
-
-    btn?.setAttribute('disabled', '');
+    const form = document.querySelector(
+      'form[name="main"]'
+    ) as HTMLFormElement | null;
+    const successMsg = document.getElementById(
+      'main-success'
+    ) as HTMLParagraphElement | null;
+    const capHint = document.getElementById(
+      'main-cap-hint'
+    ) as HTMLElement | null;
+    let pendingSubmit = false;
+    let inFlight = false;
+    const statusEl = document.createElement('div');
+    statusEl.id = 'main-submit-status';
+    statusEl.setAttribute('role', 'status');
+    statusEl.setAttribute('aria-live', 'polite');
+    statusEl.tabIndex = -1;
 
     cap?.addEventListener('solve', (event: any) => {
-      btn?.removeAttribute('disabled');
       // Capture the CapJS token from the widget
       if (tokenInput) {
         let token = cap.getToken ? cap.getToken() : event.detail?.token || '';
@@ -227,10 +248,17 @@ const submitLabel =
 
         tokenInput.value = token;
       }
+      // Clear any hint and invalid state
+      cap?.removeAttribute('aria-invalid');
+      if (capHint) capHint.style.display = 'none';
+      // If user tried to submit before solving, auto-submit now
+      if (pendingSubmit && form) {
+        pendingSubmit = false;
+        form.requestSubmit();
+      }
     });
 
     cap?.addEventListener('reset', () => {
-      btn?.setAttribute('disabled', '');
       // Clear the token when reset
       if (tokenInput) {
         tokenInput.value = '';
@@ -240,8 +268,36 @@ const submitLabel =
     // Progressive enhancement: inline success + redirect for GA
     form?.addEventListener('submit', async (e) => {
       if (!(window as any).fetch) return; // fallback to normal submit if no fetch
+      // Client-side guard: require Cap token before submit
+      if (!tokenInput?.value) {
+        e.preventDefault();
+        pendingSubmit = true;
+        cap?.setAttribute('aria-invalid', 'true');
+        if (capHint) {
+          capHint.textContent = 'Please complete the verification to submit.';
+          capHint.style.display = '';
+        }
+        if (cap?.scrollIntoView) {
+          cap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        if (cap?.focus) {
+          try {
+            cap.focus();
+          } catch {}
+        }
+        return;
+      }
       e.preventDefault();
-      btn?.setAttribute('disabled', '');
+      if (inFlight) return;
+      inFlight = true;
+      form?.setAttribute('aria-busy', 'true');
+      statusEl.textContent = 'Submitting…';
+      if (btn && btn.parentElement) {
+        btn.replaceWith(statusEl);
+        try {
+          statusEl.focus();
+        } catch {}
+      }
       const fd = new FormData(form!);
       if (!fd.get('form-name')) fd.set('form-name', 'main');
       try {
@@ -252,28 +308,45 @@ const submitLabel =
         });
         if (res.ok) {
           if (successMsg) {
-            successMsg.textContent = 'Thanks! We\'ll be in touch shortly.';
+            successMsg.textContent = "Thanks! We'll be in touch shortly.";
             successMsg.style.display = '';
+            try {
+              (successMsg as any).focus?.();
+            } catch {}
           }
-          btn && (btn.textContent = 'Thanks! Redirecting…');
           setTimeout(() => {
             window.location.assign('/thank-you/');
           }, 600);
         } else {
           // Reset Cap on failure and re-enable submit
-          (cap && cap.reset) && cap.reset();
-          btn?.removeAttribute('disabled');
+          cap && cap.reset && cap.reset();
+          if (statusEl && statusEl.parentElement) {
+            statusEl.replaceWith(btn!);
+          }
+          form?.removeAttribute('aria-busy');
+          inFlight = false;
           if (successMsg) {
-            successMsg.textContent = 'There was a problem submitting. Please try again.';
+            successMsg.textContent =
+              'There was a problem submitting. Please try again.';
             successMsg.style.display = '';
+            try {
+              (successMsg as any).focus?.();
+            } catch {}
           }
         }
       } catch (err) {
-        (cap && cap.reset) && cap.reset();
-        btn?.removeAttribute('disabled');
+        cap && cap.reset && cap.reset();
+        if (statusEl && statusEl.parentElement) {
+          statusEl.replaceWith(btn!);
+        }
+        form?.removeAttribute('aria-busy');
+        inFlight = false;
         if (successMsg) {
           successMsg.textContent = 'Network error. Please try again.';
           successMsg.style.display = '';
+          try {
+            (successMsg as any).focus?.();
+          } catch {}
         }
       }
     });
