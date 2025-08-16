@@ -66,9 +66,16 @@ export default async (request: Request, context: any) => {
 
   if (!capToken || (typeof capToken === 'string' && capToken.trim() === '')) {
     console.log('[forms-gate] missing cap-token');
-    return new Response(JSON.stringify({ ok: false, error: 'Missing cap-token' }), {
-      status: 422,
-      headers: { 'content-type': 'application/json', 'x-forms-gate': 'missing-cap-token' },
+    const accept = request.headers.get('accept') || '';
+    if (accept.includes('application/json')) {
+      return new Response(JSON.stringify({ ok: false, error: 'Missing cap-token' }), {
+        status: 422,
+        headers: { 'content-type': 'application/json', 'x-forms-gate': 'missing-cap-token' },
+      });
+    }
+    return new Response(null, {
+      status: 303,
+      headers: { Location: '/captcha-required/', 'x-forms-gate': 'missing-cap-token' },
     });
   }
 
