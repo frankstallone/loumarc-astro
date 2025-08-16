@@ -10,6 +10,15 @@ To enable spam management and CapJS validation, set the following environment va
 
 You can set these in the Netlify dashboard under **Site settings → Build & deploy → Environment**.
 
+Netlify build settings (when the app lives in `astro/`):
+
+- Base directory: `astro`
+- Build command: `npm run build`
+- Publish directory: `dist`
+- Functions directory: `netlify/functions`
+
+The Netlify config file is located at `astro/netlify.toml`.
+
 ---
 
 Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.

@@ -29,7 +29,7 @@ This repository contains the source code for the Loumarc Signs website. The proj
 │   ├── schemas/
 │   └── src/
 │       └── structure/
-└── netlify.toml  # Netlify configuration
+└── astro/netlify.toml  # Netlify configuration (co-located with app)
 ```
 
 ## Installation
@@ -99,10 +99,19 @@ Run these commands from the `/studio` directory to work with the Sanity Studio:
 
 ## Deployment
 
-The Astro site is deployed through [Netlify](https://www.netlify.com/) using the
-configuration in `netlify.toml`. Updates to the `main` branch automatically
-trigger a new deploy. The status badge at the top of this README reflects the
-latest deployment state.
+The Astro site is deployed through [Netlify](https://www.netlify.com/). The
+configuration file lives at `astro/netlify.toml` so it stays co-located with the
+app.
+
+Recommended Netlify UI build settings (Site settings → Build & deploy):
+
+- Base directory: `astro`
+- Build command: `npm run build`
+- Publish directory: `dist`
+- Functions directory: `netlify/functions`
+
+Updates to the `main` branch automatically trigger a new deploy. The status
+badge at the top of this README reflects the latest deployment state.
 
 ## Resources
 - [Astro – Getting Started](https://docs.astro.build/en/getting-started/)
