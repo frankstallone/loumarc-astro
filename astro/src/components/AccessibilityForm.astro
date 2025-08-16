@@ -172,7 +172,10 @@ const submitLabel = FormLabels['default'].submit;
         if (aCap?.focus) {
           try {
             aCap.focus();
-          } catch {}
+          } catch (err) {
+            // Some browsers may throw if element is not focusable yet; safe to ignore
+            console.warn('[access-form] aCap.focus() failed; non-critical', err);
+          }
         }
         return;
       }
@@ -185,7 +188,10 @@ const submitLabel = FormLabels['default'].submit;
         aBtn.replaceWith(aStatusEl);
         try {
           aStatusEl.focus();
-        } catch {}
+        } catch (err) {
+          // Focus can fail if element is not yet in DOM tree; safe to ignore
+          console.warn('[access-form] aStatusEl.focus() failed; non-critical', err);
+        }
       }
       const fd = new FormData(aForm!);
       if (!fd.get('form-name')) fd.set('form-name', 'accessibility');
@@ -201,7 +207,10 @@ const submitLabel = FormLabels['default'].submit;
             aSuccessMsg.style.display = '';
             try {
               (aSuccessMsg as any).focus?.();
-            } catch {}
+            } catch (err) {
+              // Focus may fail if element is not focusable; safe to ignore
+              console.warn('[access-form] aSuccessMsg.focus() failed; non-critical', err);
+            }
           }
           setTimeout(() => {
             window.location.assign('/thank-you/');
@@ -219,7 +228,9 @@ const submitLabel = FormLabels['default'].submit;
             aSuccessMsg.style.display = '';
             try {
               (aSuccessMsg as any).focus?.();
-            } catch {}
+            } catch (err) {
+              console.warn('[access-form] aSuccessMsg.focus() failed; non-critical', err);
+            }
           }
         }
       } catch (err) {
@@ -234,7 +245,9 @@ const submitLabel = FormLabels['default'].submit;
           aSuccessMsg.style.display = '';
           try {
             (aSuccessMsg as any).focus?.();
-          } catch {}
+          } catch (err) {
+            console.warn('[access-form] aSuccessMsg.focus() failed; non-critical', err);
+          }
         }
       }
     });

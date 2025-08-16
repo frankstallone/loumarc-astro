@@ -283,7 +283,10 @@ const submitLabel =
         if (cap?.focus) {
           try {
             cap.focus();
-          } catch {}
+          } catch (err) {
+            // Some browsers may throw if element is not focusable yet; safe to ignore
+            console.warn('[form] cap.focus() failed; non-critical', err);
+          }
         }
         return;
       }
@@ -296,7 +299,10 @@ const submitLabel =
         btn.replaceWith(statusEl);
         try {
           statusEl.focus();
-        } catch {}
+        } catch (err) {
+          // Focus can fail if element is not yet in DOM tree; safe to ignore
+          console.warn('[form] statusEl.focus() failed; non-critical', err);
+        }
       }
       const fd = new FormData(form!);
       if (!fd.get('form-name')) fd.set('form-name', 'main');
@@ -312,7 +318,10 @@ const submitLabel =
             successMsg.style.display = '';
             try {
               (successMsg as any).focus?.();
-            } catch {}
+            } catch (err) {
+              // Focus may fail if element is not focusable; safe to ignore
+              console.warn('[form] successMsg.focus() failed; non-critical', err);
+            }
           }
           setTimeout(() => {
             window.location.assign('/thank-you/');
@@ -331,7 +340,9 @@ const submitLabel =
             successMsg.style.display = '';
             try {
               (successMsg as any).focus?.();
-            } catch {}
+            } catch (err) {
+              console.warn('[form] successMsg.focus() failed; non-critical', err);
+            }
           }
         }
       } catch (err) {
@@ -346,7 +357,9 @@ const submitLabel =
           successMsg.style.display = '';
           try {
             (successMsg as any).focus?.();
-          } catch {}
+          } catch (err) {
+            console.warn('[form] successMsg.focus() failed; non-critical', err);
+          }
         }
       }
     });

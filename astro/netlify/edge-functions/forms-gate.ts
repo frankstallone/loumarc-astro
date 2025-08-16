@@ -3,11 +3,16 @@ export default async (request: Request, context: any) => {
     // Basic trace
     const { pathname } = new URL(request.url);
     console.log(`[forms-gate] start ${request.method} ${pathname}`);
-  // Only gate POSTs to /forms/*; pass through everything else
-  if (request.method !== 'POST') {
-    console.log('[forms-gate] non-POST, passing through');
-    return context.next();
-  }
+    // Only gate POSTs to /forms/*; pass through everything else
+    if (request.method !== 'POST') {
+      console.log('[forms-gate] non-POST, passing through');
+      return context.next();
+    }
+    // Defensive: ensure this only processes /forms/* paths even if mis-mapped
+    if (!pathname.startsWith('/forms/')) {
+      console.log('[forms-gate] non-/forms path, passing through');
+      return context.next();
+    }
 
   // Capture the raw body so we can both read it (for validation) and forward it
   const bodyBuffer = await request.arrayBuffer();
@@ -105,10 +110,10 @@ export default async (request: Request, context: any) => {
 
   // Token is valid — allow the request to reach Netlify Forms
   // Await to ensure the submission is processed server-side, then craft UX-specific response
+  let upstream: Response | undefined;
   try {
-    const resp = await context.next(forwardReq);
+    upstream = await context.next(forwardReq);
     console.log('[forms-gate] forwarded to forms');
-    // Optionally inspect resp if needed in future
   } catch (_e) {
     // If forwarding fails, return an error to client
     console.log('[forms-gate] forward failed');
@@ -120,17 +125,40 @@ export default async (request: Request, context: any) => {
 
   // Return JSON for XHR, else redirect to thank-you page for non-JS fallback
   const accept = request.headers.get('accept') || '';
+  const upstreamStatus = upstream?.status ?? 200;
+  const upstreamOk = upstreamStatus < 400;
   if (accept.includes('application/json')) {
-    return new Response(JSON.stringify({ ok: true }), {
-      status: 200,
-      headers: { 'content-type': 'application/json', 'x-forms-gate': 'ok' },
-    });
+    if (upstreamOk) {
+      return new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: {
+          'content-type': 'application/json',
+          'x-forms-gate': 'ok',
+          'x-forms-gate-upstream-status': String(upstreamStatus),
+        },
+      });
+    }
+    return new Response(
+      JSON.stringify({ ok: false, error: 'Forms processing failed', status: upstreamStatus }),
+      {
+        status: 502,
+        headers: {
+          'content-type': 'application/json',
+          'x-forms-gate': 'upstream-error',
+          'x-forms-gate-upstream-status': String(upstreamStatus),
+        },
+      },
+    );
   }
 
-  return new Response(null, {
-    status: 303,
-    headers: { Location: '/thank-you/', 'x-forms-gate': 'ok' },
-  });
+  if (upstreamOk) {
+    return new Response(null, {
+      status: 303,
+      headers: { Location: '/thank-you/', 'x-forms-gate': 'ok', 'x-forms-gate-upstream-status': String(upstreamStatus) },
+    });
+  }
+  // On non-XHR and upstream error, surface upstream response to client
+  return upstream as Response;
   } catch (err) {
     console.log('[forms-gate] unhandled error', (err as any)?.message || String(err));
     return new Response(JSON.stringify({ ok: false, error: 'Edge crash' }), {
