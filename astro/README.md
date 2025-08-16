@@ -2,13 +2,20 @@
 
 ## Environment Variables for Netlify Deployment
 
-To enable spam management and CapJS validation, set the following environment variables in your Netlify site settings:
+To enable CapJS validation, set the following environment variable in your Netlify site settings:
 
-- `NETLIFY_API_TOKEN`: Personal access token for Netlify API (required for marking submissions as spam)
 - `URL`: The base URL of your deployed site (e.g., `https://loumarcsigns.com`)
-- `SITE_ID`: Your Netlify site ID (only required for testing the API token with the temporary function)
 
 You can set these in the Netlify dashboard under **Site settings → Build & deploy → Environment**.
+
+Netlify build settings (when the app lives in `astro/`):
+
+- Base directory: `astro`
+- Build command: `npm run build`
+- Publish directory: `dist`
+- Functions directory: `netlify/functions`
+
+The Netlify config file is located at `astro/netlify.toml`.
 
 ---
 

@@ -41,9 +41,10 @@ const submitLabel = FormLabels['default'].submit;
     style=" --region-space-top: 0; --gutter: 0;"
     method="POST"
     data-netlify="true"
-    action="/thank-you/"
+    action="/forms/submit"
   >
     <input type="hidden" name="subject" value={emailTitle} />
+    <input type="hidden" name="form-name" value="accessibility" />
     <p class="hidden">
       <label for="additional-info">Do you like delicious treats?</label>
       <input name="additional-info" id="additional-info" />
@@ -90,11 +91,19 @@ const submitLabel = FormLabels['default'].submit;
             aria-required="true"></textarea>
         </span>
         <span class="stack">
-          <cap-widget id="access-cap" data-cap-api-endpoint="/api/"
-          ></cap-widget>
+          <cap-widget
+            id="access-cap"
+            data-cap-api-endpoint="/api/"
+            aria-describedby="access-cap-hint"></cap-widget>
           <input type="hidden" name="cap-token" id="access-cap-token" />
         </span>
+        <span class="stack"
+          ><p id="access-cap-hint" style="display:none" aria-live="polite">
+            Please verify you're human to continue.
+          </p></span
+        >
         <button type="submit" id="access-submit">{submitLabel}</button>
+        <p id="access-success" style="display:none" aria-live="polite"></p>
       </div>
     </div>
   </form>
@@ -104,11 +113,24 @@ const submitLabel = FormLabels['default'].submit;
     const aTokenInput = document.getElementById(
       'access-cap-token'
     ) as HTMLInputElement;
-
-    aBtn?.setAttribute('disabled', '');
+    const aForm = document.querySelector(
+      'form[name="accessibility"]'
+    ) as HTMLFormElement | null;
+    const aSuccessMsg = document.getElementById(
+      'access-success'
+    ) as HTMLParagraphElement | null;
+    const aCapHint = document.getElementById(
+      'access-cap-hint'
+    ) as HTMLElement | null;
+    let aPendingSubmit = false;
+    let aInFlight = false;
+    const aStatusEl = document.createElement('div');
+    aStatusEl.id = 'access-submit-status';
+    aStatusEl.setAttribute('role', 'status');
+    aStatusEl.setAttribute('aria-live', 'polite');
+    aStatusEl.tabIndex = -1;
 
     aCap?.addEventListener('solve', (event: any) => {
-      aBtn?.removeAttribute('disabled');
       // Capture the CapJS token from the widget
       if (aTokenInput) {
         let token = aCap.getToken ? aCap.getToken() : event.detail?.token || '';
@@ -118,13 +140,115 @@ const submitLabel = FormLabels['default'].submit;
         }
         aTokenInput.value = token;
       }
+      aCap?.removeAttribute('aria-invalid');
+      if (aCapHint) aCapHint.style.display = 'none';
+      if (aPendingSubmit && aForm) {
+        aPendingSubmit = false;
+        aForm.requestSubmit();
+      }
     });
 
     aCap?.addEventListener('reset', () => {
-      aBtn?.setAttribute('disabled', '');
       // Clear the token when reset
       if (aTokenInput) {
         aTokenInput.value = '';
+      }
+    });
+
+    // Progressive enhancement: inline success + redirect for GA
+    aForm?.addEventListener('submit', async (e) => {
+      if (!(window as any).fetch) return; // fallback to normal submit if no fetch
+      if (!aTokenInput?.value) {
+        e.preventDefault();
+        aPendingSubmit = true;
+        aCap?.setAttribute('aria-invalid', 'true');
+        if (aCapHint) {
+          aCapHint.textContent = 'Please complete the verification to submit.';
+          aCapHint.style.display = '';
+        }
+        if (aCap?.scrollIntoView) {
+          aCap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        if (aCap?.focus) {
+          try {
+            aCap.focus();
+          } catch (err) {
+            // Some browsers may throw if element is not focusable yet; safe to ignore
+            console.warn('[access-form] aCap.focus() failed; non-critical', err);
+          }
+        }
+        return;
+      }
+      e.preventDefault();
+      if (aInFlight) return;
+      aInFlight = true;
+      aForm?.setAttribute('aria-busy', 'true');
+      aStatusEl.textContent = 'Submitting…';
+      if (aBtn && aBtn.parentElement) {
+        aBtn.replaceWith(aStatusEl);
+        try {
+          aStatusEl.focus();
+        } catch (err) {
+          // Focus can fail if element is not yet in DOM tree; safe to ignore
+          console.warn('[access-form] aStatusEl.focus() failed; non-critical', err);
+        }
+      }
+      const fd = new FormData(aForm!);
+      if (!fd.get('form-name')) fd.set('form-name', 'accessibility');
+      try {
+        const res = await fetch('/forms/submit', {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: fd,
+        });
+        if (res.ok) {
+          if (aSuccessMsg) {
+            aSuccessMsg.textContent = "Thanks! We'll be in touch shortly.";
+            aSuccessMsg.style.display = '';
+            try {
+              (aSuccessMsg as any).focus?.();
+            } catch (err) {
+              // Focus may fail if element is not focusable; safe to ignore
+              console.warn('[access-form] aSuccessMsg.focus() failed; non-critical', err);
+            }
+          }
+          setTimeout(() => {
+            window.location.assign('/thank-you/');
+          }, 600);
+        } else {
+          aCap && aCap.reset && aCap.reset();
+          if (aStatusEl && aStatusEl.parentElement) {
+            aStatusEl.replaceWith(aBtn!);
+          }
+          aForm?.removeAttribute('aria-busy');
+          aInFlight = false;
+          if (aSuccessMsg) {
+            aSuccessMsg.textContent =
+              'There was a problem submitting. Please try again.';
+            aSuccessMsg.style.display = '';
+            try {
+              (aSuccessMsg as any).focus?.();
+            } catch (err) {
+              console.warn('[access-form] aSuccessMsg.focus() failed; non-critical', err);
+            }
+          }
+        }
+      } catch (err) {
+        aCap && aCap.reset && aCap.reset();
+        if (aStatusEl && aStatusEl.parentElement) {
+          aStatusEl.replaceWith(aBtn!);
+        }
+        aForm?.removeAttribute('aria-busy');
+        aInFlight = false;
+        if (aSuccessMsg) {
+          aSuccessMsg.textContent = 'Network error. Please try again.';
+          aSuccessMsg.style.display = '';
+          try {
+            (aSuccessMsg as any).focus?.();
+          } catch (err) {
+            console.warn('[access-form] aSuccessMsg.focus() failed; non-critical', err);
+          }
+        }
       }
     });
   </script>
