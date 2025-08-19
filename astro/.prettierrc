@@ -1,1 +1,5 @@
-{ "singleQuote": true, "prettier.documentSelectors": ["**/*.astro"] }
+{
+  "singleQuote": true,
+  "prettier.documentSelectors": ["**/*.astro"],
+  "semi": false
+}
