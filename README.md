@@ -29,7 +29,7 @@ This repository contains the source code for the Loumarc Signs website. The proj
 │   ├── schemas/
 │   └── src/
 │       └── structure/
-└── astro/netlify.toml  # Netlify configuration (co-located with app)
+└── netlify.toml        # Netlify configuration (builds astro/ app)
 ```
 
 ## Installation
@@ -46,12 +46,10 @@ npm install
 ```
 
 ## Local Development
-Run the Astro site:
+Run the Astro site (either):
 
-```bash
-cd astro
-npm run dev
-```
+- From repo root (forwards to `astro/`): `npm run dev`
+- Or from `astro/`: `npm run dev`
 
 Run the Sanity Studio:
 
@@ -65,11 +63,10 @@ To create a production build of the site and Studio:
 
 ```bash
 # Build Astro site
-cd astro
-npm run build
+npm --prefix astro run build
 
 # Build Sanity Studio
-cd ../studio
+cd studio
 npm run build
 ```
 
@@ -100,18 +97,11 @@ Run these commands from the `/studio` directory to work with the Sanity Studio:
 ## Deployment
 
 The Astro site is deployed through [Netlify](https://www.netlify.com/). The
-configuration file lives at `astro/netlify.toml` so it stays co-located with the
-app.
-
-Recommended Netlify UI build settings (Site settings → Build & deploy):
-
-- Base directory: `astro`
-- Build command: `npm run build`
-- Publish directory: `dist`
-- Functions directory: `netlify/functions`
-
-Updates to the `main` branch automatically trigger a new deploy. The status
-badge at the top of this README reflects the latest deployment state.
+root `netlify.toml` builds the Astro app via `npm --prefix astro run build`,
+publishes `astro/dist`, and points Functions to `astro/netlify/functions`.
+Keep Netlify UI settings aligned (base/publish/functions) or let `netlify.toml`
+drive them. Updates to the `main` branch automatically trigger a new deploy.
+The status badge at the top of this README reflects the latest deployment state.
 
 ## Resources
 - [Astro – Getting Started](https://docs.astro.build/en/getting-started/)
