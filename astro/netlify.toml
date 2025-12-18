@@ -1,9 +1,10 @@
 [build]
-  command = "npm --prefix astro run build"
-  publish = "astro/dist"
+  base = "."
+  publish = "dist"
+  command = "npm run build"
 
 [functions]
-  directory = "astro/netlify/functions"
+  directory = "netlify/functions"
 
 [[edge_functions]]
   path = "/forms/*"
@@ -13,3 +14,4 @@
   from = "/api/*"
   to = "/.netlify/functions/cap/:splat"
   status = 200
+

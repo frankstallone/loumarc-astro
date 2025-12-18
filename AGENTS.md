@@ -3,15 +3,12 @@
 ## Project Structure & Module Organization
 - `astro/`: Public site (Astro). Key dirs: `src/pages/`, `src/components/`, `src/assets/`, `src/utils/`, `public/`, `netlify/` (functions and edge functions).
 - `studio/`: Sanity Studio. Key dirs: `schemas/`, `src/`, `plugins/`.
-- Netlify config lives in `netlify.toml` at the repo root. Root `.gitignore` ignores builds and local artifacts.
+- Netlify config lives in root `netlify.toml`; it builds the Astro subproject via `npm --prefix astro run build`, publishes `astro/dist`, and points Functions to `astro/netlify/functions`. Root `.gitignore` ignores builds and local artifacts.
 
 ## Build, Test, and Development Commands
-- Astro (run from `astro/`):
-  - `npm install`: install dependencies
-  - `npm run dev`: start dev server (http://localhost:3000)
-  - `npm run build`: production build to `astro/dist/`
-  - `npm run preview`: preview production build
-  - `npm run lint`: Astro type/check validation
+- Astro:
+  - From repo root (convenience): `npm run dev`, `npm run build`, `npm run preview`, `npm run lint` (these forward to `astro/` via `npm --prefix astro ...`).
+  - From `astro/`: `npm install`, `npm run dev`, `npm run build` (outputs to `astro/dist/`), `npm run preview`, `npm run lint`.
 - Studio (run from `studio/`):
   - `npm install`
   - `npm run dev`: start Sanity Studio
