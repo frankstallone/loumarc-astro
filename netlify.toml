@@ -6,9 +6,6 @@
 [functions]
   directory = "netlify/functions"
 
-[edge_functions]
-  directory = "netlify/edge-functions"
-
 [[edge_functions]]
   path = "/forms/*"
   function = "forms-gate"
