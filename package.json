@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "npm --prefix astro run dev",
+    "dev:netlify": "netlify dev",
     "build": "npm --prefix astro run build",
     "preview": "npm --prefix astro run preview",
     "lint": "npm --prefix astro run lint",

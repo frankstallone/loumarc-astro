@@ -3,9 +3,8 @@
   "type": "module",
   "version": "2.6.0",
   "scripts": {
-    "dev": "NETLIFY_DEV=1 astro dev",
-    "dev:netlify": "astro dev",
-    "start": "NETLIFY_DEV=1 astro dev",
+    "dev": "astro dev",
+    "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
