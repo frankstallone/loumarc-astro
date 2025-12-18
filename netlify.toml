@@ -1,20 +1,9 @@
 [build]
-  base = "astro"
-  publish = "dist"
-  command = "npm run build"
+  command = "npm --prefix astro run build"
+  publish = "astro/dist"
 
 [functions]
-  directory = "netlify/functions"
-
-[context.deploy-preview]
-  base = "astro"
-  publish = "dist"
-  command = "npm run build"
-
-[context.branch-deploy]
-  base = "astro"
-  publish = "dist"
-  command = "npm run build"
+  directory = "astro/netlify/functions"
 
 [[edge_functions]]
   path = "/forms/*"
