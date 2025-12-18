@@ -3,7 +3,7 @@
 ## Project Structure & Module Organization
 - `astro/`: Public site (Astro). Key dirs: `src/pages/`, `src/components/`, `src/assets/`, `src/utils/`, `public/`, `netlify/` (functions and edge functions).
 - `studio/`: Sanity Studio. Key dirs: `schemas/`, `src/`, `plugins/`.
-- Netlify config lives in `astro/netlify.toml`. Root `.gitignore` ignores builds and local artifacts.
+- Netlify config lives in `netlify.toml` at the repo root. Root `.gitignore` ignores builds and local artifacts.
 
 ## Build, Test, and Development Commands
 - Astro (run from `astro/`):

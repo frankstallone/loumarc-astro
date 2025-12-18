@@ -13,4 +13,3 @@
   from = "/api/*"
   to = "/.netlify/functions/cap/:splat"
   status = 200
-
