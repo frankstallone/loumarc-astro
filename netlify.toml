@@ -1,12 +1,13 @@
 [build]
-  publish = "astro/dist"
-  command = "cd astro && npm install --no-audit --no-fund && npm run build"
+  base = "astro"
+  publish = "dist"
+  command = "npm run build"
 
 [functions]
-  directory = "astro/netlify/functions"
+  directory = "netlify/functions"
 
 [edge_functions]
-  directory = "astro/netlify/edge-functions"
+  directory = "netlify/edge-functions"
 
 [[edge_functions]]
   path = "/forms/*"
