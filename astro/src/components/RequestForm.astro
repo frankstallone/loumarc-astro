@@ -1,0 +1,299 @@
+---
+const emailTitle = '🤖: Request form submission from /request-form';
+---
+
+<section id="contact-form">
+  <aside
+    class="region flow prose box"
+    style="--padding: var(--space-s) 0;"
+    aria-label="Request form section"
+  >
+    <h2 class="mx-auto">How can we craft uniquely memorable signage for you?</h2>
+    <p class="mx-auto">
+      Share a few details about your project and submit a request for more
+      information.
+    </p>
+    <p class="mx-auto">
+      Our team will review your needs and follow up with pricing, timelines, and
+      next steps towards your needs - no obligation.
+    </p>
+  </aside>
+  <form
+    name="test-001"
+    netlify-honeypot="additional-info"
+    class="switcher region wrapper"
+    style=" --region-space-top: 0; --gutter: 0;"
+    method="POST"
+    data-netlify="true"
+    action="/forms/submit"
+  >
+    <input type="hidden" name="subject" value={emailTitle} />
+    <input type="hidden" name="form-name" value="test-001" />
+    <p class="hidden">
+      <label for="additional-info">Do you like delicious treats?</label>
+      <input name="additional-info" id="additional-info" />
+    </p>
+    <div class="switcher step-0" style="--gutter: initial;">
+      <div class="flow">
+        <h3>Contact information</h3>
+        <div class="switcher">
+          <span class="stack">
+            <label for="name">Name</label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              required
+              aria-required="true"
+            />
+          </span>
+          <span class="stack">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              required
+              aria-required="true"
+            />
+          </span>
+        </div>
+        <div class="switcher">
+          <span class="stack">
+            <label for="phone">Phone</label>
+            <input
+              type="tel"
+              name="phone"
+              id="phone"
+              required
+              aria-required="true"
+            />
+          </span>
+          <span class="stack">
+            <label for="companyName">Company name</label>
+            <input
+              type="text"
+              name="companyName"
+              id="companyName"
+              required
+              aria-required="true"
+            />
+          </span>
+        </div>
+      </div>
+      <div class="flow">
+        <h3>Project details</h3>
+        <span class="stack">
+          <label for="signageType">Type of signage needed</label>
+          <select
+            name="needs"
+            id="signageType"
+            required
+            aria-required="true"
+          >
+            <option value="" selected disabled>Choose one</option>
+            <option value="Exterior building signage">
+              Exterior building signage
+            </option>
+            <option value="Channel letters / illuminated signs">
+              Channel letters / illuminated signs
+            </option>
+            <option value="Interior office signage">
+              Interior office signage
+            </option>
+            <option value="Multi-location rollout">Multi-location rollout</option>
+            <option value="Not sure yet">Not sure yet</option>
+          </select>
+        </span>
+        <span class="stack">
+          <label for="projectTimeline">Project timeline</label>
+          <select
+            name="deadline"
+            id="projectTimeline"
+            required
+            aria-required="true"
+          >
+            <option value="" selected disabled>Choose one</option>
+            <option value="Planning phase">Planning phase</option>
+            <option value="0-3 months">0-3 months</option>
+            <option value="3-6 months">3-6 months</option>
+            <option value="6 months or more">6 months or more</option>
+          </select>
+        </span>
+        <span class="stack">
+          <label for="estimatedBudget">Estimated budget</label>
+          <select
+            name="budget"
+            id="estimatedBudget"
+            required
+            aria-required="true"
+          >
+            <option value="" selected disabled>Choose one</option>
+            <option value="$0-$25K">$0-$25K</option>
+            <option value="$25K-$50K">$25K-$50K</option>
+            <option value="$50K+">$50K+</option>
+            <option value="Not sure yet">Not sure yet</option>
+          </select>
+        </span>
+        <span class="stack">
+          <label for="message">Anything else we should know?</label>
+          <textarea name="message" id="message" rows="4"></textarea>
+        </span>
+        <span class="stack">
+          <cap-widget
+            id="request-cap"
+            data-cap-api-endpoint="/api/"
+            aria-describedby="request-cap-hint"></cap-widget>
+          <input type="hidden" name="cap-token" id="request-cap-token" />
+        </span>
+        <span class="stack">
+          <button type="submit" id="request-submit">Send Request</button>
+        </span>
+        <span class="stack">
+          <p id="request-cap-hint" style="display:none" aria-live="polite">
+            Please verify you're human to continue.
+          </p>
+          <p id="request-success" style="display:none" aria-live="polite"></p>
+        </span>
+      </div>
+    </div>
+  </form>
+  <script>
+    const rCap = document.getElementById('request-cap') as any;
+    const rBtn = document.getElementById('request-submit');
+    const rTokenInput = document.getElementById(
+      'request-cap-token'
+    ) as HTMLInputElement;
+    const rForm = document.querySelector(
+      'form[name="test-001"]'
+    ) as HTMLFormElement | null;
+    const rSuccessMsg = document.getElementById(
+      'request-success'
+    ) as HTMLParagraphElement | null;
+    const rCapHint = document.getElementById(
+      'request-cap-hint'
+    ) as HTMLElement | null;
+    let rPendingSubmit = false;
+    let rInFlight = false;
+    const rStatusEl = document.createElement('div');
+    rStatusEl.id = 'request-submit-status';
+    rStatusEl.setAttribute('role', 'status');
+    rStatusEl.setAttribute('aria-live', 'polite');
+    rStatusEl.tabIndex = -1;
+
+    rCap?.addEventListener('solve', (event: any) => {
+      if (rTokenInput) {
+        let token = rCap.getToken ? rCap.getToken() : event.detail?.token || '';
+        if (Array.isArray(token)) {
+          token = token[0];
+        }
+        rTokenInput.value = token;
+      }
+      rCap?.removeAttribute('aria-invalid');
+      if (rCapHint) rCapHint.style.display = 'none';
+      if (rPendingSubmit && rForm) {
+        rPendingSubmit = false;
+        rForm.requestSubmit();
+      }
+    });
+
+    rCap?.addEventListener('reset', () => {
+      if (rTokenInput) {
+        rTokenInput.value = '';
+      }
+    });
+
+    rForm?.addEventListener('submit', async (e) => {
+      if (!(window as any).fetch) return;
+      if (!rTokenInput?.value) {
+        e.preventDefault();
+        rPendingSubmit = true;
+        rCap?.setAttribute('aria-invalid', 'true');
+        if (rCapHint) {
+          rCapHint.textContent = 'Please complete the verification to submit.';
+          rCapHint.style.display = '';
+        }
+        if (rCap?.scrollIntoView) {
+          rCap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        if (rCap?.focus) {
+          try {
+            rCap.focus();
+          } catch (err) {
+            console.warn('[request-form] rCap.focus() failed; non-critical', err);
+          }
+        }
+        return;
+      }
+      e.preventDefault();
+      if (rInFlight) return;
+      rInFlight = true;
+      rForm?.setAttribute('aria-busy', 'true');
+      rStatusEl.textContent = 'Submitting...';
+      if (rBtn && rBtn.parentElement) {
+        rBtn.replaceWith(rStatusEl);
+        try {
+          rStatusEl.focus();
+        } catch (err) {
+          console.warn('[request-form] rStatusEl.focus() failed; non-critical', err);
+        }
+      }
+      const fd = new FormData(rForm!);
+      if (!fd.get('form-name')) fd.set('form-name', 'test-001');
+      try {
+        const res = await fetch('/forms/submit', {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: fd,
+        });
+        if (res.ok) {
+          if (rSuccessMsg) {
+            rSuccessMsg.textContent = "Thanks! We'll be in touch shortly.";
+            rSuccessMsg.style.display = '';
+            try {
+              (rSuccessMsg as any).focus?.();
+            } catch (err) {
+              console.warn('[request-form] rSuccessMsg.focus() failed; non-critical', err);
+            }
+          }
+          setTimeout(() => {
+            window.location.assign('/thank-you/');
+          }, 600);
+        } else {
+          rCap && rCap.reset && rCap.reset();
+          if (rStatusEl && rStatusEl.parentElement) {
+            rStatusEl.replaceWith(rBtn!);
+          }
+          rForm?.removeAttribute('aria-busy');
+          rInFlight = false;
+          if (rSuccessMsg) {
+            rSuccessMsg.textContent =
+              'There was a problem submitting. Please try again.';
+            rSuccessMsg.style.display = '';
+            try {
+              (rSuccessMsg as any).focus?.();
+            } catch (err) {
+              console.warn('[request-form] rSuccessMsg.focus() failed; non-critical', err);
+            }
+          }
+        }
+      } catch (err) {
+        rCap && rCap.reset && rCap.reset();
+        if (rStatusEl && rStatusEl.parentElement) {
+          rStatusEl.replaceWith(rBtn!);
+        }
+        rForm?.removeAttribute('aria-busy');
+        rInFlight = false;
+        if (rSuccessMsg) {
+          rSuccessMsg.textContent = 'Network error. Please try again.';
+          rSuccessMsg.style.display = '';
+          try {
+            (rSuccessMsg as any).focus?.();
+          } catch (err) {
+            console.warn('[request-form] rSuccessMsg.focus() failed; non-critical', err);
+          }
+        }
+      }
+    });
+  </script>
+</section>

@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import RequestForm from '../components/RequestForm.astro';
+
+const meta = {
+  title: 'Request a Signage Quote | Loumarc Signs',
+  description:
+    'Share a few details about your project and request more information from Loumarc Signs.',
+  canonicalURL: 'https://loumarcsigns.com/request-form/',
+};
+---
+
+<Layout meta={meta}>
+  <a href="#main" class="sr-only sr-only-focusable">Skip to content</a>
+  <header>
+    <Header />
+  </header>
+  <main role="main" id="main">
+    <article class="box">
+      <RequestForm />
+    </article>
+  </main>
+</Layout>
