@@ -18,6 +18,7 @@ export type Header = {
     description?: string;
     canonicalURL?: URL | string;
     image?: string;
+    robots?: string;
   };
   productSchema?: {
     title?: string;
