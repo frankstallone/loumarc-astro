@@ -143,6 +143,10 @@ select {
   padding-inline: var(--space-xs);
 }
 
+select {
+  padding-right: calc(var(--space-xs) + 1.5rem);
+}
+
 input:focus,
 textarea:focus,
 select:focus {
