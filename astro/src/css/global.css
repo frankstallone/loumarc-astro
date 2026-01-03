@@ -135,7 +135,8 @@ form > p label {
 }
 
 input,
-textarea {
+textarea,
+select {
   border-radius: 4px;
   border: 1px solid var(--gray700);
   padding-block: var(--space-2xs);
@@ -143,7 +144,8 @@ textarea {
 }
 
 input:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
   outline: 2px solid var(--warmbreeze400);
 }
 
