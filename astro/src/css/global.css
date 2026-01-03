@@ -143,8 +143,51 @@ select {
   padding-inline: var(--space-xs);
 }
 
-select {
-  padding-right: calc(var(--space-xs) + 1.5rem);
+@supports (appearance: base-select) {
+  select,
+  ::picker(select) {
+    appearance: base-select;
+  }
+
+  select {
+    background-color: var(--color-light);
+    color: var(--color-dark);
+  }
+
+  select::picker-icon {
+    display: inline-block;
+    width: 0.75rem;
+    height: 0.5rem;
+    margin-inline-end: var(--space-xs);
+    margin-block-start: 0.75rem;
+    background-color: currentColor;
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'><path fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' d='M1 1.5l5 5 5-5'/></svg>")
+      no-repeat center / contain;
+    mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'><path fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' d='M1 1.5l5 5 5-5'/></svg>")
+      no-repeat center / contain;
+  }
+
+  ::picker(select) {
+    background-color: var(--color-light);
+    border: 1px solid var(--gray700);
+    border-radius: 4px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+    padding: 0;
+  }
+
+  ::picker(select) option {
+    padding-block: var(--space-3xs);
+    padding-inline: var(--space-xs);
+    line-height: var(--line-height);
+  }
+
+  ::picker(select) option:not(:last-child) {
+    border-bottom: 1px solid var(--gray700);
+  }
+
+  ::picker(select) option:checked {
+    background-color: var(--gray200);
+  }
 }
 
 input:focus,
