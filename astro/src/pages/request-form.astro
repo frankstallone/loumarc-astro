@@ -1,7 +1,7 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import RequestForm from '../components/RequestForm.astro';
+import Layout from '../layouts/Layout.astro'
+import Header from '../components/Header.astro'
+import RequestForm from '../components/RequestForm.astro'
 
 const meta = {
   title: 'Request a Signage Quote | Loumarc Signs',
@@ -9,7 +9,7 @@ const meta = {
     'Share a few details about your project and request more information from Loumarc Signs.',
   canonicalURL: 'https://loumarcsigns.com/request-form/',
   robots: 'noindex, nofollow',
-};
+}
 ---
 
 <Layout meta={meta}>
@@ -29,10 +29,12 @@ const meta = {
       <div class="section__inner region">
         <div class="center">
           <div class="box">
-            <h1 class="skewer leading-2">Request a Signage Quote</h1>
+            <h1 class="skewer" style="margin-block-end: var(--space-m);">
+              How can we craft uniquely memorable signage for you?
+            </h1>
             <h2 class="step-2 skewer">
-              Share a few details and we will follow up with pricing, timelines,
-              and next steps.
+              Share a few details about your project and submit a request for
+              more information.
             </h2>
           </div>
         </div>

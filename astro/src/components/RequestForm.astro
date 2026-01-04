@@ -1,23 +1,8 @@
 ---
-const emailTitle = '🤖: Request form submission from /request-form';
+const emailTitle = '🤖: Request form submission from /request-form'
 ---
 
 <section id="contact-form">
-  <aside
-    class="region flow prose box"
-    style="--padding: var(--space-s) 0;"
-    aria-label="Request form section"
-  >
-    <h2 class="mx-auto">How can we craft uniquely memorable signage for you?</h2>
-    <p class="mx-auto">
-      Share a few details about your project and submit a request for more
-      information.
-    </p>
-    <p class="mx-auto">
-      Our team will review your needs and follow up with pricing, timelines, and
-      next steps towards your needs - no obligation.
-    </p>
-  </aside>
   <form
     name="test-001"
     netlify-honeypot="additional-info"
@@ -85,12 +70,7 @@ const emailTitle = '🤖: Request form submission from /request-form';
         <h3>Project details</h3>
         <span class="stack">
           <label for="signageType">Type of signage needed</label>
-          <select
-            name="needs"
-            id="signageType"
-            required
-            aria-required="true"
-          >
+          <select name="needs" id="signageType" required aria-required="true">
             <option value="" selected disabled>Choose one</option>
             <option value="Exterior building signage">
               Exterior building signage
@@ -101,7 +81,9 @@ const emailTitle = '🤖: Request form submission from /request-form';
             <option value="Interior office signage">
               Interior office signage
             </option>
-            <option value="Multi-location rollout">Multi-location rollout</option>
+            <option value="Multi-location rollout"
+              >Multi-location rollout</option
+            >
             <option value="Not sure yet">Not sure yet</option>
           </select>
         </span>
@@ -159,141 +141,156 @@ const emailTitle = '🤖: Request form submission from /request-form';
     </div>
   </form>
   <script>
-    const rCap = document.getElementById('request-cap') as any;
-    const rBtn = document.getElementById('request-submit');
+    const rCap = document.getElementById('request-cap') as any
+    const rBtn = document.getElementById('request-submit')
     const rTokenInput = document.getElementById(
       'request-cap-token'
-    ) as HTMLInputElement;
+    ) as HTMLInputElement
     const rForm = document.querySelector(
       'form[name="test-001"]'
-    ) as HTMLFormElement | null;
+    ) as HTMLFormElement | null
     const rSuccessMsg = document.getElementById(
       'request-success'
-    ) as HTMLParagraphElement | null;
+    ) as HTMLParagraphElement | null
     const rCapHint = document.getElementById(
       'request-cap-hint'
-    ) as HTMLElement | null;
-    let rPendingSubmit = false;
-    let rInFlight = false;
-    const rStatusEl = document.createElement('div');
-    rStatusEl.id = 'request-submit-status';
-    rStatusEl.setAttribute('role', 'status');
-    rStatusEl.setAttribute('aria-live', 'polite');
-    rStatusEl.tabIndex = -1;
+    ) as HTMLElement | null
+    let rPendingSubmit = false
+    let rInFlight = false
+    const rStatusEl = document.createElement('div')
+    rStatusEl.id = 'request-submit-status'
+    rStatusEl.setAttribute('role', 'status')
+    rStatusEl.setAttribute('aria-live', 'polite')
+    rStatusEl.tabIndex = -1
 
     rCap?.addEventListener('solve', (event: any) => {
       if (rTokenInput) {
-        let token = rCap.getToken ? rCap.getToken() : event.detail?.token || '';
+        let token = rCap.getToken ? rCap.getToken() : event.detail?.token || ''
         if (Array.isArray(token)) {
-          token = token[0];
+          token = token[0]
         }
-        rTokenInput.value = token;
+        rTokenInput.value = token
       }
-      rCap?.removeAttribute('aria-invalid');
-      if (rCapHint) rCapHint.style.display = 'none';
+      rCap?.removeAttribute('aria-invalid')
+      if (rCapHint) rCapHint.style.display = 'none'
       if (rPendingSubmit && rForm) {
-        rPendingSubmit = false;
-        rForm.requestSubmit();
+        rPendingSubmit = false
+        rForm.requestSubmit()
       }
-    });
+    })
 
     rCap?.addEventListener('reset', () => {
       if (rTokenInput) {
-        rTokenInput.value = '';
+        rTokenInput.value = ''
       }
-    });
+    })
 
     rForm?.addEventListener('submit', async (e) => {
-      if (!(window as any).fetch) return;
+      if (!(window as any).fetch) return
       if (!rTokenInput?.value) {
-        e.preventDefault();
-        rPendingSubmit = true;
-        rCap?.setAttribute('aria-invalid', 'true');
+        e.preventDefault()
+        rPendingSubmit = true
+        rCap?.setAttribute('aria-invalid', 'true')
         if (rCapHint) {
-          rCapHint.textContent = 'Please complete the verification to submit.';
-          rCapHint.style.display = '';
+          rCapHint.textContent = 'Please complete the verification to submit.'
+          rCapHint.style.display = ''
         }
         if (rCap?.scrollIntoView) {
-          rCap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          rCap.scrollIntoView({ behavior: 'smooth', block: 'center' })
         }
         if (rCap?.focus) {
           try {
-            rCap.focus();
+            rCap.focus()
           } catch (err) {
-            console.warn('[request-form] rCap.focus() failed; non-critical', err);
+            console.warn(
+              '[request-form] rCap.focus() failed; non-critical',
+              err
+            )
           }
         }
-        return;
+        return
       }
-      e.preventDefault();
-      if (rInFlight) return;
-      rInFlight = true;
-      rForm?.setAttribute('aria-busy', 'true');
-      rStatusEl.textContent = 'Submitting...';
+      e.preventDefault()
+      if (rInFlight) return
+      rInFlight = true
+      rForm?.setAttribute('aria-busy', 'true')
+      rStatusEl.textContent = 'Submitting...'
       if (rBtn && rBtn.parentElement) {
-        rBtn.replaceWith(rStatusEl);
+        rBtn.replaceWith(rStatusEl)
         try {
-          rStatusEl.focus();
+          rStatusEl.focus()
         } catch (err) {
-          console.warn('[request-form] rStatusEl.focus() failed; non-critical', err);
+          console.warn(
+            '[request-form] rStatusEl.focus() failed; non-critical',
+            err
+          )
         }
       }
-      const fd = new FormData(rForm!);
-      if (!fd.get('form-name')) fd.set('form-name', 'test-001');
+      const fd = new FormData(rForm!)
+      if (!fd.get('form-name')) fd.set('form-name', 'test-001')
       try {
         const res = await fetch('/forms/submit', {
           method: 'POST',
           headers: { Accept: 'application/json' },
           body: fd,
-        });
+        })
         if (res.ok) {
           if (rSuccessMsg) {
-            rSuccessMsg.textContent = "Thanks! We'll be in touch shortly.";
-            rSuccessMsg.style.display = '';
+            rSuccessMsg.textContent = "Thanks! We'll be in touch shortly."
+            rSuccessMsg.style.display = ''
             try {
-              (rSuccessMsg as any).focus?.();
+              ;(rSuccessMsg as any).focus?.()
             } catch (err) {
-              console.warn('[request-form] rSuccessMsg.focus() failed; non-critical', err);
+              console.warn(
+                '[request-form] rSuccessMsg.focus() failed; non-critical',
+                err
+              )
             }
           }
           setTimeout(() => {
-            window.location.assign('/thank-you/');
-          }, 600);
+            window.location.assign('/thank-you/')
+          }, 600)
         } else {
-          rCap && rCap.reset && rCap.reset();
+          rCap && rCap.reset && rCap.reset()
           if (rStatusEl && rStatusEl.parentElement) {
-            rStatusEl.replaceWith(rBtn!);
+            rStatusEl.replaceWith(rBtn!)
           }
-          rForm?.removeAttribute('aria-busy');
-          rInFlight = false;
+          rForm?.removeAttribute('aria-busy')
+          rInFlight = false
           if (rSuccessMsg) {
             rSuccessMsg.textContent =
-              'There was a problem submitting. Please try again.';
-            rSuccessMsg.style.display = '';
+              'There was a problem submitting. Please try again.'
+            rSuccessMsg.style.display = ''
             try {
-              (rSuccessMsg as any).focus?.();
+              ;(rSuccessMsg as any).focus?.()
             } catch (err) {
-              console.warn('[request-form] rSuccessMsg.focus() failed; non-critical', err);
+              console.warn(
+                '[request-form] rSuccessMsg.focus() failed; non-critical',
+                err
+              )
             }
           }
         }
       } catch (err) {
-        rCap && rCap.reset && rCap.reset();
+        rCap && rCap.reset && rCap.reset()
         if (rStatusEl && rStatusEl.parentElement) {
-          rStatusEl.replaceWith(rBtn!);
+          rStatusEl.replaceWith(rBtn!)
         }
-        rForm?.removeAttribute('aria-busy');
-        rInFlight = false;
+        rForm?.removeAttribute('aria-busy')
+        rInFlight = false
         if (rSuccessMsg) {
-          rSuccessMsg.textContent = 'Network error. Please try again.';
-          rSuccessMsg.style.display = '';
+          rSuccessMsg.textContent = 'Network error. Please try again.'
+          rSuccessMsg.style.display = ''
           try {
-            (rSuccessMsg as any).focus?.();
+            ;(rSuccessMsg as any).focus?.()
           } catch (err) {
-            console.warn('[request-form] rSuccessMsg.focus() failed; non-critical', err);
+            console.warn(
+              '[request-form] rSuccessMsg.focus() failed; non-critical',
+              err
+            )
           }
         }
       }
-    });
+    })
   </script>
 </section>
