@@ -1,18 +1,20 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/Header.astro';
-import PortableText from '../../components/PortableText.astro';
-import FormBuilder from '../../components/FormBuilder.astro';
-import { getVanityURL } from '../../utils/index';
-import type { GetStaticPaths } from 'astro';
+import { Picture } from 'astro:assets'
+import Layout from '../../layouts/Layout.astro'
+import Header from '../../components/Header.astro'
+import PortableText from '../../components/PortableText.astro'
+import FormBuilder from '../../components/FormBuilder.astro'
+import { getVanityURL } from '../../utils/index'
+import { getLocalProductGallery } from '../../data/productGalleryAdditions'
+import type { GetStaticPaths } from 'astro'
 import type { SanityProps } from '../../ts/types'
 
-interface Props extends SanityProps {};
+interface Props extends SanityProps {}
 
-import { sanityClient } from 'sanity:client';
+import { sanityClient } from 'sanity:client'
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const products = await sanityClient.fetch(`*[_type == "product"]`);
+  const products = await sanityClient.fetch(`*[_type == "product"]`)
 
   return products.map((product: any) => {
     return {
@@ -20,21 +22,34 @@ export const getStaticPaths: GetStaticPaths = async () => {
         slug: product.slug?.current || '',
       },
       props: { ...product },
-    };
-  });
+    }
+  })
 }
 
 const { title, body, gallery, slug, metaDescription, productSchema } =
-  Astro.props;
-  const meta = {
+  Astro.props
+const currentSlug = slug.current
+const meta = {
   title: `${title} | Products | Loumarc Signs`,
   // @ts-ignore
-  canonicalURL: `https://loumarcsigns.com/products/${slug.current}/`,
+  canonicalURL: `https://loumarcsigns.com/products/${currentSlug}/`,
   description: metaDescription,
-};
+}
+const galleryImages = [
+  ...(gallery?.images ?? []).map(
+    (image: { alt: string; asset: { _ref: string } }) => ({
+      image,
+      kind: 'sanity' as const,
+    }),
+  ),
+  ...getLocalProductGallery(currentSlug).map((image) => ({
+    image,
+    kind: 'local' as const,
+  })),
+]
 
 // Add title to product schema object
-productSchema ? (productSchema.title = title) : null;
+productSchema ? (productSchema.title = title) : null
 ---
 
 <Layout meta={meta} productSchema={productSchema}>
@@ -68,53 +83,56 @@ productSchema ? (productSchema.title = title) : null;
       </svg>
     </div>
   </header>
-  <div class="gallery box relative"
-  style="--spot-color: transparent;">
+  <div class="gallery box relative" style="--spot-color: transparent;">
     <div class="grid justify-items-center">
       {
-        gallery
-          ? gallery.images.map(
-              (
-                image: { alt: string; asset: { _ref: string } },
-                index: number
-              ) => {
-                return (
-                  <picture>
-                    <source
-                      srcset={getVanityURL({
-                        imgObj: image,
-                        title: title,
-                        width: 600,
-                        height: 450,
-                        format: 'webp',
-                        quality: 90,
-                        index: index,
-                      })}
-                      type="image/webp"
-                      width="600",
-                      height="450",
-                      class="h-auto"
-                      />
-                      <img
-                      src={getVanityURL({
-                        imgObj: image,
-                        title: title,
-                        width: 600,
-                        height: 450,
-                        format: 'jpg',
-                        quality: 90,
-                        index: index,
-                      })}
-                      width="600",
-                      height="450",
-                      class="h-auto"
-                      alt={image.alt}
-                    />
-                  </picture>
-                );
-              }
-            )
-          : null
+        galleryImages.map(({ image, kind }, index: number) => {
+          return kind === 'sanity' ? (
+            <picture>
+              <source
+                srcset={getVanityURL({
+                  imgObj: image,
+                  title: title,
+                  width: 600,
+                  height: 450,
+                  format: 'webp',
+                  quality: 90,
+                  index: index,
+                })}
+                type="image/webp"
+                width="600"
+                height="450"
+                class="h-auto"
+              />
+              <img
+                src={getVanityURL({
+                  imgObj: image,
+                  title: title,
+                  width: 600,
+                  height: 450,
+                  format: 'jpg',
+                  quality: 90,
+                  index: index,
+                })}
+                width="600"
+                height="450"
+                class="h-auto"
+                alt={image.alt}
+              />
+            </picture>
+          ) : (
+            <Picture
+              src={image.src}
+              alt={image.alt}
+              width={600}
+              height={450}
+              fit="cover"
+              formats={['webp']}
+              quality={90}
+              class="h-auto"
+            />
+          )
+        })
       }
     </div>
   </div>
@@ -123,6 +141,6 @@ productSchema ? (productSchema.title = title) : null;
   </main>
   <article class="content">
     <!-- @ts-ignore -->
-    <FormBuilder slug={slug.current} headingContext={title} />
+    <FormBuilder slug={currentSlug} headingContext={title} />
   </article>
 </Layout>
