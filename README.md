@@ -51,6 +51,10 @@ Run the Astro site (either):
 - From repo root (forwards to `astro/`): `npm run dev`
 - Or from `astro/`: `npm run dev`
 
+Local Astro development relies on `astro/netlify.toml`. The root
+`netlify.toml` remains the Netlify deploy config and uses `base = "astro"` for
+cloud builds.
+
 Run the Sanity Studio:
 
 ```bash
@@ -97,11 +101,17 @@ Run these commands from the `/studio` directory to work with the Sanity Studio:
 ## Deployment
 
 The Astro site is deployed through [Netlify](https://www.netlify.com/). The
-root `netlify.toml` builds the Astro app via `npm --prefix astro run build`,
-publishes `astro/dist`, and points Functions to `astro/netlify/functions`.
-Keep Netlify UI settings aligned (base/publish/functions) or let `netlify.toml`
-drive them. Updates to the `main` branch automatically trigger a new deploy.
-The status badge at the top of this README reflects the latest deployment state.
+root `netlify.toml` is the deploy config for Netlify cloud builds:
+
+- Base directory: `astro`
+- Build command: `npm run build`
+- Publish directory: `dist`
+- Functions directory: `netlify/functions`
+
+For local Astro dev, `astro/netlify.toml` mirrors the same paths relative to the
+`astro/` subproject so `npm run dev` works both from the repo root and from
+`astro/`. Updates to the `main` branch automatically trigger a new deploy. The
+status badge at the top of this README reflects the latest deployment state.
 
 ## Resources
 - [Astro – Getting Started](https://docs.astro.build/en/getting-started/)
