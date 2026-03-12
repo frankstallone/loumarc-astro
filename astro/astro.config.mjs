@@ -1,7 +1,6 @@
 import { defineConfig } from 'astro/config';
 import sanityIntegration from '@sanity/astro';
 import sitemap from '@astrojs/sitemap';
-import purgecss from 'astro-purgecss';
 import partytown from '@astrojs/partytown';
 
 import netlify from '@astrojs/netlify';
@@ -16,7 +15,6 @@ export default defineConfig({
       useCdn: false,
     }),
     sitemap(),
-    purgecss(),
     partytown({
       // Adds dataLayer.push as a forwarding-event.
       config: {

@@ -2,6 +2,7 @@
   "name": "loumarc-monorepo",
   "private": true,
   "scripts": {
+    "check:astro6-gate": "node scripts/check-astro6-gate.mjs",
     "dev": "npm --prefix astro run dev",
     "dev:netlify": "netlify dev",
     "build": "npm --prefix astro run build",

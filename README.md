@@ -113,6 +113,14 @@ For local Astro dev, `astro/netlify.toml` mirrors the same paths relative to the
 `astro/`. Updates to the `main` branch automatically trigger a new deploy. The
 status badge at the top of this README reflects the latest deployment state.
 
+## Astro 6 Status
+
+The Astro site is now on Astro 6. Run `npm run check:astro6-gate` from the repo
+root to re-check the upstream package metadata that unblocked the upgrade.
+
+The upgrade record and verification notes live in
+[`docs/astro-6-upgrade-readiness.md`](docs/astro-6-upgrade-readiness.md).
+
 ## Resources
 - [Astro – Getting Started](https://docs.astro.build/en/getting-started/)
 - [Sanity.io – Getting Started](https://www.sanity.io/docs/getting-started-with-sanity)
