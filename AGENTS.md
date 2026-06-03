@@ -38,3 +38,17 @@
 - Node: use v22.13+ (see `engines` in both `package.json`s).
 - Netlify env: set `URL` for CapJS validation; never commit secrets. Prefer Netlify/Studio-managed env vars and local `*.local` files (ignored).
 - Edge/Functions live in `astro/netlify/edge-functions/` and `astro/netlify/functions/`; validate form flows (JS and non-JS) before merging.
+
+## Agent skills
+
+### Issue tracker
+
+Issues and PRDs are tracked in GitHub Issues for `frankstallone/loumarc-astro`. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Use the default mattpocock/skills triage label vocabulary. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+This is a single-context repo: read root `CONTEXT.md` and root `docs/adr/` when they exist. See `docs/agents/domain.md`.
