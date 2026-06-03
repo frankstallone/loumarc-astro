@@ -7,6 +7,7 @@
     "build": "npm --prefix astro run build",
     "preview": "npm --prefix astro run preview",
     "lint": "npm --prefix astro run lint",
+    "test": "npm --prefix astro run test",
     "astro:dev": "npm --prefix astro run dev",
     "astro:build": "npm --prefix astro run build",
     "astro:preview": "npm --prefix astro run preview",

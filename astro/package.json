@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "lint": "astro check"
+    "lint": "astro check",
+    "test": "node --test \"netlify/functions/_shared/*.test.js\""
   },
   "dependencies": {
     "@astrojs/netlify": "^7.0.1",

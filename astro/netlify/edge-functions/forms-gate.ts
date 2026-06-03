@@ -78,59 +78,80 @@
  * // Request: POST /forms/contact with invalid cap-token
  * // Response: { status: 422, body: '{"ok":false,"error":"Invalid cap-token"}' }
  */
+import {
+  checkRateLimit,
+  createRateLimitResponse,
+  getRequestSource,
+  logRateLimitDecision,
+  RATE_LIMIT_POLICIES,
+} from '../functions/_shared/rate-limit.js'
+
 export default async (request: Request, context: any) => {
   try {
     // Basic trace
-    const { pathname } = new URL(request.url);
-    console.log(`[forms-gate] start ${request.method} ${pathname}`);
+    const { pathname } = new URL(request.url)
+    console.log(`[forms-gate] start ${request.method} ${pathname}`)
     // Only gate POSTs to /forms/*; pass through everything else
     if (request.method !== 'POST') {
-      console.log('[forms-gate] non-POST, passing through');
-      return context.next();
+      console.log('[forms-gate] non-POST, passing through')
+      return context.next()
     }
     // Defensive: ensure this only processes /forms/* paths even if mis-mapped
     if (!pathname.startsWith('/forms/')) {
-      console.log('[forms-gate] non-/forms path, passing through');
-      return context.next();
+      console.log('[forms-gate] non-/forms path, passing through')
+      return context.next()
+    }
+
+    const rateLimitResult = checkRateLimit({
+      policy: RATE_LIMIT_POLICIES.formsSubmit,
+      source: getRequestSource(request, context),
+    })
+    logRateLimitDecision(rateLimitResult, {
+      method: request.method,
+      path: pathname,
+    })
+
+    if (!rateLimitResult.allowed) {
+      return createRateLimitResponse(rateLimitResult)
     }
 
     // Capture the raw body so we can both read it (for validation) and forward it
-    const bodyBuffer = await request.arrayBuffer();
-    const bodyBytes = new Uint8Array(bodyBuffer);
+    const bodyBuffer = await request.arrayBuffer()
+    const bodyBytes = new Uint8Array(bodyBuffer)
 
     // Reconstruct requests from the captured bytes for parsing and for forwarding
     const parseReq = new Request(request.url, {
       method: request.method,
       headers: request.headers,
       body: bodyBytes,
-    });
+    })
     const forwardReq = new Request(request.url, {
       method: request.method,
       headers: request.headers,
       body: bodyBytes,
-    });
+    })
 
     // Parse form payload via Web API
-    let formData: FormData;
+    let formData: FormData
     try {
-      formData = await parseReq.formData();
+      formData = await parseReq.formData()
     } catch (_e) {
-      console.log('[forms-gate] invalid form data');
+      console.log('[forms-gate] invalid form data')
       return new Response(
         JSON.stringify({ ok: false, error: 'Invalid form data' }),
         {
           status: 400,
           headers: { 'content-type': 'application/json' },
         },
-      );
+      )
     }
 
     // Honeypot check
-    const honey = formData.get('additional-info');
+    const honey = formData.get('additional-info')
     if (typeof honey === 'string' && honey.trim().length > 0) {
-      console.log('[forms-gate] honeypot triggered');
+      console.log('[forms-gate] honeypot triggered')
       // Silently accept to not tip off bots, but do not forward to Forms
-      const accept = request.headers.get('accept') || '';
+      const accept = request.headers.get('accept') || ''
       if (accept.includes('application/json')) {
         return new Response(JSON.stringify({ ok: true, skipped: true }), {
           status: 200,
@@ -138,20 +159,20 @@ export default async (request: Request, context: any) => {
             'content-type': 'application/json',
             'x-forms-gate': 'honeypot',
           },
-        });
+        })
       }
       return new Response(null, {
         status: 303,
         headers: { Location: '/thank-you/', 'x-forms-gate': 'honeypot' },
-      });
+      })
     }
 
     // Required: form-name and cap-token
-    const formName = formData.get('form-name');
-    const capToken = formData.get('cap-token');
+    const formName = formData.get('form-name')
+    const capToken = formData.get('cap-token')
 
     if (!formName || (typeof formName === 'string' && formName.trim() === '')) {
-      console.log('[forms-gate] missing form-name');
+      console.log('[forms-gate] missing form-name')
       return new Response(
         JSON.stringify({ ok: false, error: 'Missing form-name' }),
         {
@@ -161,12 +182,12 @@ export default async (request: Request, context: any) => {
             'x-forms-gate': 'missing-form-name',
           },
         },
-      );
+      )
     }
 
     if (!capToken || (typeof capToken === 'string' && capToken.trim() === '')) {
-      console.log('[forms-gate] missing cap-token');
-      const accept = request.headers.get('accept') || '';
+      console.log('[forms-gate] missing cap-token')
+      const accept = request.headers.get('accept') || ''
       if (accept.includes('application/json')) {
         return new Response(
           JSON.stringify({ ok: false, error: 'Missing cap-token' }),
@@ -177,7 +198,7 @@ export default async (request: Request, context: any) => {
               'x-forms-gate': 'missing-cap-token',
             },
           },
-        );
+        )
       }
       return new Response(null, {
         status: 303,
@@ -185,24 +206,24 @@ export default async (request: Request, context: any) => {
           Location: '/captcha-required/',
           'x-forms-gate': 'missing-cap-token',
         },
-      });
+      })
     }
 
     // Validate CapJS token via existing Netlify Function
-    const validateUrl = new URL('/api/validate', request.url).toString();
-    let valid = false;
+    const validateUrl = new URL('/api/validate', request.url).toString()
+    let valid = false
     try {
       const res = await fetch(validateUrl, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ token: String(capToken) }),
-      });
-      const data = await res.json();
-      valid = Boolean(data && data.success);
-      console.log(`[forms-gate] cap validate success=${valid}`);
+      })
+      const data = await res.json()
+      valid = Boolean(data && data.success)
+      console.log(`[forms-gate] cap validate success=${valid}`)
     } catch (_e) {
-      valid = false;
-      console.log('[forms-gate] cap validate error');
+      valid = false
+      console.log('[forms-gate] cap validate error')
     }
 
     if (!valid) {
@@ -215,18 +236,18 @@ export default async (request: Request, context: any) => {
             'x-forms-gate': 'invalid-cap',
           },
         },
-      );
+      )
     }
 
     // Token is valid — allow the request to reach Netlify Forms
     // Await to ensure the submission is processed server-side, then craft UX-specific response
-    let upstream: Response | undefined;
+    let upstream: Response | undefined
     try {
-      upstream = await context.next(forwardReq);
-      console.log('[forms-gate] forwarded to forms');
+      upstream = await context.next(forwardReq)
+      console.log('[forms-gate] forwarded to forms')
     } catch (_e) {
       // If forwarding fails, return an error to client
-      console.log('[forms-gate] forward failed');
+      console.log('[forms-gate] forward failed')
       return new Response(
         JSON.stringify({ ok: false, error: 'Forward failed' }),
         {
@@ -236,13 +257,13 @@ export default async (request: Request, context: any) => {
             'x-forms-gate': 'forward-failed',
           },
         },
-      );
+      )
     }
 
     // Return JSON for XHR, else redirect to thank-you page for non-JS fallback
-    const accept = request.headers.get('accept') || '';
-    const upstreamStatus = upstream?.status ?? 200;
-    const upstreamOk = upstreamStatus < 400;
+    const accept = request.headers.get('accept') || ''
+    const upstreamStatus = upstream?.status ?? 200
+    const upstreamOk = upstreamStatus < 400
     if (accept.includes('application/json')) {
       if (upstreamOk) {
         return new Response(JSON.stringify({ ok: true }), {
@@ -252,7 +273,7 @@ export default async (request: Request, context: any) => {
             'x-forms-gate': 'ok',
             'x-forms-gate-upstream-status': String(upstreamStatus),
           },
-        });
+        })
       }
       return new Response(
         JSON.stringify({
@@ -268,7 +289,7 @@ export default async (request: Request, context: any) => {
             'x-forms-gate-upstream-status': String(upstreamStatus),
           },
         },
-      );
+      )
     }
 
     if (upstreamOk) {
@@ -279,18 +300,28 @@ export default async (request: Request, context: any) => {
           'x-forms-gate': 'ok',
           'x-forms-gate-upstream-status': String(upstreamStatus),
         },
-      });
+      })
     }
     // On non-XHR and upstream error, surface upstream response to client
-    return upstream as Response;
+    return upstream as Response
   } catch (err) {
     console.log(
       '[forms-gate] unhandled error',
       (err as any)?.message || String(err),
-    );
+    )
     return new Response(JSON.stringify({ ok: false, error: 'Edge crash' }), {
       status: 500,
       headers: { 'content-type': 'application/json', 'x-forms-gate': 'crash' },
-    });
+    })
   }
-};
+}
+
+export const config = {
+  path: '/forms/*',
+  method: 'POST',
+  rateLimit: {
+    windowLimit: RATE_LIMIT_POLICIES.formsSubmit.nativeWindowLimit,
+    windowSize: RATE_LIMIT_POLICIES.formsSubmit.nativeWindowSize,
+    aggregateBy: ['ip', 'domain'],
+  },
+}
