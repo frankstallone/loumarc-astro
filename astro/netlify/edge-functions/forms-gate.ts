@@ -209,8 +209,12 @@ export default async (request: Request, context: any) => {
       })
     }
 
-    // Validate CapJS token via existing Netlify Function
-    const validateUrl = new URL('/api/validate', request.url).toString()
+    // Use the function URL so successful form submissions do not consume the
+    // public /api/validate redirect rate-limit bucket.
+    const validateUrl = new URL(
+      '/.netlify/functions/cap/validate',
+      request.url,
+    ).toString()
     let valid = false
     try {
       const res = await fetch(validateUrl, {

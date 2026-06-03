@@ -6,9 +6,10 @@
  * - /api/redeem: Redeems a completed CAPTCHA challenge
  * - /api/validate: Validates an existing CAPTCHA token
  *
- * Netlify's code-based rate limit config blocks excessive same-source traffic
- * before the function is invoked. The in-handler limiter mirrors the policy for
- * local testing and logs decisions without recording form payloads or messages.
+ * Netlify redirect rate-limit rules block excessive same-source traffic on the
+ * public /api/* paths before this function is invoked. The in-handler limiter
+ * mirrors the policy for local testing, protects direct function URL requests,
+ * and logs decisions without recording form payloads or messages.
  *
  * @module netlify/functions/cap
  * @requires @cap.js/server
@@ -81,16 +82,6 @@ export default async function handler(request, context) {
     const result = await cap.validateToken(token)
     return jsonResponse(result)
   }
-}
-
-export const config = {
-  path: ['/api/challenge', '/api/redeem', '/api/validate'],
-  method: 'POST',
-  rateLimit: {
-    windowLimit: RATE_LIMIT_POLICIES.capApiNative.nativeWindowLimit,
-    windowSize: RATE_LIMIT_POLICIES.capApiNative.nativeWindowSize,
-    aggregateBy: ['ip', 'domain'],
-  },
 }
 
 function policyForRoute(route) {

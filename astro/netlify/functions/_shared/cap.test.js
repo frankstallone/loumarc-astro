@@ -5,7 +5,7 @@ import capHandler from '../cap.js'
 
 test('CapJS validate returns a normal validation error before rate limiting', async () => {
   const response = await capHandler(
-    new Request('https://loumarcsigns.com/api/validate', {
+    new Request('https://loumarcsigns.com/.netlify/functions/cap/validate', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',

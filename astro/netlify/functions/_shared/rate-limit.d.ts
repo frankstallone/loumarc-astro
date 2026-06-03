@@ -23,7 +23,6 @@ export const RATE_LIMIT_POLICIES: {
   capChallenge: RateLimitPolicy
   capRedeem: RateLimitPolicy
   capValidate: RateLimitPolicy
-  capApiNative: RateLimitPolicy
 }
 
 export function getRequestSource(request: Request, context?: any): string

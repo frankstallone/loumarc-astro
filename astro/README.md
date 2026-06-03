@@ -22,11 +22,11 @@ The Netlify config file is located at `astro/netlify.toml`.
 Public form traffic is protected in two layers:
 
 - `/forms/*` is handled by `netlify/edge-functions/forms-gate.ts`, which exports a Netlify code-based rate limit of 6 POST requests per IP/domain per 60 seconds.
-- `/api/challenge`, `/api/redeem`, and `/api/validate` are handled directly by `netlify/functions/cap.js`, which exports a Netlify code-based rate limit of 30 POST requests per IP/domain per 60 seconds across those CapJS API paths.
+- `/api/challenge`, `/api/redeem`, and `/api/validate` are routed to `netlify/functions/cap.js` through Netlify redirects, with per-IP/domain rate limits in `netlify.toml` before the function is invoked.
 
-Those code-based rules block with HTTP `429` before the handler runs in production. The handlers also use `netlify/functions/_shared/rate-limit.js` as a local fallback and log allowed/blocked decisions with a source fingerprint, method, path, count, and reset time. Do not log form fields, message contents, tokens, or full IP addresses when tuning this code.
+Those code-based rules block with HTTP `429` before the handler runs in production. `forms-gate.ts` validates completed form submissions through `/.netlify/functions/cap/validate` so successful form submissions do not share the public `/api/validate` redirect bucket. The handlers also use `netlify/functions/_shared/rate-limit.js` as a local fallback and log allowed/blocked decisions with a source fingerprint, method, path, count, and reset time. Do not log form fields, message contents, tokens, or full IP addresses when tuning this code.
 
-To tune the limits, update the `RATE_LIMIT_POLICIES` constants in `netlify/functions/_shared/rate-limit.js` and the exported `config.rateLimit` values in the edge/function files. After deployment, check Netlify's deploy post-processing logs to confirm the code-based rate limit rules were detected.
+To tune the limits, update the `RATE_LIMIT_POLICIES` constants in `netlify/functions/_shared/rate-limit.js`, the exported `config.rateLimit` value in the edge function, and the `[redirects.rate_limit]` values in `netlify.toml`. After deployment, check Netlify's deploy post-processing logs to confirm the code-based rate limit rules were detected.
 
 ---
 

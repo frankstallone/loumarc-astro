@@ -24,11 +24,6 @@ export const RATE_LIMIT_POLICIES = {
     windowMs: 60 * 1000,
     max: 30,
   },
-  capApiNative: {
-    name: 'cap-api',
-    nativeWindowLimit: 30,
-    nativeWindowSize: 60,
-  },
 }
 
 export function getRequestSource(request, context) {
