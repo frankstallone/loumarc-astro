@@ -26,7 +26,14 @@ export const RATE_LIMIT_POLICIES = {
   },
 }
 
-export function getRequestSource(request, context) {
+export function getRequestSource(request, context, options = {}) {
+  const trustedHeader = options.trustedHeader
+
+  if (trustedHeader) {
+    const trustedSource = request?.headers?.get?.(trustedHeader)
+    if (trustedSource) return trustedSource.split(',')[0].trim()
+  }
+
   if (typeof context?.ip === 'string' && context.ip.trim()) {
     return context.ip.trim()
   }
@@ -67,6 +74,7 @@ export function checkRateLimit({
 
   if (store.size > MAX_STORE_SIZE) {
     pruneExpiredBuckets(store, now)
+    evictOverflowBuckets(store)
   }
 
   const remaining = Math.max(policy.max - bucket.count, 0)
@@ -130,6 +138,13 @@ export function rateLimitHeaders(result) {
 function pruneExpiredBuckets(store, now) {
   for (const [key, bucket] of store.entries()) {
     if (bucket.resetAt <= now) store.delete(key)
+  }
+}
+
+function evictOverflowBuckets(store) {
+  for (const key of store.keys()) {
+    if (store.size <= MAX_STORE_SIZE) return
+    store.delete(key)
   }
 }
 

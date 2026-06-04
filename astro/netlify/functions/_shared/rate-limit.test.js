@@ -92,6 +92,45 @@ test('prefers Netlify context IP and falls back to proxy headers', () => {
   assert.equal(getRequestSource(request), '203.0.113.20')
 })
 
+test('uses an explicitly trusted source header before context IP', () => {
+  const request = new Request('https://example.com/api/validate', {
+    headers: {
+      'x-loumarc-client-source': '203.0.113.50',
+    },
+  })
+
+  assert.equal(
+    getRequestSource(
+      request,
+      { ip: '198.51.100.10' },
+      { trustedHeader: 'x-loumarc-client-source' },
+    ),
+    '203.0.113.50',
+  )
+})
+
+test('evicts overflow buckets after pruning expired entries', () => {
+  const store = new Map()
+  const policy = { name: 'test-policy', windowMs: 60000, max: 1 }
+
+  for (let sourceIndex = 0; sourceIndex < 10000; sourceIndex += 1) {
+    store.set(`test-policy:203.0.113.${sourceIndex}`, {
+      count: 1,
+      resetAt: 61000,
+    })
+  }
+
+  checkRateLimit({
+    policy,
+    source: '198.51.100.1',
+    now: 1000,
+    store,
+  })
+
+  assert.equal(store.size, 10000)
+  assert.equal(store.has('test-policy:198.51.100.1'), true)
+})
+
 test('blocked responses use 429 and expose retry headers', async () => {
   const result = {
     allowed: false,

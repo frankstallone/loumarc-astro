@@ -102,9 +102,10 @@ export default async (request: Request, context: any) => {
       return context.next()
     }
 
+    const requestSource = getRequestSource(request, context)
     const rateLimitResult = checkRateLimit({
       policy: RATE_LIMIT_POLICIES.formsSubmit,
-      source: getRequestSource(request, context),
+      source: requestSource,
     })
     logRateLimitDecision(rateLimitResult, {
       method: request.method,
@@ -219,7 +220,10 @@ export default async (request: Request, context: any) => {
     try {
       const res = await fetch(validateUrl, {
         method: 'POST',
-        headers: { 'content-type': 'application/json' },
+        headers: {
+          'content-type': 'application/json',
+          'x-loumarc-client-source': requestSource,
+        },
         body: JSON.stringify({ token: String(capToken) }),
       })
       const data = await res.json()

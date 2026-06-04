@@ -26,6 +26,7 @@ import {
 } from './_shared/rate-limit.js'
 
 const cap = new Cap({ tokens_store_path: '/tmp/tokens.json' })
+const INTERNAL_SOURCE_HEADER = 'x-loumarc-client-source'
 
 export default async function handler(request, context) {
   const { pathname } = new URL(request.url)
@@ -43,7 +44,7 @@ export default async function handler(request, context) {
 
   const rateLimitResult = checkRateLimit({
     policy,
-    source: getRequestSource(request, context),
+    source: getRateLimitSource({ context, request, route }),
   })
   logRateLimitDecision(rateLimitResult, {
     method: request.method,
@@ -90,6 +91,16 @@ function policyForRoute(route) {
   if (route.endsWith('/validate')) return RATE_LIMIT_POLICIES.capValidate
 
   return null
+}
+
+function getRateLimitSource({ context, request, route }) {
+  if (route.endsWith('/validate')) {
+    return getRequestSource(request, context, {
+      trustedHeader: INTERNAL_SOURCE_HEADER,
+    })
+  }
+
+  return getRequestSource(request, context)
 }
 
 async function readJson(request) {

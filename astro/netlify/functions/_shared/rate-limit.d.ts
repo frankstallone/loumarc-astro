@@ -25,7 +25,11 @@ export const RATE_LIMIT_POLICIES: {
   capValidate: RateLimitPolicy
 }
 
-export function getRequestSource(request: Request, context?: any): string
+export function getRequestSource(
+  request: Request,
+  context?: any,
+  options?: { trustedHeader?: string },
+): string
 
 export function checkRateLimit(options: {
   policy: RateLimitPolicy
