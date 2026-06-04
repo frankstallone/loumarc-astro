@@ -4,6 +4,8 @@ import { test } from 'node:test'
 import capHandler from '../cap.js'
 import { RATE_LIMIT_POLICIES } from './rate-limit.js'
 
+const originalNetlify = globalThis.Netlify
+
 test('CapJS validate returns a normal validation error before rate limiting', async () => {
   const response = await capHandler(
     new Request('https://loumarcsigns.com/.netlify/functions/cap/validate', {
@@ -50,6 +52,15 @@ test('CapJS endpoints return 429 after repeated same-source traffic', async (t) 
 test('CapJS validate trusts the internal source header for fallback limiting', async () => {
   const originalLimit = RATE_LIMIT_POLICIES.capValidate.max
   RATE_LIMIT_POLICIES.capValidate.max = 1
+  globalThis.Netlify = {
+    env: {
+      get(name) {
+        return name === 'LOUMARC_INTERNAL_RATE_LIMIT_SECRET'
+          ? 'test-secret'
+          : undefined
+      },
+    },
+  }
 
   try {
     const firstResponse = await capHandler(
@@ -58,6 +69,7 @@ test('CapJS validate trusts the internal source header for fallback limiting', a
         headers: {
           'content-type': 'application/json',
           'x-loumarc-client-source': '203.0.113.60',
+          'x-loumarc-internal-secret': 'test-secret',
         },
         body: JSON.stringify({}),
       }),
@@ -69,6 +81,7 @@ test('CapJS validate trusts the internal source header for fallback limiting', a
         headers: {
           'content-type': 'application/json',
           'x-loumarc-client-source': '203.0.113.61',
+          'x-loumarc-internal-secret': 'test-secret',
         },
         body: JSON.stringify({}),
       }),
@@ -79,5 +92,51 @@ test('CapJS validate trusts the internal source header for fallback limiting', a
     assert.equal(secondResponse.status, 400)
   } finally {
     RATE_LIMIT_POLICIES.capValidate.max = originalLimit
+    globalThis.Netlify = originalNetlify
+  }
+})
+
+test('CapJS validate ignores spoofed source headers without the internal secret', async () => {
+  const originalLimit = RATE_LIMIT_POLICIES.capValidate.max
+  RATE_LIMIT_POLICIES.capValidate.max = 1
+  globalThis.Netlify = {
+    env: {
+      get(name) {
+        return name === 'LOUMARC_INTERNAL_RATE_LIMIT_SECRET'
+          ? 'test-secret'
+          : undefined
+      },
+    },
+  }
+
+  try {
+    const firstResponse = await capHandler(
+      new Request('https://loumarcsigns.com/.netlify/functions/cap/validate', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'x-loumarc-client-source': '203.0.113.70',
+        },
+        body: JSON.stringify({}),
+      }),
+      { ip: '198.51.100.70' },
+    )
+    const secondResponse = await capHandler(
+      new Request('https://loumarcsigns.com/.netlify/functions/cap/validate', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'x-loumarc-client-source': '203.0.113.71',
+        },
+        body: JSON.stringify({}),
+      }),
+      { ip: '198.51.100.70' },
+    )
+
+    assert.equal(firstResponse.status, 400)
+    assert.equal(secondResponse.status, 429)
+  } finally {
+    RATE_LIMIT_POLICIES.capValidate.max = originalLimit
+    globalThis.Netlify = originalNetlify
   }
 })

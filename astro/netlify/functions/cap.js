@@ -27,6 +27,7 @@ import {
 
 const cap = new Cap({ tokens_store_path: '/tmp/tokens.json' })
 const INTERNAL_SOURCE_HEADER = 'x-loumarc-client-source'
+const INTERNAL_SECRET_HEADER = 'x-loumarc-internal-secret'
 
 export default async function handler(request, context) {
   const { pathname } = new URL(request.url)
@@ -94,13 +95,24 @@ function policyForRoute(route) {
 }
 
 function getRateLimitSource({ context, request, route }) {
-  if (route.endsWith('/validate')) {
+  if (route.endsWith('/validate') && hasValidInternalSecret(request)) {
     return getRequestSource(request, context, {
       trustedHeader: INTERNAL_SOURCE_HEADER,
     })
   }
 
   return getRequestSource(request, context)
+}
+
+function hasValidInternalSecret(request) {
+  const expectedSecret = getInternalSecret()
+  const providedSecret = request.headers.get(INTERNAL_SECRET_HEADER)
+
+  return Boolean(expectedSecret && providedSecret === expectedSecret)
+}
+
+function getInternalSecret() {
+  return globalThis.Netlify?.env?.get?.('LOUMARC_INTERNAL_RATE_LIMIT_SECRET')
 }
 
 async function readJson(request) {

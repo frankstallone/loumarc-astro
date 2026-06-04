@@ -216,14 +216,20 @@ export default async (request: Request, context: any) => {
       '/.netlify/functions/cap/validate',
       request.url,
     ).toString()
+    const internalSecret = getInternalSecret()
     let valid = false
     try {
+      const validateHeaders: Record<string, string> = {
+        'content-type': 'application/json',
+      }
+      if (internalSecret) {
+        validateHeaders['x-loumarc-client-source'] = requestSource
+        validateHeaders['x-loumarc-internal-secret'] = internalSecret
+      }
+
       const res = await fetch(validateUrl, {
         method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          'x-loumarc-client-source': requestSource,
-        },
+        headers: validateHeaders,
         body: JSON.stringify({ token: String(capToken) }),
       })
       const data = await res.json()
@@ -322,6 +328,12 @@ export default async (request: Request, context: any) => {
       headers: { 'content-type': 'application/json', 'x-forms-gate': 'crash' },
     })
   }
+}
+
+function getInternalSecret() {
+  return (globalThis as any).Netlify?.env?.get?.(
+    'LOUMARC_INTERNAL_RATE_LIMIT_SECRET',
+  )
 }
 
 export const config = {
