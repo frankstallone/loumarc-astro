@@ -7,11 +7,35 @@
 [functions]
   directory = "netlify/functions"
 
-[[edge_functions]]
-  path = "/forms/*"
-  function = "forms-gate"
+[[redirects]]
+  from = "/api/challenge"
+  to = "/.netlify/functions/cap/challenge"
+  status = 200
+  force = true
+
+  [redirects.rate_limit]
+    window_limit = 20
+    window_size = 60
+    aggregate_by = ["ip", "domain"]
 
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/cap/:splat"
+  from = "/api/redeem"
+  to = "/.netlify/functions/cap/redeem"
   status = 200
+  force = true
+
+  [redirects.rate_limit]
+    window_limit = 20
+    window_size = 60
+    aggregate_by = ["ip", "domain"]
+
+[[redirects]]
+  from = "/api/validate"
+  to = "/.netlify/functions/cap/validate"
+  status = 200
+  force = true
+
+  [redirects.rate_limit]
+    window_limit = 30
+    window_size = 60
+    aggregate_by = ["ip", "domain"]
