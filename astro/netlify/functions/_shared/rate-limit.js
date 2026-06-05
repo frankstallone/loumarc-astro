@@ -26,6 +26,11 @@ export const RATE_LIMIT_POLICIES = {
     windowMs: 60 * 1000,
     max: 30,
   },
+  capMalformed: {
+    name: 'cap-malformed',
+    windowMs: 60 * 1000,
+    max: 10,
+  },
 }
 
 export function getRequestSource(request, context, options = {}) {

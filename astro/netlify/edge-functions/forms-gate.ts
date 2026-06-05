@@ -412,9 +412,9 @@ export default async (request: Request, context: any) => {
     const { pathname } = new URL(request.url)
     logFormSpamEvent({
       surface: 'forms-gate',
-      action: 'forms-gate.validation',
+      action: 'forms-gate.request',
       result: 'failed',
-      reason: 'validation-error',
+      reason: 'operational-error',
       method: request.method,
       path: pathname,
       source: getRequestSource(request, context),

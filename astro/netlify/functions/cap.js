@@ -32,22 +32,37 @@ import {
 
 const INTERNAL_SOURCE_HEADER = 'x-loumarc-client-source'
 const INTERNAL_SECRET_HEADER = 'x-loumarc-internal-secret'
+const UNKNOWN_CAP_ROUTE_PATH = '/.netlify/functions/cap/unknown'
 
 export default async function handler(request, context) {
   const { pathname } = new URL(request.url)
   const route = pathname.replace(/\/$/, '')
-  const requestSource = getRequestSource(request, context)
-  const logRequestEvent = (details) =>
+  const policy = policyForRoute(route)
+  const logPath = policy ? pathname : UNKNOWN_CAP_ROUTE_PATH
+  const rateLimitSource = getRateLimitSource({ context, request, route })
+  const logCapEvent = (details) =>
     logFormSpamEvent({
       surface: 'cap-verification',
       method: request.method,
-      path: pathname,
-      source: requestSource,
+      path: logPath,
+      source: rateLimitSource,
       ...details,
     })
+  const rateLimitResult = checkRateLimit({
+    policy: policy || RATE_LIMIT_POLICIES.capMalformed,
+    source: rateLimitSource,
+  })
+  logRateLimitDecision(rateLimitResult, {
+    method: request.method,
+    path: logPath,
+  })
+
+  if (!rateLimitResult.allowed) {
+    return createRateLimitResponse(rateLimitResult)
+  }
 
   if (request.method !== 'POST') {
-    logRequestEvent({
+    logCapEvent({
       action: 'cap.request',
       result: 'malformed',
       reason: 'malformed-request',
@@ -56,38 +71,14 @@ export default async function handler(request, context) {
     return new Response(null, { status: 405 })
   }
 
-  const policy = policyForRoute(route)
-
   if (!policy) {
-    logRequestEvent({
+    logCapEvent({
       action: 'cap.request',
       result: 'malformed',
       reason: 'malformed-request',
       status: 404,
     })
     return new Response(null, { status: 404 })
-  }
-
-  const rateLimitSource = getRateLimitSource({ context, request, route })
-  const logCapEvent = (details) =>
-    logFormSpamEvent({
-      surface: 'cap-verification',
-      method: request.method,
-      path: pathname,
-      source: rateLimitSource,
-      ...details,
-    })
-  const rateLimitResult = checkRateLimit({
-    policy,
-    source: rateLimitSource,
-  })
-  logRateLimitDecision(rateLimitResult, {
-    method: request.method,
-    path: pathname,
-  })
-
-  if (!rateLimitResult.allowed) {
-    return createRateLimitResponse(rateLimitResult)
   }
 
   if (route.endsWith('/challenge')) {

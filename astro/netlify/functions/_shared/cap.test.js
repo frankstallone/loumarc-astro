@@ -4,6 +4,7 @@ import { test } from 'node:test'
 
 import capHandler from '../cap.js'
 import { RATE_LIMIT_POLICIES } from './rate-limit.js'
+import { createChallenge } from './stateless-cap.js'
 
 const originalNetlify = globalThis.Netlify
 const TEST_CAP_SECRET = 'test-cap-token-secret-value-12345'
@@ -175,6 +176,178 @@ test('CapJS endpoints return 429 after repeated same-source traffic', async (t) 
     error: 'Too many requests',
     retryAfter: 60,
   })
+})
+
+test('CapJS malformed direct requests are rate limited before malformed logs repeat', async (t) => {
+  const originalLimit = RATE_LIMIT_POLICIES.capValidate.max
+  const logs = captureFormSpamLogs(t)
+  RATE_LIMIT_POLICIES.capValidate.max = 1
+
+  try {
+    const firstResponse = await capHandler(
+      new Request('https://loumarcsigns.com/.netlify/functions/cap/validate', {
+        headers: {
+          'x-forwarded-for': '203.0.113.44',
+        },
+        method: 'GET',
+      }),
+      {},
+    )
+    const secondResponse = await capHandler(
+      new Request('https://loumarcsigns.com/.netlify/functions/cap/validate', {
+        headers: {
+          'x-forwarded-for': '203.0.113.44',
+        },
+        method: 'GET',
+      }),
+      {},
+    )
+
+    assert.equal(firstResponse.status, 405)
+    assert.equal(secondResponse.status, 429)
+    assert.equal(
+      logs.filter(
+        (log) =>
+          log.surface === 'cap-verification' &&
+          log.action === 'cap.request' &&
+          log.reason === 'malformed-request',
+      ).length,
+      1,
+    )
+  } finally {
+    RATE_LIMIT_POLICIES.capValidate.max = originalLimit
+  }
+})
+
+test('CapJS malformed paths use an allow-listed monitoring path', async (t) => {
+  const logs = captureFormSpamLogs(t)
+  const response = await capHandler(
+    new Request(
+      'https://loumarcsigns.com/.netlify/functions/cap/validate/lc_cap_secret_customer@example.com',
+      {
+        headers: {
+          'x-forwarded-for': '203.0.113.45',
+        },
+        method: 'POST',
+      },
+    ),
+    {},
+  )
+
+  assert.equal(response.status, 404)
+  assert.equal(
+    logs.some(
+      (log) =>
+        log.surface === 'cap-verification' &&
+        log.action === 'cap.request' &&
+        log.reason === 'malformed-request' &&
+        log.path === '/.netlify/functions/cap/unknown',
+    ),
+    true,
+  )
+  assert.equal(JSON.stringify(logs).includes('lc_cap_secret'), false)
+  assert.equal(JSON.stringify(logs).includes('customer@example.com'), false)
+})
+
+test('CapJS operational failures use structured monitoring events', async (t) => {
+  const originalTokenStore = globalThis.__loumarcCapTokenStore
+  const logs = captureFormSpamLogs(t)
+  t.mock.method(console, 'error', () => {})
+  globalThis.Netlify = {
+    env: {
+      get() {
+        return undefined
+      },
+    },
+  }
+
+  try {
+    const configResponse = await capHandler(
+      new Request('https://loumarcsigns.com/api/challenge', {
+        headers: {
+          'x-forwarded-for': '203.0.113.46',
+        },
+        method: 'POST',
+      }),
+      {},
+    )
+
+    globalThis.Netlify = {
+      env: {
+        get(name) {
+          return name === 'LOUMARC_CAP_TOKEN_SECRET'
+            ? TEST_CAP_SECRET
+            : undefined
+        },
+      },
+    }
+    globalThis.__loumarcCapTokenStore = {
+      async set() {
+        throw new Error('store unavailable')
+      },
+    }
+    const challenge = createChallenge({
+      challengeCount: 1,
+      challengeDifficulty: 0,
+      challengeSize: 8,
+      secret: TEST_CAP_SECRET,
+    })
+    const storeResponse = await capHandler(
+      new Request('https://loumarcsigns.com/api/redeem', {
+        body: JSON.stringify({
+          solutions: solveChallenge(challenge),
+          token: challenge.token,
+        }),
+        headers: {
+          'content-type': 'application/json',
+          'x-forwarded-for': '203.0.113.47',
+        },
+        method: 'POST',
+      }),
+      {},
+    )
+
+    assert.equal(configResponse.status, 500)
+    assert.equal(storeResponse.status, 503)
+    assert.equal(
+      logs.some(
+        (log) =>
+          log.action === 'cap.challenge' &&
+          log.reason === 'operational-error' &&
+          log.result === 'failed' &&
+          log.status === 500 &&
+          log.errorType === 'CapConfigurationError',
+      ),
+      true,
+    )
+    assert.equal(
+      logs.some(
+        (log) =>
+          log.action === 'cap.redeem' &&
+          log.reason === 'operational-error' &&
+          log.result === 'failed' &&
+          log.status === 503 &&
+          log.errorType === 'CapStoreError',
+      ),
+      true,
+    )
+    assert.equal(
+      logs.some(
+        (log) =>
+          Object.hasOwn(log, 'token') ||
+          Object.hasOwn(log, 'solutions') ||
+          Object.hasOwn(log, 'source'),
+      ),
+      false,
+    )
+  } finally {
+    globalThis.Netlify = originalNetlify
+    if (originalTokenStore === undefined) {
+      delete globalThis.__loumarcCapTokenStore
+    } else {
+      globalThis.__loumarcCapTokenStore = originalTokenStore
+    }
+  }
 })
 
 function createMemoryTokenStore() {
