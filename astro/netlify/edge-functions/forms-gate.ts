@@ -232,12 +232,20 @@ export default async (request: Request, context: any) => {
         headers: validateHeaders,
         body: JSON.stringify({ token: String(capToken) }),
       })
+
+      if (!res.ok) {
+        console.log(
+          `[forms-gate] cap validate unavailable status=${res.status}`,
+        )
+        return capUnavailableResponse()
+      }
+
       const data = await res.json()
       valid = Boolean(data && data.success)
       console.log(`[forms-gate] cap validate success=${valid}`)
     } catch (_e) {
-      valid = false
-      console.log('[forms-gate] cap validate error')
+      console.log('[forms-gate] cap validate unavailable')
+      return capUnavailableResponse()
     }
 
     if (!valid) {
@@ -333,6 +341,19 @@ export default async (request: Request, context: any) => {
 function getInternalSecret() {
   return (globalThis as any).Netlify?.env?.get?.(
     'LOUMARC_INTERNAL_RATE_LIMIT_SECRET',
+  )
+}
+
+function capUnavailableResponse() {
+  return new Response(
+    JSON.stringify({ ok: false, error: 'Verification unavailable' }),
+    {
+      status: 503,
+      headers: {
+        'content-type': 'application/json',
+        'x-forms-gate': 'cap-unavailable',
+      },
+    },
   )
 }
 

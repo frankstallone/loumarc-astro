@@ -2,9 +2,10 @@
 
 ## Environment Variables for Netlify Deployment
 
-To enable CapJS validation, set the following environment variable in your Netlify site settings:
+To enable form verification, set the following environment variables in your Netlify site settings:
 
 - `URL`: The base URL of your deployed site (e.g., `https://loumarcsigns.com`)
+- `LOUMARC_CAP_TOKEN_SECRET`: A random secret of at least 32 characters used to sign Cap challenge and form verification tokens. Use a generated secret value from Netlify or a password manager; do not commit the value.
 - `LOUMARC_INTERNAL_RATE_LIMIT_SECRET`: A random shared secret used only by `forms-gate.ts` when it calls the CapJS validate function directly. Set the same value for all deploy contexts that serve forms.
 
 You can set these in the Netlify dashboard under **Site settings → Build & deploy → Environment**.
@@ -18,7 +19,7 @@ Netlify build settings (when the app lives in `astro/`):
 
 The Netlify config file is located at `astro/netlify.toml`.
 
-## Form and CapJS Rate Limiting
+## Form Verification and Rate Limiting
 
 Public form traffic is protected in two layers:
 
@@ -29,7 +30,31 @@ Those code-based rules block with HTTP `429` before the handler runs in producti
 
 When `LOUMARC_INTERNAL_RATE_LIMIT_SECRET` is configured, `forms-gate.ts` signs that internal validation request and forwards the original visitor source so fallback validation limits remain per visitor. Direct public requests to `/.netlify/functions/cap/validate` cannot spoof that source header without the secret.
 
+`netlify/functions/cap.js` issues stateless signed challenges and stateless signed form verification tokens. It uses the site-wide Netlify Blobs store named `cap-verification` only for small single-use markers:
+
+- `challenge/*` entries prevent one solved challenge from minting multiple form tokens.
+- `verification/*` entries prevent one form verification token from submitting multiple forms.
+
+Both entry types include expiration metadata and use strong-consistency conditional writes so replay checks work across serverless instances. Do not replace this with function memory, warm instance state, `/tmp`, or a full database without a follow-up architecture decision.
+
 To tune the limits, update the `RATE_LIMIT_POLICIES` constants in `netlify/functions/_shared/rate-limit.js`, the exported `config.rateLimit` value in the edge function, and the `[redirects.rate_limit]` values in `netlify.toml`. After deployment, check Netlify's deploy post-processing logs to confirm the code-based rate limit rules were detected.
+
+## Form Verification Checks
+
+Run local static and unit checks before deploying:
+
+```bash
+LOUMARC_CAP_TOKEN_SECRET="replace-with-a-local-32-character-secret" npm run test
+npm run lint
+npm run build
+```
+
+For a safe deploy verification path:
+
+1. Confirm `LOUMARC_CAP_TOKEN_SECRET` and `LOUMARC_INTERNAL_RATE_LIMIT_SECRET` are set for the target deploy context.
+2. Verify `/api/challenge`, `/api/redeem`, and `/.netlify/functions/cap/validate` in a Deploy Preview first. A valid redeemed token should validate once; a second validation of the same token should return `{ "success": false }`.
+3. Submit the main, accessibility, and request forms from the Deploy Preview only after form notification emails are disabled or pointed at an internal test recipient.
+4. Confirm missing `cap-token`, malformed token, expired token, invalid token, and replayed token requests return `422` from `/forms/submit` with an `x-forms-gate` rejection header and do not appear as Netlify Form submissions.
 
 ---
 
