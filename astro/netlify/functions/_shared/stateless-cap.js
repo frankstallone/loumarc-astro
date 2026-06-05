@@ -12,6 +12,9 @@ const TOKEN_VERSION = 1
 const CHALLENGE_EXPIRES_MS = 10 * 60 * 1000
 const VERIFICATION_EXPIRES_MS = 20 * 60 * 1000
 const MAX_SIGNED_TOKEN_LENGTH = 2048
+const CLEANUP_SAMPLE_RATE = 0.01
+const CLEANUP_PREFIX_LIMIT = 25
+const CLEANUP_PREFIXES = ['challenge/', 'verification/']
 const TOKEN_PREFIX = 'lc_cap_'
 
 export class CapConfigurationError extends Error {
@@ -62,6 +65,7 @@ export async function redeemChallenge({
   now = Date.now(),
   secret = getTokenSecret(),
   store = getTokenStore(),
+  cleanup = maybeCleanupExpiredMarkers,
 } = {}) {
   if (
     !token ||
@@ -86,6 +90,7 @@ export async function redeemChallenge({
   }
 
   const consumed = await consumeOnce({
+    cleanup,
     expires: parsed.expires,
     key: `challenge/${parsed.id}`,
     kind: 'challenge',
@@ -118,6 +123,7 @@ export async function validateToken({
   now = Date.now(),
   secret = getTokenSecret(),
   store = getTokenStore(),
+  cleanup = maybeCleanupExpiredMarkers,
 } = {}) {
   if (!token) {
     return { success: false }
@@ -137,6 +143,7 @@ export async function validateToken({
   }
 
   const consumed = await consumeOnce({
+    cleanup,
     expires: parsed.expires,
     key: `verification/${parsed.id}`,
     kind: 'verification',
@@ -173,7 +180,7 @@ export function getTokenStore() {
   }
 }
 
-async function consumeOnce({ expires, key, kind, now, store }) {
+async function consumeOnce({ cleanup, expires, key, kind, now, store }) {
   try {
     const result = await store.set(key, '1', {
       metadata: {
@@ -184,9 +191,47 @@ async function consumeOnce({ expires, key, kind, now, store }) {
       onlyIfNew: true,
     })
 
+    cleanup({ now, store })
+
     return Boolean(result.modified)
   } catch (error) {
     throw new CapStoreError(error?.message || 'Netlify Blobs write failed')
+  }
+}
+
+export async function maybeCleanupExpiredMarkers({
+  now = Date.now(),
+  random = Math.random,
+  store = getTokenStore(),
+} = {}) {
+  if (random() >= CLEANUP_SAMPLE_RATE) {
+    return
+  }
+
+  try {
+    await cleanupExpiredMarkers({ now, store })
+  } catch (error) {
+    console.warn('[cap] token cleanup failed:', error?.message || String(error))
+  }
+}
+
+export async function cleanupExpiredMarkers({
+  now = Date.now(),
+  prefixes = CLEANUP_PREFIXES,
+  prefixLimit = CLEANUP_PREFIX_LIMIT,
+  store = getTokenStore(),
+} = {}) {
+  for (const prefix of prefixes) {
+    const { blobs = [] } = await store.list({ prefix })
+
+    for (const { key } of blobs.slice(0, prefixLimit)) {
+      const metadata = await store.getMetadata(key)
+      const expires = metadata?.metadata?.expires
+
+      if (Number.isSafeInteger(expires) && expires < now) {
+        await store.delete(key)
+      }
+    }
   }
 }
 

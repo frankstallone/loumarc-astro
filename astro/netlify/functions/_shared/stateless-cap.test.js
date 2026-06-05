@@ -5,6 +5,8 @@ import { test } from 'node:test'
 import {
   createChallenge,
   redeemChallenge,
+  cleanupExpiredMarkers,
+  maybeCleanupExpiredMarkers,
   validateToken,
 } from './stateless-cap.js'
 
@@ -28,6 +30,7 @@ test('stateless Cap flow redeems solved challenges and validates form tokens onc
     solutions,
     store,
     token: challenge.token,
+    cleanup: noopCleanup,
   })
 
   assert.equal(redeemed.success, true)
@@ -40,6 +43,7 @@ test('stateless Cap flow redeems solved challenges and validates form tokens onc
     solutions,
     store,
     token: challenge.token,
+    cleanup: noopCleanup,
   })
 
   assert.deepEqual(replayedChallenge, {
@@ -52,12 +56,14 @@ test('stateless Cap flow redeems solved challenges and validates form tokens onc
     secret: SECRET,
     store,
     token: redeemed.token,
+    cleanup: noopCleanup,
   })
   const replayedValidation = await validateToken({
     now,
     secret: SECRET,
     store,
     token: redeemed.token,
+    cleanup: noopCleanup,
   })
 
   assert.deepEqual(validated, { success: true })
@@ -82,6 +88,7 @@ test('stateless Cap rejects expired challenges and verification tokens', async (
     solutions,
     store,
     token: challenge.token,
+    cleanup: noopCleanup,
   })
 
   assert.deepEqual(expiredChallenge, {
@@ -95,12 +102,14 @@ test('stateless Cap rejects expired challenges and verification tokens', async (
     solutions,
     store,
     token: challenge.token,
+    cleanup: noopCleanup,
   })
   const expiredVerification = await validateToken({
     now: now + 20 * 60 * 1000 + 1,
     secret: SECRET,
     store,
     token: redeemed.token,
+    cleanup: noopCleanup,
   })
 
   assert.deepEqual(expiredVerification, { success: false })
@@ -125,6 +134,7 @@ test('stateless Cap rejects malformed, tampered, or incorrect data', async () =>
       solutions: [-1],
       store,
       token: challenge.token,
+      cleanup: noopCleanup,
     }),
     { success: false, message: 'Invalid solution' },
   )
@@ -135,6 +145,7 @@ test('stateless Cap rejects malformed, tampered, or incorrect data', async () =>
       solutions,
       store,
       token: `${challenge.token}tampered`,
+      cleanup: noopCleanup,
     }),
     { success: false, message: 'Invalid challenge' },
   )
@@ -163,6 +174,7 @@ test('stateless Cap rejects malformed, tampered, or incorrect data', async () =>
     solutions,
     store,
     token: challenge.token,
+    cleanup: noopCleanup,
   })
 
   assert.equal(redeemed.success, true)
@@ -172,9 +184,50 @@ test('stateless Cap rejects malformed, tampered, or incorrect data', async () =>
       secret: SECRET,
       store,
       token: `${redeemed.token}.extra`,
+      cleanup: noopCleanup,
     }),
     { success: false },
   )
+})
+
+test('stateless Cap opportunistically deletes expired replay markers', async () => {
+  const store = createMemoryTokenStore()
+  store.entries.set('challenge/expired', {
+    metadata: { expires: 999 },
+    value: '1',
+  })
+  store.entries.set('challenge/current', {
+    metadata: { expires: 1_001 },
+    value: '1',
+  })
+  store.entries.set('verification/expired', {
+    metadata: { expires: 998 },
+    value: '1',
+  })
+  store.entries.set('verification/missing-expiry', {
+    metadata: {},
+    value: '1',
+  })
+
+  await cleanupExpiredMarkers({ now: 1_000, store })
+
+  assert.equal(store.entries.has('challenge/expired'), false)
+  assert.equal(store.entries.has('verification/expired'), false)
+  assert.equal(store.entries.has('challenge/current'), true)
+  assert.equal(store.entries.has('verification/missing-expiry'), true)
+})
+
+test('stateless Cap cleanup sampling is non-blocking', async () => {
+  const store = {
+    async list() {
+      throw new Error('store unavailable')
+    },
+  }
+
+  await maybeCleanupExpiredMarkers({
+    random: () => 0,
+    store,
+  })
 })
 
 function createMemoryTokenStore() {
@@ -194,8 +247,34 @@ function createMemoryTokenStore() {
 
       return { etag: `"${entries.size}"`, modified: true }
     },
+    async list(options = {}) {
+      const prefix = options.prefix || ''
+      return {
+        blobs: [...entries.keys()]
+          .filter((key) => key.startsWith(prefix))
+          .map((key) => ({ etag: `"${key}"`, key })),
+        directories: [],
+      }
+    },
+    async getMetadata(key) {
+      const entry = entries.get(key)
+
+      if (!entry) {
+        return null
+      }
+
+      return {
+        etag: `"${key}"`,
+        metadata: entry.metadata,
+      }
+    },
+    async delete(key) {
+      entries.delete(key)
+    },
   }
 }
+
+function noopCleanup() {}
 
 function getOnlyKey(store, prefix) {
   const matches = [...store.entries.keys()].filter((key) =>
