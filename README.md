@@ -113,6 +113,10 @@ For local Astro dev, `astro/netlify.toml` mirrors the same paths relative to the
 `astro/`. Updates to the `main` branch automatically trigger a new deploy. The
 status badge at the top of this README reflects the latest deployment state.
 
+Required Netlify environment variables for production form verification are
+documented in `astro/README.md`, including `LOUMARC_CAP_TOKEN_SECRET` for
+signed Cap challenges and form tokens.
+
 ## Resources
 - [Astro – Getting Started](https://docs.astro.build/en/getting-started/)
 - [Sanity.io – Getting Started](https://www.sanity.io/docs/getting-started-with-sanity)

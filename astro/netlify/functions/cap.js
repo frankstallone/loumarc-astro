@@ -1,5 +1,5 @@
 /**
- * @fileoverview Netlify serverless function for CAPTCHA challenge management using @cap.js/server.
+ * @fileoverview Netlify serverless function for CAPTCHA challenge management.
  *
  * This function provides three public endpoints for CAPTCHA functionality:
  * - /api/challenge: Creates a new CAPTCHA challenge
@@ -12,10 +12,7 @@
  * and logs decisions without recording form payloads or messages.
  *
  * @module netlify/functions/cap
- * @requires @cap.js/server
  */
-
-import Cap from '@cap.js/server'
 
 import {
   checkRateLimit,
@@ -24,8 +21,14 @@ import {
   logRateLimitDecision,
   RATE_LIMIT_POLICIES,
 } from './_shared/rate-limit.js'
+import {
+  CapConfigurationError,
+  CapStoreError,
+  createChallenge,
+  redeemChallenge,
+  validateToken,
+} from './_shared/stateless-cap.js'
 
-const cap = new Cap({ tokens_store_path: '/tmp/tokens.json' })
 const INTERNAL_SOURCE_HEADER = 'x-loumarc-client-source'
 const INTERNAL_SECRET_HEADER = 'x-loumarc-internal-secret'
 
@@ -57,8 +60,11 @@ export default async function handler(request, context) {
   }
 
   if (route.endsWith('/challenge')) {
-    const challenge = cap.createChallenge()
-    return jsonResponse(challenge)
+    try {
+      return jsonResponse(createChallenge())
+    } catch (error) {
+      return capErrorResponse(error)
+    }
   }
 
   if (route.endsWith('/redeem')) {
@@ -69,8 +75,12 @@ export default async function handler(request, context) {
       return jsonResponse({ success: false }, { status: 400 })
     }
 
-    const result = await cap.redeemChallenge({ token, solutions })
-    return jsonResponse(result)
+    try {
+      const result = await redeemChallenge({ token, solutions })
+      return jsonResponse(result)
+    } catch (error) {
+      return capErrorResponse(error)
+    }
   }
 
   if (route.endsWith('/validate')) {
@@ -81,8 +91,12 @@ export default async function handler(request, context) {
       return jsonResponse({ success: false }, { status: 400 })
     }
 
-    const result = await cap.validateToken(token)
-    return jsonResponse(result)
+    try {
+      const result = await validateToken({ token })
+      return jsonResponse(result)
+    } catch (error) {
+      return capErrorResponse(error)
+    }
   }
 }
 
@@ -128,4 +142,19 @@ function jsonResponse(body, init = {}) {
     status: init.status ?? 200,
     headers: { 'content-type': 'application/json' },
   })
+}
+
+function capErrorResponse(error) {
+  if (error instanceof CapConfigurationError) {
+    console.error('[cap] configuration error:', error.message)
+    return jsonResponse({ success: false }, { status: 500 })
+  }
+
+  if (error instanceof CapStoreError) {
+    console.error('[cap] token store error:', error.message)
+    return jsonResponse({ success: false }, { status: 503 })
+  }
+
+  console.error('[cap] unexpected error:', error?.message || String(error))
+  return jsonResponse({ success: false }, { status: 500 })
 }
