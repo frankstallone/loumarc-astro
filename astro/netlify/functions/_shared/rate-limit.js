@@ -1,3 +1,5 @@
+import { fingerprintSource, logFormSpamEvent } from './spam-monitoring.js'
+
 const DEFAULT_STORE = new Map()
 const MAX_STORE_SIZE = 10000
 
@@ -23,6 +25,11 @@ export const RATE_LIMIT_POLICIES = {
     name: 'cap-validate',
     windowMs: 60 * 1000,
     max: 30,
+  },
+  capMalformed: {
+    name: 'cap-malformed',
+    windowMs: 60 * 1000,
+    max: 10,
   },
 }
 
@@ -112,9 +119,22 @@ export function createRateLimitResponse(result) {
 
 export function logRateLimitDecision(result, { method, path }) {
   const decision = result.allowed ? 'allowed' : 'blocked'
-  console.log(
-    `[rate-limit] ${decision} policy=${result.policy} method=${method} path=${path} source=${result.sourceHash} count=${result.count}/${result.limit} reset=${new Date(result.resetAt).toISOString()}`,
-  )
+  logFormSpamEvent({
+    surface: 'rate-limit',
+    action: 'rate-limit.decision',
+    result: decision,
+    reason: result.allowed ? 'under-limit' : 'rate-limit',
+    method,
+    path,
+    sourceHash: result.sourceHash,
+    rateLimitPolicy: result.policy,
+    rateLimitCount: result.count,
+    rateLimitLimit: result.limit,
+    rateLimitReset: new Date(result.resetAt).toISOString(),
+    rateLimitWindowSeconds: result.windowSeconds,
+    retryAfterSeconds: result.allowed ? undefined : result.retryAfterSeconds,
+    status: result.allowed ? undefined : 429,
+  })
 }
 
 export function rateLimitHeaders(result) {
@@ -146,14 +166,4 @@ function evictOverflowBuckets(store) {
     if (store.size <= MAX_STORE_SIZE) return
     store.delete(key)
   }
-}
-
-function fingerprintSource(source) {
-  let hash = 5381
-
-  for (let index = 0; index < source.length; index += 1) {
-    hash = (hash * 33) ^ source.charCodeAt(index)
-  }
-
-  return (hash >>> 0).toString(16).padStart(8, '0')
 }
