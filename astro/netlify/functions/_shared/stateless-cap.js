@@ -11,6 +11,7 @@ const STORE_NAME = 'cap-verification'
 const TOKEN_VERSION = 1
 const CHALLENGE_EXPIRES_MS = 10 * 60 * 1000
 const VERIFICATION_EXPIRES_MS = 20 * 60 * 1000
+const MAX_SIGNED_TOKEN_LENGTH = 2048
 const TOKEN_PREFIX = 'lc_cap_'
 
 export class CapConfigurationError extends Error {
@@ -201,6 +202,10 @@ function verifySignedPayload(token, secret) {
     return null
   }
 
+  if (token.length > MAX_SIGNED_TOKEN_LENGTH) {
+    return null
+  }
+
   if (!token.startsWith(TOKEN_PREFIX)) {
     return null
   }
@@ -275,7 +280,7 @@ function isValidSolution({ token, challenge, solutions }) {
   }
 
   return solutions.every((solution, index) => {
-    if (!solution) {
+    if (!Number.isSafeInteger(solution) || solution < 0) {
       return false
     }
 

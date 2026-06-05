@@ -15,7 +15,7 @@ test('stateless Cap flow redeems solved challenges and validates form tokens onc
   const store = createMemoryTokenStore()
   const challenge = createChallenge({
     challengeCount: 2,
-    challengeDifficulty: 1,
+    challengeDifficulty: 0,
     challengeSize: 8,
     now,
     secret: SECRET,
@@ -122,7 +122,7 @@ test('stateless Cap rejects malformed, tampered, or incorrect data', async () =>
     await redeemChallenge({
       now,
       secret: SECRET,
-      solutions: [solutions[0] + 1],
+      solutions: [-1],
       store,
       token: challenge.token,
     }),
@@ -144,6 +144,15 @@ test('stateless Cap rejects malformed, tampered, or incorrect data', async () =>
       secret: SECRET,
       store,
       token: 'not-a-token',
+    }),
+    { success: false },
+  )
+  assert.deepEqual(
+    await validateToken({
+      now,
+      secret: SECRET,
+      store,
+      token: `lc_cap_${'a'.repeat(2048)}`,
     }),
     { success: false },
   )
@@ -208,7 +217,7 @@ function solveChallenge({ challenge, token }) {
     const salt = prng(`${token}${challengeNumber}`, challenge.s)
     const target = prng(`${token}${challengeNumber}d`, challenge.d)
 
-    for (let solution = 1; ; solution += 1) {
+    for (let solution = 0; ; solution += 1) {
       const hash = createHash('sha256')
         .update(salt + solution)
         .digest('hex')
