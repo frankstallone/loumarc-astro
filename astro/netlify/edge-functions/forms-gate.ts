@@ -85,24 +85,40 @@ import {
   logRateLimitDecision,
   RATE_LIMIT_POLICIES,
 } from '../functions/_shared/rate-limit.js'
+import { logFormSpamEvent } from '../functions/_shared/spam-monitoring.js'
 
 export default async (request: Request, context: any) => {
   try {
-    // Basic trace
     const { pathname } = new URL(request.url)
-    console.log(`[forms-gate] start ${request.method} ${pathname}`)
+    const requestSource = getRequestSource(request, context)
+    const logGateEvent = (details: Record<string, unknown>) =>
+      logFormSpamEvent({
+        surface: 'forms-gate',
+        method: request.method,
+        path: pathname,
+        source: requestSource,
+        ...details,
+      })
+
     // Only gate POSTs to /forms/*; pass through everything else
     if (request.method !== 'POST') {
-      console.log('[forms-gate] non-POST, passing through')
+      logGateEvent({
+        action: 'forms-gate.bypass',
+        result: 'passed-through',
+        reason: 'non-post',
+      })
       return context.next()
     }
     // Defensive: ensure this only processes /forms/* paths even if mis-mapped
     if (!pathname.startsWith('/forms/')) {
-      console.log('[forms-gate] non-/forms path, passing through')
+      logGateEvent({
+        action: 'forms-gate.bypass',
+        result: 'passed-through',
+        reason: 'non-form-path',
+      })
       return context.next()
     }
 
-    const requestSource = getRequestSource(request, context)
     const rateLimitResult = checkRateLimit({
       policy: RATE_LIMIT_POLICIES.formsSubmit,
       source: requestSource,
@@ -137,7 +153,12 @@ export default async (request: Request, context: any) => {
     try {
       formData = await parseReq.formData()
     } catch (_e) {
-      console.log('[forms-gate] invalid form data')
+      logGateEvent({
+        action: 'forms-gate.validation',
+        result: 'failed',
+        reason: 'validation-error',
+        status: 400,
+      })
       return new Response(
         JSON.stringify({ ok: false, error: 'Invalid form data' }),
         {
@@ -150,9 +171,14 @@ export default async (request: Request, context: any) => {
     // Honeypot check
     const honey = formData.get('additional-info')
     if (typeof honey === 'string' && honey.trim().length > 0) {
-      console.log('[forms-gate] honeypot triggered')
       // Silently accept to not tip off bots, but do not forward to Forms
       const accept = request.headers.get('accept') || ''
+      logGateEvent({
+        action: 'forms-gate.submission',
+        result: 'blocked',
+        reason: 'honeypot',
+        status: accept.includes('application/json') ? 200 : 303,
+      })
       if (accept.includes('application/json')) {
         return new Response(JSON.stringify({ ok: true, skipped: true }), {
           status: 200,
@@ -173,7 +199,12 @@ export default async (request: Request, context: any) => {
     const capToken = formData.get('cap-token')
 
     if (!formName || (typeof formName === 'string' && formName.trim() === '')) {
-      console.log('[forms-gate] missing form-name')
+      logGateEvent({
+        action: 'forms-gate.validation',
+        result: 'failed',
+        reason: 'validation-error',
+        status: 422,
+      })
       return new Response(
         JSON.stringify({ ok: false, error: 'Missing form-name' }),
         {
@@ -187,8 +218,13 @@ export default async (request: Request, context: any) => {
     }
 
     if (!capToken || (typeof capToken === 'string' && capToken.trim() === '')) {
-      console.log('[forms-gate] missing cap-token')
       const accept = request.headers.get('accept') || ''
+      logGateEvent({
+        action: 'forms-gate.submission',
+        result: 'blocked',
+        reason: 'missing-token',
+        status: accept.includes('application/json') ? 422 : 303,
+      })
       if (accept.includes('application/json')) {
         return new Response(
           JSON.stringify({ ok: false, error: 'Missing cap-token' }),
@@ -234,21 +270,35 @@ export default async (request: Request, context: any) => {
       })
 
       if (!res.ok) {
-        console.log(
-          `[forms-gate] cap validate unavailable status=${res.status}`,
-        )
+        logGateEvent({
+          action: 'forms-gate.validation',
+          result: 'failed',
+          reason: 'upstream-forwarding',
+          status: 503,
+          upstreamStatus: res.status,
+        })
         return capUnavailableResponse()
       }
 
       const data = await res.json()
       valid = Boolean(data && data.success)
-      console.log(`[forms-gate] cap validate success=${valid}`)
     } catch (_e) {
-      console.log('[forms-gate] cap validate unavailable')
+      logGateEvent({
+        action: 'forms-gate.validation',
+        result: 'failed',
+        reason: 'upstream-forwarding',
+        status: 503,
+      })
       return capUnavailableResponse()
     }
 
     if (!valid) {
+      logGateEvent({
+        action: 'forms-gate.submission',
+        result: 'blocked',
+        reason: 'invalid-token',
+        status: 422,
+      })
       return new Response(
         JSON.stringify({ ok: false, error: 'Invalid cap-token' }),
         {
@@ -266,10 +316,14 @@ export default async (request: Request, context: any) => {
     let upstream: Response | undefined
     try {
       upstream = await context.next(forwardReq)
-      console.log('[forms-gate] forwarded to forms')
     } catch (_e) {
       // If forwarding fails, return an error to client
-      console.log('[forms-gate] forward failed')
+      logGateEvent({
+        action: 'forms-gate.forward',
+        result: 'failed',
+        reason: 'upstream-forwarding',
+        status: 502,
+      })
       return new Response(
         JSON.stringify({ ok: false, error: 'Forward failed' }),
         {
@@ -288,6 +342,13 @@ export default async (request: Request, context: any) => {
     const upstreamOk = upstreamStatus < 400
     if (accept.includes('application/json')) {
       if (upstreamOk) {
+        logGateEvent({
+          action: 'forms-gate.forward',
+          result: 'forwarded',
+          reason: 'forwarded',
+          status: 200,
+          upstreamStatus,
+        })
         return new Response(JSON.stringify({ ok: true }), {
           status: 200,
           headers: {
@@ -297,6 +358,13 @@ export default async (request: Request, context: any) => {
           },
         })
       }
+      logGateEvent({
+        action: 'forms-gate.forward',
+        result: 'failed',
+        reason: 'upstream-forwarding',
+        status: 502,
+        upstreamStatus,
+      })
       return new Response(
         JSON.stringify({
           ok: false,
@@ -315,6 +383,13 @@ export default async (request: Request, context: any) => {
     }
 
     if (upstreamOk) {
+      logGateEvent({
+        action: 'forms-gate.forward',
+        result: 'forwarded',
+        reason: 'forwarded',
+        status: 303,
+        upstreamStatus,
+      })
       return new Response(null, {
         status: 303,
         headers: {
@@ -325,12 +400,27 @@ export default async (request: Request, context: any) => {
       })
     }
     // On non-XHR and upstream error, surface upstream response to client
+    logGateEvent({
+      action: 'forms-gate.forward',
+      result: 'failed',
+      reason: 'upstream-forwarding',
+      status: upstreamStatus,
+      upstreamStatus,
+    })
     return upstream as Response
   } catch (err) {
-    console.log(
-      '[forms-gate] unhandled error',
-      (err as any)?.message || String(err),
-    )
+    const { pathname } = new URL(request.url)
+    logFormSpamEvent({
+      surface: 'forms-gate',
+      action: 'forms-gate.validation',
+      result: 'failed',
+      reason: 'validation-error',
+      method: request.method,
+      path: pathname,
+      source: getRequestSource(request, context),
+      status: 500,
+      errorType: (err as any)?.name || 'Error',
+    })
     return new Response(JSON.stringify({ ok: false, error: 'Edge crash' }), {
       status: 500,
       headers: { 'content-type': 'application/json', 'x-forms-gate': 'crash' },

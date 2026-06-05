@@ -8,9 +8,10 @@ import { RATE_LIMIT_POLICIES } from './rate-limit.js'
 const originalNetlify = globalThis.Netlify
 const TEST_CAP_SECRET = 'test-cap-token-secret-value-12345'
 
-test('CapJS handler completes the stateless challenge flow once', async () => {
+test('CapJS handler completes the stateless challenge flow once', async (t) => {
   const originalTokenStore = globalThis.__loumarcCapTokenStore
   const store = createMemoryTokenStore()
+  const logs = captureFormSpamLogs(t)
   globalThis.__loumarcCapTokenStore = store
   globalThis.Netlify = {
     env: {
@@ -83,6 +84,23 @@ test('CapJS handler completes the stateless challenge flow once', async () => {
     assert.deepEqual(await validateResponse.json(), { success: true })
     assert.equal(replayResponse.status, 200)
     assert.deepEqual(await replayResponse.json(), { success: false })
+
+    const capReasons = logs
+      .filter((log) => log.surface === 'cap-verification')
+      .map((log) => log.reason)
+    assert.equal(capReasons.includes('challenge-created'), true)
+    assert.equal(capReasons.includes('redeem-success'), true)
+    assert.equal(capReasons.includes('validate-success'), true)
+    assert.equal(capReasons.includes('validate-failure'), true)
+    assert.equal(
+      logs.some(
+        (log) =>
+          Object.hasOwn(log, 'token') ||
+          Object.hasOwn(log, 'solutions') ||
+          Object.hasOwn(log, 'source'),
+      ),
+      false,
+    )
   } finally {
     globalThis.Netlify = originalNetlify
     if (originalTokenStore === undefined) {
@@ -93,7 +111,8 @@ test('CapJS handler completes the stateless challenge flow once', async () => {
   }
 })
 
-test('CapJS validate returns a normal validation error before rate limiting', async () => {
+test('CapJS validate returns a normal validation error before rate limiting', async (t) => {
+  const logs = captureFormSpamLogs(t)
   const response = await capHandler(
     new Request('https://loumarcsigns.com/.netlify/functions/cap/validate', {
       method: 'POST',
@@ -108,6 +127,17 @@ test('CapJS validate returns a normal validation error before rate limiting', as
 
   assert.equal(response.status, 400)
   assert.deepEqual(await response.json(), { success: false })
+  assert.equal(
+    logs.some(
+      (log) =>
+        log.surface === 'cap-verification' &&
+        log.action === 'cap.validate' &&
+        log.reason === 'malformed-request' &&
+        log.result === 'malformed' &&
+        log.status === 400,
+    ),
+    true,
+  )
 })
 
 test('CapJS endpoints return 429 after repeated same-source traffic', async (t) => {
@@ -218,6 +248,21 @@ function prng(seed, length) {
   }
 
   return result.substring(0, length)
+}
+
+function captureFormSpamLogs(t) {
+  const logs = []
+
+  t.mock.method(console, 'log', (line) => {
+    try {
+      const parsed = JSON.parse(line)
+      if (parsed.event === 'loumarc.form_spam') {
+        logs.push(parsed)
+      }
+    } catch (_error) {}
+  })
+
+  return logs
 }
 
 test('CapJS validate trusts the internal source header for fallback limiting', async () => {

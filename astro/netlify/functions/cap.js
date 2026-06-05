@@ -21,6 +21,7 @@ import {
   logRateLimitDecision,
   RATE_LIMIT_POLICIES,
 } from './_shared/rate-limit.js'
+import { logFormSpamEvent } from './_shared/spam-monitoring.js'
 import {
   CapConfigurationError,
   CapStoreError,
@@ -35,20 +36,50 @@ const INTERNAL_SECRET_HEADER = 'x-loumarc-internal-secret'
 export default async function handler(request, context) {
   const { pathname } = new URL(request.url)
   const route = pathname.replace(/\/$/, '')
+  const requestSource = getRequestSource(request, context)
+  const logRequestEvent = (details) =>
+    logFormSpamEvent({
+      surface: 'cap-verification',
+      method: request.method,
+      path: pathname,
+      source: requestSource,
+      ...details,
+    })
 
   if (request.method !== 'POST') {
+    logRequestEvent({
+      action: 'cap.request',
+      result: 'malformed',
+      reason: 'malformed-request',
+      status: 405,
+    })
     return new Response(null, { status: 405 })
   }
 
   const policy = policyForRoute(route)
 
   if (!policy) {
+    logRequestEvent({
+      action: 'cap.request',
+      result: 'malformed',
+      reason: 'malformed-request',
+      status: 404,
+    })
     return new Response(null, { status: 404 })
   }
 
+  const rateLimitSource = getRateLimitSource({ context, request, route })
+  const logCapEvent = (details) =>
+    logFormSpamEvent({
+      surface: 'cap-verification',
+      method: request.method,
+      path: pathname,
+      source: rateLimitSource,
+      ...details,
+    })
   const rateLimitResult = checkRateLimit({
     policy,
-    source: getRateLimitSource({ context, request, route }),
+    source: rateLimitSource,
   })
   logRateLimitDecision(rateLimitResult, {
     method: request.method,
@@ -61,41 +92,81 @@ export default async function handler(request, context) {
 
   if (route.endsWith('/challenge')) {
     try {
-      return jsonResponse(createChallenge())
+      const challenge = createChallenge()
+      logCapEvent({
+        action: 'cap.challenge',
+        result: 'created',
+        reason: 'challenge-created',
+        status: 200,
+      })
+      return jsonResponse(challenge)
     } catch (error) {
-      return capErrorResponse(error)
+      return capErrorResponse(error, {
+        action: 'cap.challenge',
+        logCapEvent,
+      })
     }
   }
 
   if (route.endsWith('/redeem')) {
-    const body = await readJson(request)
+    const { body, malformedJson } = await readJson(request)
     const { token, solutions } = body
 
-    if (!token || !solutions) {
+    if (malformedJson || !token || !solutions) {
+      logCapEvent({
+        action: 'cap.redeem',
+        result: 'malformed',
+        reason: 'malformed-request',
+        status: 400,
+      })
       return jsonResponse({ success: false }, { status: 400 })
     }
 
     try {
       const result = await redeemChallenge({ token, solutions })
+      logCapEvent({
+        action: 'cap.redeem',
+        result: result.success ? 'success' : 'failure',
+        reason: result.success ? 'redeem-success' : 'redeem-failure',
+        status: 200,
+      })
       return jsonResponse(result)
     } catch (error) {
-      return capErrorResponse(error)
+      return capErrorResponse(error, {
+        action: 'cap.redeem',
+        logCapEvent,
+      })
     }
   }
 
   if (route.endsWith('/validate')) {
-    const body = await readJson(request)
+    const { body, malformedJson } = await readJson(request)
     const { token } = body
 
-    if (!token) {
+    if (malformedJson || !token) {
+      logCapEvent({
+        action: 'cap.validate',
+        result: 'malformed',
+        reason: 'malformed-request',
+        status: 400,
+      })
       return jsonResponse({ success: false }, { status: 400 })
     }
 
     try {
       const result = await validateToken({ token })
+      logCapEvent({
+        action: 'cap.validate',
+        result: result.success ? 'success' : 'failure',
+        reason: result.success ? 'validate-success' : 'validate-failure',
+        status: 200,
+      })
       return jsonResponse(result)
     } catch (error) {
-      return capErrorResponse(error)
+      return capErrorResponse(error, {
+        action: 'cap.validate',
+        logCapEvent,
+      })
     }
   }
 }
@@ -131,9 +202,9 @@ function getInternalSecret() {
 
 async function readJson(request) {
   try {
-    return await request.json()
+    return { body: await request.json(), malformedJson: false }
   } catch (_error) {
-    return {}
+    return { body: {}, malformedJson: true }
   }
 }
 
@@ -144,17 +215,40 @@ function jsonResponse(body, init = {}) {
   })
 }
 
-function capErrorResponse(error) {
+function capErrorResponse(error, { action, logCapEvent }) {
+  const errorType = error?.name || 'Error'
+
   if (error instanceof CapConfigurationError) {
     console.error('[cap] configuration error:', error.message)
+    logCapEvent({
+      action,
+      result: 'failed',
+      reason: 'operational-error',
+      status: 500,
+      errorType,
+    })
     return jsonResponse({ success: false }, { status: 500 })
   }
 
   if (error instanceof CapStoreError) {
     console.error('[cap] token store error:', error.message)
+    logCapEvent({
+      action,
+      result: 'failed',
+      reason: 'operational-error',
+      status: 503,
+      errorType,
+    })
     return jsonResponse({ success: false }, { status: 503 })
   }
 
   console.error('[cap] unexpected error:', error?.message || String(error))
+  logCapEvent({
+    action,
+    result: 'failed',
+    reason: 'operational-error',
+    status: 500,
+    errorType,
+  })
   return jsonResponse({ success: false }, { status: 500 })
 }
