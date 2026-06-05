@@ -197,12 +197,22 @@ function signPayload(payload, secret) {
 }
 
 function verifySignedPayload(token, secret) {
+  if (typeof token !== 'string') {
+    return null
+  }
+
   if (!token.startsWith(TOKEN_PREFIX)) {
     return null
   }
 
   const body = token.slice(TOKEN_PREFIX.length)
-  const [encodedPayload, signature] = body.split('.')
+  const parts = body.split('.')
+
+  if (parts.length !== 2) {
+    return null
+  }
+
+  const [encodedPayload, signature] = parts
 
   if (!encodedPayload || !signature) {
     return null

@@ -147,6 +147,25 @@ test('stateless Cap rejects malformed, tampered, or incorrect data', async () =>
     }),
     { success: false },
   )
+
+  const redeemed = await redeemChallenge({
+    now,
+    secret: SECRET,
+    solutions,
+    store,
+    token: challenge.token,
+  })
+
+  assert.equal(redeemed.success, true)
+  assert.deepEqual(
+    await validateToken({
+      now,
+      secret: SECRET,
+      store,
+      token: `${redeemed.token}.extra`,
+    }),
+    { success: false },
+  )
 })
 
 function createMemoryTokenStore() {
