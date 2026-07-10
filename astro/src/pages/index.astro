@@ -9,6 +9,25 @@ import { Picture } from 'astro:assets'
 import heroImage from '../assets/Amazon-trusts-Loumarc-Signs-Channel-Letters-Signs-02.jpg'
 
 const products = await sanityClient.fetch(`*[_type == "product"]`)
+const featuredProductSlugs = [
+  'channel-letters',
+  'acrylic-signs-new-jersey',
+  'cut-metal-letters',
+]
+const featuredProduct = featuredProductSlugs
+  .map((slug) =>
+    products.find((product: any) => product.slug?.current === slug),
+  )
+  .find(Boolean)
+const orderedProducts = featuredProduct
+  ? [
+      featuredProduct,
+      ...products.filter(
+        (product: any) =>
+          product.slug?.current !== featuredProduct.slug?.current,
+      ),
+    ]
+  : products
 
 const meta = {
   title: 'Loumarc Signs | High-end full service sign experts',
@@ -130,8 +149,8 @@ const meta = {
           Bringing visibility <span>to your goals.</span>
         </h1>
         <p class="home-hero__summary">
-          Loumarc pairs craft and clear guidance to make your business easier to
-          notice—and remember.
+          We guide your sign project with expertise and craftsmanship, so your
+          business gets noticed—and remembered.
         </p>
         <div class="home-hero__actions">
           <a class="button" href="#contact-form">Start a sign project</a>
@@ -163,14 +182,15 @@ const meta = {
 
   <main id="main">
     <section class="home-promise" aria-labelledby="promise-heading">
-      <div class="home-promise__inner wrapper">
-        <div class="home-promise__heading">
-          <p>Built for the long view.</p>
+      <div class="home-promise__inner">
+        <div
+          class="home-promise__heading spot-color-tertiary lines-overlay"
+        >
           <h2 id="promise-heading">
-            Visibility matters. So does the workmanship behind it.
+            Visibility matters. So does the craftsmanship behind it.
           </h2>
         </div>
-        <div class="home-promise__copy">
+        <div class="home-promise__copy lines-overlay" data-opacity="dark">
           <p>
             Every Loumarc sign is protected against defects in quality,
             construction, and installation for three years.
@@ -188,38 +208,27 @@ const meta = {
       id="products"
       aria-labelledby="products-heading"
     >
-      <svg
-        aria-hidden="true"
-        class="slant"
-        viewBox="0 0 1440 67"
-        preserveAspectRatio="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M0,66.398L1440,18.066L1440,0L0,0L0,66.398Z"></path>
-      </svg>
       <div class="home-products__surface section__inner">
         <div class="home-products__intro wrapper">
           <div>
-            <h2 id="products-heading">Find the sign that fits the job.</h2>
+            <h2 id="products-heading">
+              Find the right sign for what comes next.
+            </h2>
             <p>
               From exterior identification and illuminated letters to
-              precision-fabricated details and one-off builds, explore the full
+              precision-fabricated details and custom builds, explore the full
               range.
             </p>
           </div>
           <a class="home-link" href="/products/">
-            Compare all products <span aria-hidden="true">→</span>
+            View all products <span aria-hidden="true">→</span>
           </a>
         </div>
-        <p class="home-products__hint wrapper">
-          Swipe to browse the full list.
-        </p>
-
         {
-          products?.length > 0 && (
+          orderedProducts?.length > 0 && (
             <div class="home-products__rail wrapper">
               <ul role="list" class="home-products__grid">
-                {products.map((product: any, index: number) => (
+                {orderedProducts.map((product: any, index: number) => (
                   <li>
                     <Card
                       index={index}
@@ -242,6 +251,10 @@ const meta = {
             </div>
           )
         }
+        <p class="home-products__hint wrapper">
+          <span>Swipe to browse the full list</span>
+          <span aria-hidden="true">→</span>
+        </p>
       </div>
       <svg
         aria-hidden="true"
@@ -380,40 +393,43 @@ const meta = {
     color: var(--bronze100);
   }
 
-  .home-promise__inner {
-    --measure: 78rem;
+  .home-promise .home-promise__inner {
     display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
-    gap: var(--space-l-2xl);
-    padding-block: var(--space-2xl-3xl);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .home-promise__heading > p {
-    margin-block-end: var(--space-s);
-    color: var(--bronze300);
-    font-size: var(--step--1);
-    font-weight: 600;
-    letter-spacing: 0;
+  .home-promise .home-promise__heading,
+  .home-promise .home-promise__copy {
+    min-block-size: clamp(24rem, 36vw, 32rem);
+    padding: var(--space-2xl-3xl) clamp(var(--space-m), 7vw, var(--space-3xl));
   }
 
-  .home-promise h2 {
-    max-inline-size: 18ch;
-    color: var(--bronze100);
+  .home-promise .home-promise__heading {
+    display: flex;
+    align-items: center;
+    background: var(--bronze100);
+  }
+
+  .home-promise .home-promise__heading h2 {
+    max-inline-size: 15ch;
+    margin: 0;
+    color: var(--bronze700);
     font-size: var(--step-5);
     letter-spacing: -0.025em;
     text-wrap: balance;
   }
 
-  .home-promise__copy {
+  .home-promise .home-promise__copy {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
     gap: var(--space-s);
+    background: var(--bronze1000);
     font-size: var(--step-0);
     letter-spacing: -0.02ch;
   }
 
-  .home-promise__copy p {
+  .home-promise .home-promise__copy p {
     max-inline-size: 52ch;
     text-wrap: pretty;
   }
@@ -463,11 +479,10 @@ const meta = {
     overflow: hidden;
   }
 
-  .home-products__hint {
+  .home-products .home-products__hint {
     display: none;
-    margin-block-start: var(--space-s);
     font-size: var(--step--1);
-    font-weight: 600;
+    font-weight: 400;
     letter-spacing: 0;
   }
 
@@ -569,9 +584,6 @@ const meta = {
   .home-contact :global(#contact-form > form) {
     max-inline-size: 72rem;
     gap: var(--space-m-l);
-    padding: var(--space-m-l);
-    border-radius: 12px;
-    background: var(--gray300);
   }
 
   .home-contact :global(#contact-form label) {
@@ -724,12 +736,17 @@ const meta = {
       max-inline-size: min(32ch, calc(100% - (2 * var(--gutter))));
     }
 
-    .home-promise__inner {
+    .home-promise .home-promise__inner {
       grid-template-columns: 1fr;
-      gap: var(--space-l);
     }
 
-    .home-promise h2,
+    .home-promise .home-promise__heading,
+    .home-promise .home-promise__copy {
+      min-block-size: 0;
+      padding: var(--space-xl-2xl) var(--gutter);
+    }
+
+    .home-promise .home-promise__heading h2,
     .home-products__intro h2,
     .home-contact :global(#contact-form > aside h2) {
       font-size: var(--step-4);
@@ -755,8 +772,15 @@ const meta = {
       scrollbar-width: thin;
     }
 
-    .home-products__hint {
-      display: block;
+    .home-products .home-products__hint {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: var(--space-2xs);
+      margin-block-start: var(--space-xs);
+      color: var(--gray1200);
+      opacity: 0.72;
+      text-align: end;
     }
 
     .home-products__grid {
@@ -786,9 +810,6 @@ const meta = {
       padding-block: calc(var(--space-2xl) + 4rem) var(--space-2xl);
     }
 
-    .home-contact :global(#contact-form > form) {
-      padding: var(--space-s-m);
-    }
   }
 
   @media (prefers-reduced-motion: reduce) {
