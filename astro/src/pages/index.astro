@@ -77,20 +77,12 @@ const meta = {
 
       .home-hero h1 {
         max-inline-size: 13ch;
-        margin-block-start: clamp(0.75rem, calc(0.68rem + 0.33vw), 0.94rem);
+        margin-block: 0;
         font-family: 'Facundo', system-ui, sans-serif;
         font-size: clamp(3.5rem, min(7.2vw, 8svh), 5.2rem);
         font-weight: 300;
         line-height: 0.92;
         letter-spacing: -0.035em;
-        text-wrap: balance;
-      }
-
-      .home-hero__context {
-        max-inline-size: 42ch;
-        font-size: clamp(0.83rem, calc(0.78rem + 0.29vw), 1rem);
-        font-weight: 600;
-        letter-spacing: 0;
         text-wrap: balance;
       }
 
@@ -134,9 +126,6 @@ const meta = {
     <Header location="home" />
     <section class="home-hero" aria-labelledby="home-heading">
       <div class="home-hero__copy wrapper">
-        <p class="home-hero__context">
-          Custom signs from first conversation through installation.
-        </p>
         <h1 id="home-heading">
           Bringing visibility <span>to your goals.</span>
         </h1>
@@ -295,17 +284,9 @@ const meta = {
     text-align: center;
   }
 
-  .home-hero__context {
-    max-inline-size: 42ch;
-    font-size: var(--step--1);
-    font-weight: 600;
-    letter-spacing: 0;
-    text-wrap: balance;
-  }
-
   .home-hero h1 {
     max-inline-size: 13ch;
-    margin-block-start: var(--space-xs);
+    margin-block: 0;
     font-size: clamp(3.2rem, 7.2vw, 5.8rem);
     font-weight: 300;
     line-height: 0.92;
