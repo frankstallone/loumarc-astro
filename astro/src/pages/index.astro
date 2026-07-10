@@ -17,6 +17,117 @@ const meta = {
 ---
 
 <Layout meta={meta}>
+  <style is:inline>
+    #main-navigation .header-logo > a,
+    #main-navigation .header-logo img {
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
+    }
+
+    @media (min-width: 44.01rem) {
+      #main-navigation {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: fixed;
+        inset-block-start: clamp(1rem, calc(0.91rem + 0.43vw), 1.25rem);
+        z-index: 500;
+        inline-size: 100vw;
+        padding-inline: 3vw;
+      }
+
+      #main-navigation .desktop-nav,
+      #main-navigation .header-logo {
+        display: flex;
+      }
+
+      #main-navigation .mobile-nav {
+        display: none;
+      }
+
+      #main-navigation ul.desktop {
+        display: flex;
+        align-items: center;
+        gap: clamp(1rem, calc(0.91rem + 0.43vw), 1.25rem);
+        margin: 0;
+        padding: 14px 24px 16px;
+        border-radius: 12px;
+        background: #fcfcfc;
+        list-style: none;
+      }
+
+      .home-hero {
+        display: grid;
+        grid-template-rows: auto auto;
+        min-block-size: 0;
+        overflow: visible;
+      }
+
+      .home-hero__copy {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        inline-size: 100%;
+        padding-block: clamp(6rem, calc(5.48rem + 2.61vw), 7.5rem)
+          clamp(2rem, calc(1.83rem + 0.87vw), 2.5rem);
+        text-align: center;
+      }
+
+      .home-hero h1 {
+        max-inline-size: 13ch;
+        margin-block-start: clamp(0.75rem, calc(0.68rem + 0.33vw), 0.94rem);
+        font-family: 'Facundo', system-ui, sans-serif;
+        font-size: clamp(3.5rem, min(7.2vw, 8svh), 5.2rem);
+        font-weight: 300;
+        line-height: 0.92;
+        letter-spacing: -0.035em;
+        text-wrap: balance;
+      }
+
+      .home-hero__context {
+        max-inline-size: 42ch;
+        font-size: clamp(0.83rem, calc(0.78rem + 0.29vw), 1rem);
+        font-weight: 600;
+        letter-spacing: 0;
+        text-wrap: balance;
+      }
+
+      .home-hero__summary {
+        max-inline-size: 52ch;
+        margin-block-start: clamp(1rem, calc(0.91rem + 0.43vw), 1.25rem);
+        font-size: clamp(1rem, calc(0.91rem + 0.43vw), 1.25rem);
+        letter-spacing: -0.02ch;
+        text-wrap: pretty;
+      }
+
+      .home-hero__actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(0.75rem, calc(0.58rem + 0.87vw), 1.25rem);
+        margin-block-start: clamp(1.5rem, calc(1.37rem + 0.65vw), 1.88rem);
+      }
+
+      .home-hero__media {
+        position: relative;
+        min-block-size: 0;
+        margin: 0;
+        overflow: hidden;
+        background: #b9c9e5;
+      }
+
+      .home-hero__image {
+        display: block;
+        inline-size: 100%;
+        block-size: auto;
+        object-fit: contain;
+        object-position: center;
+      }
+    }
+  </style>
   <a href="#main" class="sr-only sr-only-focusable">Skip to content</a>
 
   <header class="home-header">
@@ -530,18 +641,8 @@ const meta = {
   }
 
   :global(.home-header #main-navigation ul.desktop),
-  :global(.home-header .header-logo > a),
   :global(.home-header .mobile-open) {
     background: var(--gray100);
-  }
-
-  :global(.home-header .header-logo > a) {
-    display: flex;
-    align-items: center;
-    min-inline-size: 2.75rem;
-    min-block-size: 2.75rem;
-    padding-inline: var(--space-xs);
-    border-radius: 8px;
   }
 
   :global(.home-header #main-navigation .button),

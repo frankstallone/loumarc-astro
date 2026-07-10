@@ -74,7 +74,7 @@
   --line-height-small: calc(var(--ratio) * 0.7);
   --font-base: system-ui, sans-serif;
   --font-base-weight: 300;
-  --font-display: 'Facundo', 'sans-serif';
+  --font-display: 'Facundo', system-ui, sans-serif;
   --gutter: var(--space-s-m);
   --negative-gutter: calc(-1 * var(--gutter));
   --border-radius: var(--step-0);

@@ -56,6 +56,13 @@
   display: none;
 }
 
+#main-navigation .header-logo > a,
+#main-navigation .header-logo img {
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
 /* Mobile nav */
 
 .mobile-nav-container {

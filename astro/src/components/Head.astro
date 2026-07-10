@@ -100,27 +100,7 @@ if (productSchema) {
     as="font"
     href="/fonts/facundo/Facundo-Light.woff"
     type="font/woff"
-    crossorigin="anonymous"
-  />
-  <link
-    rel="preload"
-    as="font"
-    href="/fonts/facundo/Facundo-LightIt.woff"
-    type="font/woff"
-    crossorigin="anonymous"
-  />
-  <link
-    rel="preload"
-    as="font"
-    href="/fonts/facundo/Facundo-Regular.woff"
-    type="font/woff"
-    crossorigin="anonymous"
-  />
-  <link
-    rel="preload"
-    as="font"
-    href="/fonts/facundo/Facundo-RegularIt.woff"
-    type="font/woff"
+    fetchpriority="high"
     crossorigin="anonymous"
   />
   {schema && <Fragment set:html={schema} />}

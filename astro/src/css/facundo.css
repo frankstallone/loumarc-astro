@@ -37,7 +37,7 @@
   src: url('/fonts/facundo/Facundo-Light.woff') format('woff');
   font-weight: 300;
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
   unicode-range: U+000-5FF;
 }
 @font-face {
