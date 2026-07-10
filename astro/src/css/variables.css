@@ -64,6 +64,8 @@
   --gray1100: hsl(0, 0%, 43.5%);
   --gray1200: hsl(0, 0%, 9%);
 
+  --home-sky: #b9c9e5;
+
   --measure: 70ch;
   --color-light: var(--gray100);
   --color-dark: var(--gray1200);
@@ -76,10 +78,10 @@
   --gutter: var(--space-s-m);
   --negative-gutter: calc(-1 * var(--gutter));
   --border-radius: var(--step-0);
-  --transition-base: 250ms ease-in-out;
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --transition-base: 250ms var(--ease-out-quart);
   --transition-movement: 200ms linear;
   --transition-fade: 200ms ease;
-  --transition-bounce: 500ms cubic-bezier(0.5, 0.05, 0.2, 1.5);
   --tracking: -0.05ch;
   --tracking-s: -0.01ch;
   --angle: -3deg;

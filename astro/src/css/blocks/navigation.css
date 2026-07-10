@@ -19,11 +19,9 @@
   list-style: none;
   display: flex;
   padding-inline-start: 0;
-  -webkit-backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
-  transition: opacity 0.4s;
+  transition: background-color 180ms var(--ease-out-quart);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--gray100);
   padding: 14px 24px 16px;
 }
 
@@ -62,7 +60,7 @@
 
 .mobile-nav-container {
   position: fixed;
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   flex-flow: column nowrap;
@@ -72,6 +70,10 @@
   background: var(--gray1200);
   width: 100dvw;
   height: 100dvh;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms var(--ease-out-quart);
 }
 
 .mobile-nav-container ul {
@@ -83,6 +85,9 @@
 
 .mobile-nav-container ul li a,
 .mobile-nav-container ul li a:visited {
+  display: flex;
+  align-items: center;
+  min-block-size: 2.75rem;
   color: var(--gray100);
   font-size: var(--step-3);
   text-decoration: none;
@@ -95,27 +100,39 @@
 }
 
 .mobile-open {
-  -webkit-backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
-  transition: opacity 0.4s;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.2);
-  padding: 0.5rem 1rem 0.05rem;
+  display: grid;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--gray100);
+  padding: 0.75rem;
   border: none;
-  background: none;
   color: var(--gray1200);
+}
+
+.mobile-open svg {
+  inline-size: 100%;
+  block-size: 100%;
 }
 
 .mobile-close {
   position: absolute;
-  display: block;
+  display: grid;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  place-items: center;
   border: none;
   background: none;
-  color: var(--gray100);
   top: var(--space-m);
   left: var(--space-m);
   color: var(--gray100);
-  font-size: var(--step-3);
+  padding: 0.75rem;
+}
+
+.mobile-close svg {
+  inline-size: 100%;
+  block-size: 100%;
 }
 
 .mobile-nav-logo {
@@ -136,7 +153,13 @@
 }
 
 .mobile-nav-container.is-active {
-  display: flex;
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+html.menu-open {
+  overflow: hidden;
 }
 @media (max-width: 700px) {
 }

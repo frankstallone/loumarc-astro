@@ -1,76 +1,93 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Card from '../components/Card.astro';
-import FormBuilder from '../components/FormBuilder.astro';
-import { sanityClient } from 'sanity:client';
-import { Picture } from 'astro:assets';
+import Layout from '../layouts/Layout.astro'
+import Header from '../components/Header.astro'
+import Card from '../components/Card.astro'
+import FormBuilder from '../components/FormBuilder.astro'
+import { sanityClient } from 'sanity:client'
+import { Picture } from 'astro:assets'
 
-import heroImage from '../assets/Amazon-trusts-Loumarc-Signs-Channel-Letters-Signs-02.jpg';
+import heroImage from '../assets/Amazon-trusts-Loumarc-Signs-Channel-Letters-Signs-02.jpg'
 
-const products = await sanityClient.fetch(`*[_type == "product"]`);
+const products = await sanityClient.fetch(`*[_type == "product"]`)
 
 const meta = {
   title: 'Loumarc Signs | High-end full service sign experts',
   canonicalURL: 'https://loumarcsigns.com/',
-};
+}
 ---
 
 <Layout meta={meta}>
   <a href="#main" class="sr-only sr-only-focusable">Skip to content</a>
-  <header>
+
+  <header class="home-header">
     <Header location="home" />
-    <section class="center" data-location="home">
-      <div class="cover" data-location="home">
-        <h1
-          class="text-center font-weight-base font-size-6 max-inline-size-full step-7"
-          style="letter-spacing: -0.075ch;"
-        >
-          Bringing visibility <br />to your goals
+    <section class="home-hero" aria-labelledby="home-heading">
+      <div class="home-hero__copy wrapper">
+        <p class="home-hero__context">
+          Custom signs from first conversation through installation.
+        </p>
+        <h1 id="home-heading">
+          Bringing visibility <span>to your goals.</span>
         </h1>
+        <p class="home-hero__summary">
+          Loumarc pairs craft and clear guidance to make your business easier to
+          notice—and remember.
+        </p>
+        <div class="home-hero__actions">
+          <a class="button" href="#contact-form">Start a sign project</a>
+          <a class="home-link" href="#products">
+            Explore sign types <span aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </div>
+
+      <figure class="home-hero__media">
         <Picture
           src={heroImage}
-          widths={[300, 800, 2000, heroImage.width]}
-          sizes={`(max-width: 360px) 300px, (max-width: 720px) 800px, (max-width: 1600px) 2000px, ${heroImage.width}px`}
-          class="object-contain h-auto"
-          alt="Amazon trusts Loumarc Signs to create their signs"
-          fetchpriority={'high'}
-          loading={'eager'}
-          quality={80}
+          widths={[600, 1000, 1600, 2200, heroImage.width]}
+          sizes="100vw"
+          class="home-hero__image"
+          alt="Amazon channel-letter sign created by Loumarc Signs"
+          fetchpriority="high"
+          loading="eager"
+          quality={85}
           formats={['avif', 'webp']}
-          decoding="sync"
+          decoding="async"
         />
-      </div>
+        <figcaption>
+          Channel letters created for Amazon by Loumarc Signs
+        </figcaption>
+      </figure>
     </section>
   </header>
-  <main role="main" id="main">
-    <article data-layout="md">
-      <div
-        class="switcher text-center section__inner spot-color-tertiary-dark"
-        data-gap="none"
-        data-trenshold="xl"
-      >
-        <div
-          class="box spot-color-tertiary section__inner items-center flex lines-overlay"
-          data-padding="3xl"
-        >
-          <h2 class="mx-auto">Achieve the awareness your business deserves</h2>
+
+  <main id="main">
+    <section class="home-promise" aria-labelledby="promise-heading">
+      <div class="home-promise__inner wrapper">
+        <div class="home-promise__heading">
+          <p>Built for the long view.</p>
+          <h2 id="promise-heading">
+            Visibility matters. So does the workmanship behind it.
+          </h2>
         </div>
-        <p
-          class="box spot-color-tertiary-dark section__inner items-center flex lines-overlay mx-auto"
-          data-padding="3xl"
-          data-opacity="dark"
-        >
-          At Loumarc Signs we ensure that every sign is free from defects in
-          quality, construction, and installation for three years. It's a
-          reflection of our unwavering commitment to your brand's success.
-        </p>
+        <div class="home-promise__copy">
+          <p>
+            Every Loumarc sign is protected against defects in quality,
+            construction, and installation for three years.
+          </p>
+          <p>
+            It is a practical promise: the sign that represents your business
+            should be made with the same care you put into the business itself.
+          </p>
+        </div>
       </div>
-      <div class="box">
-        <FormBuilder slug="default" />
-      </div>
-    </article>
-    <article class="section spot-color-gray" style="margin-block-end: -4rem;">
+    </section>
+
+    <section
+      class="home-products section"
+      id="products"
+      aria-labelledby="products-heading"
+    >
       <svg
         aria-hidden="true"
         class="slant"
@@ -80,14 +97,28 @@ const meta = {
       >
         <path d="M0,66.398L1440,18.066L1440,0L0,0L0,66.398Z"></path>
       </svg>
-      <div class="section__inner region">
-        <div class="wrapper">
-          <h2 class="text-center">Products</h2>
+      <div class="home-products__surface section__inner">
+        <div class="home-products__intro wrapper">
+          <div>
+            <h2 id="products-heading">Find the sign that fits the job.</h2>
+            <p>
+              From exterior identification and illuminated letters to
+              precision-fabricated details and one-off builds, explore the full
+              range.
+            </p>
+          </div>
+          <a class="home-link" href="/products/">
+            Compare all products <span aria-hidden="true">→</span>
+          </a>
         </div>
-        <div class="box">
-          {
-            products && (
-              <ul role="list" class="grid justify-items-center">
+        <p class="home-products__hint wrapper">
+          Swipe to browse the full list.
+        </p>
+
+        {
+          products?.length > 0 && (
+            <div class="home-products__rail wrapper">
+              <ul role="list" class="home-products__grid">
                 {products.map((product: any, index: number) => (
                   <li>
                     <Card
@@ -108,9 +139,9 @@ const meta = {
                   </li>
                 ))}
               </ul>
-            )
-          }
-        </div>
+            </div>
+          )
+        }
       </div>
       <svg
         aria-hidden="true"
@@ -121,6 +152,563 @@ const meta = {
       >
         <path d="M0,66.398L1440,18.066L1440,0L0,0L0,66.398Z"></path>
       </svg>
-    </article>
+    </section>
+
+    <section class="home-contact" aria-label="Start a sign project">
+      <div class="home-contact__inner wrapper">
+        <FormBuilder slug="default" />
+      </div>
+    </section>
   </main>
 </Layout>
+
+<style>
+  .home-header {
+    background: var(--home-sky);
+  }
+
+  .home-hero {
+    display: grid;
+    grid-template-rows: minmax(24rem, 45svh) minmax(24rem, 55svh);
+    min-block-size: 100svh;
+    overflow: hidden;
+  }
+
+  .home-hero__copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    inline-size: 100%;
+    padding-block: calc(var(--space-2xl) + var(--space-s)) var(--space-l);
+    text-align: center;
+  }
+
+  .home-hero__context {
+    max-inline-size: 42ch;
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0;
+    text-wrap: balance;
+  }
+
+  .home-hero h1 {
+    max-inline-size: 13ch;
+    margin-block-start: var(--space-xs);
+    font-size: clamp(3.2rem, 7.2vw, 5.8rem);
+    font-weight: 300;
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  .home-hero h1 span {
+    display: block;
+  }
+
+  .home-hero__summary {
+    max-inline-size: 52ch;
+    margin-block-start: var(--space-s);
+    font-size: var(--step-0);
+    letter-spacing: -0.02ch;
+    text-wrap: pretty;
+  }
+
+  .home-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs-s);
+    margin-block-start: var(--space-m);
+  }
+
+  .home-hero__actions .button {
+    min-block-size: 3rem;
+  }
+
+  .home-link {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.75rem;
+    gap: var(--space-2xs);
+    padding-inline: var(--space-2xs);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0;
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+    transition:
+      color 180ms var(--ease-out-quart),
+      transform 180ms var(--ease-out-quart);
+  }
+
+  .home-link:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  .home-link:active {
+    transform: translateY(1px);
+  }
+
+  .home-hero__media {
+    position: relative;
+    min-block-size: 0;
+    margin: 0;
+    overflow: hidden;
+    background: var(--sea300);
+  }
+
+  .home-hero__image {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    object-position: center 47%;
+    animation: hero-image-in 900ms var(--ease-out-quart) both;
+  }
+
+  .home-hero figcaption {
+    position: absolute;
+    inset-inline-end: var(--gutter);
+    inset-block-end: var(--space-s);
+    max-inline-size: 34ch;
+    padding: var(--space-2xs) var(--space-xs);
+    border-radius: 4px;
+    background: var(--gray1200);
+    color: var(--gray100);
+    font-size: var(--step--2);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.35;
+  }
+
+  .home-promise {
+    background: var(--bronze1000);
+    color: var(--bronze100);
+  }
+
+  .home-promise__inner {
+    --measure: 78rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
+    gap: var(--space-l-2xl);
+    padding-block: var(--space-2xl-3xl);
+  }
+
+  .home-promise__heading > p {
+    margin-block-end: var(--space-s);
+    color: var(--bronze300);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+
+  .home-promise h2 {
+    max-inline-size: 18ch;
+    color: var(--bronze100);
+    font-size: var(--step-5);
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  .home-promise__copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: var(--space-s);
+    font-size: var(--step-0);
+    letter-spacing: -0.02ch;
+  }
+
+  .home-promise__copy p {
+    max-inline-size: 52ch;
+    text-wrap: pretty;
+  }
+
+  .home-products {
+    --spot-color: var(--gray500);
+    margin-block-end: -4rem;
+    overflow: hidden;
+    background: var(--bronze1000);
+    scroll-margin-block-start: 5rem;
+  }
+
+  .home-products__surface {
+    --measure: 85rem;
+    --spot-color: var(--gray500);
+    --spot-color-text: var(--gray1200);
+    padding-block: var(--space-2xl-3xl);
+  }
+
+  .home-products__intro {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-m-l);
+  }
+
+  .home-products__intro h2 {
+    max-inline-size: 18ch;
+    color: var(--gray1200);
+    background: none;
+    font-size: var(--step-5);
+    letter-spacing: -0.025em;
+    -webkit-text-fill-color: currentColor;
+    text-wrap: balance;
+  }
+
+  .home-products__intro p {
+    max-inline-size: 58ch;
+    margin-block-start: var(--space-s);
+    letter-spacing: -0.02ch;
+    text-wrap: pretty;
+  }
+
+  .home-products__rail {
+    margin-block-start: var(--space-xl-2xl);
+    overflow: hidden;
+  }
+
+  .home-products__hint {
+    display: none;
+    margin-block-start: var(--space-s);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+
+  .home-products__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-s-m);
+  }
+
+  .home-products__grid > li {
+    min-inline-size: 0;
+  }
+
+  .home-products__grid > li:first-child {
+    grid-column: span 2;
+  }
+
+  .home-products__grid :global(.card) {
+    display: flex;
+    flex-direction: column;
+    block-size: 100%;
+    border-radius: 12px;
+    background: var(--gray100);
+  }
+
+  .home-products__grid :global(.card-content) {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .home-products__grid :global(.card-content h3) {
+    font-size: var(--step-2);
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  .home-products__grid :global(.card-content p) {
+    flex: 1;
+    font-size: var(--step--1);
+    letter-spacing: -0.015ch;
+    text-wrap: pretty;
+  }
+
+  .home-products__grid :global(.card img) {
+    transition: transform 500ms var(--ease-out-quart);
+  }
+
+  .home-products__grid :global(.card > a) {
+    display: block;
+    overflow: hidden;
+  }
+
+  .home-products__grid :global(.card > a:hover img) {
+    transform: scale(1.025);
+  }
+
+  .home-products__grid > li:first-child :global(.card img) {
+    aspect-ratio: 16 / 7;
+  }
+
+  .home-products__grid :global(.button) {
+    margin-block-start: auto;
+  }
+
+  .home-contact {
+    padding-block: calc(var(--space-3xl) + 4rem) var(--space-3xl);
+    background: var(--gray100);
+  }
+
+  .home-contact__inner {
+    --measure: 76rem;
+  }
+
+  .home-contact :global(#contact-form > aside) {
+    padding-block: 0 var(--space-xl);
+    border: 0;
+  }
+
+  .home-contact :global(#contact-form) {
+    scroll-margin-block-start: 5rem;
+  }
+
+  .home-contact :global(#contact-form > aside h2) {
+    max-inline-size: 20ch;
+    margin-block-end: var(--space-m);
+    font-size: var(--step-5);
+    letter-spacing: -0.025em;
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  .home-contact :global(#contact-form > aside p) {
+    letter-spacing: -0.02ch;
+    text-wrap: pretty;
+  }
+
+  .home-contact :global(#contact-form > form) {
+    max-inline-size: 72rem;
+    gap: var(--space-m-l);
+    padding: var(--space-m-l);
+    border-radius: 12px;
+    background: var(--gray300);
+  }
+
+  .home-contact :global(#contact-form label) {
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+
+  .home-contact :global(#contact-form input),
+  .home-contact :global(#contact-form select),
+  .home-contact :global(#contact-form textarea) {
+    min-block-size: 3rem;
+    border-color: var(--gray1100);
+    background: var(--gray100);
+    letter-spacing: 0;
+    transition:
+      border-color 180ms var(--ease-out-quart),
+      box-shadow 180ms var(--ease-out-quart);
+  }
+
+  .home-contact :global(#contact-form textarea) {
+    resize: vertical;
+  }
+
+  .home-contact :global(#contact-form input:focus),
+  .home-contact :global(#contact-form select:focus),
+  .home-contact :global(#contact-form textarea:focus) {
+    border-color: var(--bronze700);
+    outline: 3px solid var(--bronze300);
+    outline-offset: 2px;
+  }
+
+  .home-contact :global(#main-submit-status) {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 3rem;
+    padding-inline: var(--space-xl);
+    border-radius: 999px;
+    background: var(--bronze200);
+    color: var(--bronze900);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+
+  :global(.home-header #main-navigation) {
+    top: var(--space-s);
+  }
+
+  :global(.home-header #main-navigation ul.desktop),
+  :global(.home-header .header-logo > a),
+  :global(.home-header .mobile-open) {
+    background: var(--gray100);
+  }
+
+  :global(.home-header .header-logo > a) {
+    display: flex;
+    align-items: center;
+    min-inline-size: 2.75rem;
+    min-block-size: 2.75rem;
+    padding-inline: var(--space-xs);
+    border-radius: 8px;
+  }
+
+  :global(.home-header #main-navigation .button),
+  .home-hero__actions .button,
+  .home-products__grid :global(.button) {
+    transition:
+      background-color 180ms var(--ease-out-quart),
+      transform 180ms var(--ease-out-quart);
+  }
+
+  :global(.home-header #main-navigation .button:hover),
+  .home-hero__actions .button:hover,
+  .home-products__grid :global(.button:hover) {
+    background: var(--bronze400);
+    transform: translateY(-1px);
+  }
+
+  :global(.home-header #main-navigation .button:active),
+  .home-hero__actions .button:active,
+  .home-products__grid :global(.button:active) {
+    transform: translateY(1px);
+  }
+
+  @keyframes hero-image-in {
+    from {
+      opacity: 0.82;
+      transform: scale(1.015);
+      filter: saturate(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+      filter: saturate(1);
+    }
+  }
+
+  @media (max-width: 62rem) {
+    .home-products__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 44.01rem) {
+    .home-hero {
+      grid-template-rows: auto auto;
+      min-block-size: 0;
+      overflow: visible;
+    }
+
+    .home-hero__copy {
+      justify-content: flex-start;
+      padding-block: calc(var(--space-2xl) + var(--space-l)) var(--space-l);
+    }
+
+    .home-hero h1 {
+      font-size: clamp(3.5rem, min(7.2vw, 8svh), 5.2rem);
+    }
+
+    .home-hero__media {
+      min-block-size: 0;
+      background: var(--home-sky);
+    }
+
+    .home-hero__image {
+      display: block;
+      block-size: auto;
+      object-fit: contain;
+      object-position: center;
+    }
+  }
+
+  @media (max-width: 44rem) {
+    .home-hero {
+      grid-template-rows: minmax(29rem, 56svh) minmax(20rem, 44svh);
+    }
+
+    .home-hero__copy {
+      padding-block-start: calc(var(--space-2xl) + var(--space-m));
+    }
+
+    .home-hero h1 {
+      font-size: clamp(3.25rem, 15vw, 4.4rem);
+    }
+
+    .home-hero__summary {
+      font-size: 1rem;
+    }
+
+    .home-hero__actions {
+      flex-direction: column;
+    }
+
+    .home-hero figcaption {
+      inset-inline: var(--gutter) auto;
+      max-inline-size: min(32ch, calc(100% - (2 * var(--gutter))));
+    }
+
+    .home-promise__inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-l);
+    }
+
+    .home-promise h2,
+    .home-products__intro h2,
+    .home-contact :global(#contact-form > aside h2) {
+      font-size: var(--step-4);
+    }
+
+    .home-products__surface {
+      padding-block: var(--space-xl-2xl);
+    }
+
+    .home-products__intro {
+      align-items: flex-start;
+    }
+
+    .home-products__rail {
+      max-inline-size: none;
+      padding-inline: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-padding-inline: var(--gutter);
+      scroll-snap-type: inline mandatory;
+      overscroll-behavior-inline: contain;
+      scrollbar-color: var(--gray1100) transparent;
+      scrollbar-width: thin;
+    }
+
+    .home-products__hint {
+      display: block;
+    }
+
+    .home-products__grid {
+      display: flex;
+      inline-size: max-content;
+      gap: var(--space-s);
+      overflow: visible;
+      padding-inline: var(--gutter);
+      padding-block-end: var(--space-s);
+    }
+
+    .home-products__grid > li,
+    .home-products__grid > li:first-child {
+      flex: 0 0 min(82vw, 22rem);
+      scroll-snap-align: start;
+    }
+
+    .home-products__grid > li:first-child :global(.card img) {
+      aspect-ratio: 16 / 9;
+    }
+
+    .home-products__grid :global(.card-content h3) {
+      font-size: var(--step-1);
+    }
+
+    .home-contact {
+      padding-block: calc(var(--space-2xl) + 4rem) var(--space-2xl);
+    }
+
+    .home-contact :global(#contact-form > form) {
+      padding: var(--space-s-m);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-hero__image {
+      animation: none;
+    }
+  }
+</style>

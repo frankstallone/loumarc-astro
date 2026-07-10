@@ -196,7 +196,7 @@ select:focus {
   outline: 2px solid var(--warmbreeze400);
 }
 
-button:not(.mobile-open),
+button:not(.mobile-open):not(.mobile-close),
 .button {
   display: block;
   max-width: fit-content;

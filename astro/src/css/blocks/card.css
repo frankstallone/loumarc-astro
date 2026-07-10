@@ -6,7 +6,15 @@
 .card > a {
   text-decoration: none;
 }
-.card > a:hover h3 {
+.card h3 a {
+  display: flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  color: inherit;
+  text-decoration-thickness: max(0.06em, 1px);
+  text-underline-offset: 0.15em;
+}
+.card h3 a:hover {
   text-decoration: underline;
 }
 .card img,
