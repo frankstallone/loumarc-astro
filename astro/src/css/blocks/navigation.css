@@ -21,7 +21,7 @@
   padding-inline-start: 0;
   transition: background-color 180ms var(--ease-out-quart);
   border-radius: 12px;
-  background: var(--gray100);
+  background: rgb(252 252 252 / 72%);
   padding: 14px 24px 16px;
 }
 

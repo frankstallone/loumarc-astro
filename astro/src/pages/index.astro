@@ -53,7 +53,7 @@ const meta = {
         margin: 0;
         padding: 14px 24px 16px;
         border-radius: 12px;
-        background: #fcfcfc;
+        background: rgb(252 252 252 / 72%);
         list-style: none;
       }
 
@@ -640,7 +640,10 @@ const meta = {
     top: var(--space-s);
   }
 
-  :global(.home-header #main-navigation ul.desktop),
+  :global(.home-header #main-navigation ul.desktop) {
+    background: rgb(252 252 252 / 72%);
+  }
+
   :global(.home-header .mobile-open) {
     background: var(--gray100);
   }
