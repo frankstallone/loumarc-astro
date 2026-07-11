@@ -209,28 +209,40 @@ button:not(.mobile-open):not(.mobile-close),
   border: none;
   padding: var(--space-xs) var(--space-xl);
   text-decoration: none;
+  transition:
+    transform var(--duration-press) var(--ease-out),
+    background-color var(--duration-feedback) ease,
+    color var(--duration-feedback) ease;
+}
+
+button:not(.mobile-open):not(.mobile-close):active,
+.button:active {
+  transform: scale(0.97);
 }
 
 /* Gallery */
 
 .gallery img,
-.gallery picture,
-.gallery source {
+.gallery picture {
   border-radius: var(--border-radius);
-  /* box-shadow: 0px 10px 32px -3px rgba(0, 0, 0, 0.1); */
-}
-.gallery img:hover,
-.gallery picture:hover,
-.gallery source:hover {
-  box-shadow: 0px 10px 32px -3px rgba(0, 0, 0, 0.1);
-  transform: scale(1.025);
-  transition: var(--transition-base);
 }
 
-.gallery img:not(:hover),
-.gallery picture:not(:hover),
-.gallery source:not(:hover) {
-  transition: var(--transition-base);
+.gallery img {
+  transition: transform var(--duration-feedback) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .gallery img:hover {
+    transform: scale(1.025);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery img:hover,
+  button:not(.mobile-open):not(.mobile-close):active,
+  .button:active {
+    transform: none;
+  }
 }
 
 /* Footer */
@@ -246,7 +258,7 @@ footer small {
 footer a,
 footer a:visited {
   text-decoration: none;
-  transition: var(--transition-base);
+  transition: color var(--duration-feedback) ease;
 }
 footer a:hover,
 footer a:focus,

@@ -167,7 +167,13 @@ const submitLabel = FormLabels['default'].submit;
           aCapHint.style.display = '';
         }
         if (aCap?.scrollIntoView) {
-          aCap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          const aReduceMotion = window.matchMedia(
+            '(prefers-reduced-motion: reduce)',
+          ).matches;
+          aCap.scrollIntoView({
+            behavior: aReduceMotion ? 'auto' : 'smooth',
+            block: 'center',
+          });
         }
         if (aCap?.focus) {
           try {

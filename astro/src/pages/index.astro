@@ -345,8 +345,8 @@ const meta = {
     text-decoration-thickness: 1px;
     text-underline-offset: 0.25em;
     transition:
-      color 180ms var(--ease-out-quart),
-      transform 180ms var(--ease-out-quart);
+      color var(--duration-feedback) ease,
+      transform var(--duration-press) var(--ease-out);
   }
 
   .home-link:hover {
@@ -370,7 +370,7 @@ const meta = {
     block-size: 100%;
     object-fit: cover;
     object-position: center 47%;
-    animation: hero-image-in 900ms var(--ease-out-quart) both;
+    animation: hero-image-in var(--duration-marketing) var(--ease-out) both;
   }
 
   .home-hero figcaption {
@@ -529,7 +529,7 @@ const meta = {
   }
 
   .home-products__grid :global(.card img) {
-    transition: transform 500ms var(--ease-out-quart);
+    transition: transform var(--duration-feedback) ease;
   }
 
   .home-products__grid :global(.card > a) {
@@ -537,8 +537,10 @@ const meta = {
     overflow: hidden;
   }
 
-  .home-products__grid :global(.card > a:hover img) {
-    transform: scale(1.025);
+  @media (hover: hover) and (pointer: fine) {
+    .home-products__grid :global(.card > a:hover img) {
+      transform: scale(1.025);
+    }
   }
 
   .home-products__grid > li:first-child :global(.card img) {
@@ -599,9 +601,7 @@ const meta = {
     border-color: var(--gray1100);
     background: var(--gray100);
     letter-spacing: 0;
-    transition:
-      border-color 180ms var(--ease-out-quart),
-      box-shadow 180ms var(--ease-out-quart);
+    transition: border-color var(--duration-feedback) ease;
   }
 
   .home-contact :global(#contact-form textarea) {
@@ -645,33 +645,38 @@ const meta = {
   .home-hero__actions .button,
   .home-products__grid :global(.button) {
     transition:
-      background-color 180ms var(--ease-out-quart),
-      transform 180ms var(--ease-out-quart);
+      background-color var(--duration-feedback) ease,
+      transform var(--duration-press) var(--ease-out);
   }
 
   :global(.home-header #main-navigation .button:hover),
   .home-hero__actions .button:hover,
   .home-products__grid :global(.button:hover) {
     background: var(--bronze400);
-    transform: translateY(-1px);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    :global(.home-header #main-navigation .button:hover),
+    .home-hero__actions .button:hover,
+    .home-products__grid :global(.button:hover) {
+      transform: translateY(-1px);
+    }
   }
 
   :global(.home-header #main-navigation .button:active),
   .home-hero__actions .button:active,
   .home-products__grid :global(.button:active) {
-    transform: translateY(1px);
+    transform: scale(0.97);
   }
 
   @keyframes hero-image-in {
     from {
       opacity: 0.82;
       transform: scale(1.015);
-      filter: saturate(0.9);
     }
     to {
       opacity: 1;
       transform: scale(1);
-      filter: saturate(1);
     }
   }
 
@@ -815,6 +820,17 @@ const meta = {
   @media (prefers-reduced-motion: reduce) {
     .home-hero__image {
       animation: none;
+    }
+
+    .home-products__grid :global(.card > a:hover img),
+    .home-link:active,
+    :global(.home-header #main-navigation .button:hover),
+    :global(.home-header #main-navigation .button:active),
+    .home-hero__actions .button:hover,
+    .home-hero__actions .button:active,
+    .home-products__grid :global(.button:hover),
+    .home-products__grid :global(.button:active) {
+      transform: none;
     }
   }
 </style>

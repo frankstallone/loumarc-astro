@@ -287,7 +287,13 @@ const submitLabel =
           capHint.style.display = ''
         }
         if (cap?.scrollIntoView) {
-          cap.scrollIntoView({ behavior: 'smooth', block: 'center' })
+          const reduceMotion = window.matchMedia(
+            '(prefers-reduced-motion: reduce)',
+          ).matches
+          cap.scrollIntoView({
+            behavior: reduceMotion ? 'auto' : 'smooth',
+            block: 'center',
+          })
         }
         if (cap?.focus) {
           try {
