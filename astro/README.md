@@ -26,7 +26,7 @@ Public form traffic is protected in two layers:
 - `/forms/*` is handled by `netlify/edge-functions/forms-gate.ts`, which exports a Netlify code-based rate limit of 6 POST requests per IP/domain per 60 seconds.
 - `/api/challenge`, `/api/redeem`, and `/api/validate` are routed to `netlify/functions/cap.js` through Netlify redirects, with per-IP/domain rate limits in `netlify.toml` before the function is invoked.
 
-Those code-based rules block with HTTP `429` before the handler runs in production. `forms-gate.ts` validates completed form submissions through `/.netlify/functions/cap/validate` so successful form submissions do not share the public `/api/validate` redirect bucket. The handlers also use `netlify/functions/_shared/rate-limit.js` as a local fallback and log allowed/blocked decisions with a source fingerprint, method, path, count, and reset time. Do not log form fields, message contents, tokens, or full IP addresses when tuning this code.
+Those code-based rules block with HTTP `429` before the handler runs in production. `forms-gate.ts` validates completed form submissions through `/.netlify/functions/cap/validate` so successful form submissions do not share the public `/api/validate` redirect bucket. The handlers also use `netlify/functions/_shared/rate-limit.js` as a local fallback and log allowed/blocked decisions through the shared form-spam monitoring event. Do not log form fields, message contents, tokens, or full IP addresses when tuning this code.
 
 When `LOUMARC_INTERNAL_RATE_LIMIT_SECRET` is configured, `forms-gate.ts` signs that internal validation request and forwards the original visitor source so fallback validation limits remain per visitor. Direct public requests to `/.netlify/functions/cap/validate` cannot spoof that source header without the secret.
 
@@ -38,6 +38,29 @@ When `LOUMARC_INTERNAL_RATE_LIMIT_SECRET` is configured, `forms-gate.ts` signs t
 Both entry types include expiration metadata and use strong-consistency conditional writes so replay checks work across serverless instances. Do not replace this with function memory, warm instance state, `/tmp`, or a full database without a follow-up architecture decision.
 
 To tune the limits, update the `RATE_LIMIT_POLICIES` constants in `netlify/functions/_shared/rate-limit.js`, the exported `config.rateLimit` value in the edge function, and the `[redirects.rate_limit]` values in `netlify.toml`. After deployment, check Netlify's deploy post-processing logs to confirm the code-based rate limit rules were detected.
+
+## Form-Spam Monitoring Logs
+
+Form-spam protection logs use one JSON event name: `loumarc.form_spam`. Each line includes `schemaVersion`, `surface`, `action`, `result`, `reason`, `method`, `path`, `status` when applicable, and a `sourceHash` instead of a raw IP address. Form field values, message contents, customer contact details, and CapJS tokens must not be added to this event.
+
+Common `forms-gate` reasons are `honeypot`, `missing-token`, `invalid-token`, `validation-error`, `forwarded`, and `upstream-forwarding`. Common `cap-verification` reasons are `challenge-created`, `redeem-success`, `redeem-failure`, `validate-success`, `validate-failure`, and `malformed-request`. Rate-limit decisions use the same event shape with `surface: "rate-limit"` and `reason: "rate-limit"` when blocked.
+
+Use the Netlify CLI to review recent activity:
+
+```bash
+# Recent form gate decisions
+npx netlify logs --since 1h --source edge-functions --edge-function forms-gate | grep 'loumarc.form_spam'
+
+# Recent CapJS challenge/redeem/validate decisions
+npx netlify logs --since 1h --source functions --function cap | grep 'loumarc.form_spam'
+
+# Count blocked versus forwarded form submissions in the last day
+npx netlify logs --since 24h --source edge-functions --edge-function forms-gate | grep 'loumarc.form_spam' | grep '"result":"blocked"' | wc -l
+npx netlify logs --since 24h --source edge-functions --edge-function forms-gate | grep 'loumarc.form_spam' | grep '"result":"forwarded"' | wc -l
+
+# Follow live form-spam protection decisions during deploy verification
+npx netlify logs --follow --source functions --source edge-functions | grep 'loumarc.form_spam'
+```
 
 ## Form Verification Checks
 

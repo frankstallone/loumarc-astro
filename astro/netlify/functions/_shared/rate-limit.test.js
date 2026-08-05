@@ -5,6 +5,7 @@ import {
   checkRateLimit,
   createRateLimitResponse,
   getRequestSource,
+  logRateLimitDecision,
   RATE_LIMIT_POLICIES,
 } from './rate-limit.js'
 
@@ -152,5 +153,46 @@ test('blocked responses use 429 and expose retry headers', async () => {
     ok: false,
     error: 'Too many requests',
     retryAfter: 58,
+  })
+})
+
+test('rate-limit decisions use the shared form-spam log shape', (t) => {
+  const logLines = []
+  t.mock.method(console, 'log', (line) => {
+    logLines.push(JSON.parse(line))
+  })
+
+  logRateLimitDecision(
+    {
+      allowed: false,
+      count: 3,
+      limit: 2,
+      policy: 'test-policy',
+      remaining: 0,
+      resetAt: 61000,
+      retryAfterSeconds: 58,
+      sourceHash: '00000000',
+      windowSeconds: 60,
+    },
+    { method: 'POST', path: '/forms/contact?ignored=true' },
+  )
+
+  assert.deepEqual(logLines[0], {
+    event: 'loumarc.form_spam',
+    schemaVersion: 1,
+    surface: 'rate-limit',
+    action: 'rate-limit.decision',
+    result: 'blocked',
+    reason: 'rate-limit',
+    method: 'POST',
+    path: '/forms/contact',
+    status: 429,
+    sourceHash: '00000000',
+    rateLimitPolicy: 'test-policy',
+    rateLimitCount: 3,
+    rateLimitLimit: 2,
+    rateLimitReset: '1970-01-01T00:01:01.000Z',
+    rateLimitWindowSeconds: 60,
+    retryAfterSeconds: 58,
   })
 })
