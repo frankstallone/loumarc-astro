@@ -1,21 +1,21 @@
 ---
-import type { Slug } from '../ts/types';
-import { getSiteSettings } from '../api/sanity';
+import type { Slug } from '../ts/types'
+import { getSiteSettings } from '../api/sanity'
 
-const settings = await getSiteSettings();
+const settings = await getSiteSettings()
 
-const phoneNumber = settings.phoneNumber;
+const phoneNumber = settings.phoneNumber
 
 export interface FormLabelTypes {
-  name?: string;
-  email?: string;
-  phone?: string;
-  companyName?: string;
-  budget?: string;
-  deadline?: string;
-  needs?: string;
-  message: string;
-  submit?: string;
+  name?: string
+  email?: string
+  phone?: string
+  companyName?: string
+  budget?: string
+  deadline?: string
+  needs?: string
+  message: string
+  submit?: string
 }
 
 export const FormLabels: Record<Slug, FormLabelTypes> = {
@@ -33,68 +33,68 @@ export const FormLabels: Record<Slug, FormLabelTypes> = {
   'how-to-gain-more-peoples-attention-with-signs-near-your-business': {
     message: 'What message(s) do you want to convey through your LED sign?',
   },
-};
-
-interface Props {
-  slug: Slug;
-  headingContext?: string;
 }
 
-const { slug, headingContext } = Astro.props;
+interface Props {
+  slug: Slug
+  headingContext?: string
+}
 
-const customCTAHeading = headingContext
-  ? headingContext.toLowerCase()
-  : 'signage';
+const { slug, headingContext } = Astro.props
+
+const ctaHeading = headingContext
+  ? `How can we craft uniquely memorable ${headingContext.toLowerCase()} for you?`
+  : 'What should your next sign make possible?'
 
 const emailTitle =
   slug && slug !== 'default'
     ? `🤖: Contact form submission from /${slug}`
-    : '🤖: Contact form submission';
+    : '🤖: Contact form submission'
 
 const nameLabel =
   FormLabels[slug] && FormLabels[slug].name
     ? FormLabels[slug].name
-    : FormLabels['default'].name;
+    : FormLabels['default'].name
 
 const emailLabel =
   FormLabels[slug] && FormLabels[slug].email
     ? FormLabels[slug].email
-    : FormLabels['default'].email;
+    : FormLabels['default'].email
 
 const phoneLabel =
   FormLabels[slug] && FormLabels[slug].phone
     ? FormLabels[slug].phone
-    : FormLabels['default'].phone;
+    : FormLabels['default'].phone
 
 const companyLabel =
   FormLabels[slug] && FormLabels[slug].companyName
     ? FormLabels[slug].companyName
-    : FormLabels['default'].companyName;
+    : FormLabels['default'].companyName
 
 const budgetLabel =
   FormLabels[slug] && FormLabels[slug].budget
     ? FormLabels[slug].budget
-    : FormLabels['default'].budget;
+    : FormLabels['default'].budget
 
 const deadlineLabel =
   FormLabels[slug] && FormLabels[slug].deadline
     ? FormLabels[slug].deadline
-    : FormLabels['default'].deadline;
+    : FormLabels['default'].deadline
 
 const needsLabel =
   FormLabels[slug] && FormLabels[slug].needs
     ? FormLabels[slug].needs
-    : FormLabels['default'].needs;
+    : FormLabels['default'].needs
 
 const messageLabel =
   FormLabels[slug] && FormLabels[slug].message
     ? FormLabels[slug].message
-    : FormLabels['default'].message;
+    : FormLabels['default'].message
 
 const submitLabel =
   FormLabels[slug] && FormLabels[slug].submit
     ? FormLabels[slug].submit
-    : FormLabels['default'].submit;
+    : FormLabels['default'].submit
 ---
 
 <section id="contact-form">
@@ -103,23 +103,19 @@ const submitLabel =
     style="--padding: var(--space-s) 0;"
     aria-label="Contact us section"
   >
-    <h2 class="mx-auto mb-l-xl">
-      How can we craft uniquely memorable {customCTAHeading} for you?
-    </h2>
+    <h2 class="mx-auto mb-l-xl">{ctaHeading}</h2>
     <p class="mx-auto">
-      Experience the elevated visibility you earned. Whether you decide to visit
-      our Hillsborough, NJ office, give us a call at
-      <a href="tel:+19085754000">{phoneNumber}</a>, or write us below, we're
-      excited to assist you.
+      Tell us what you're working toward. Visit our Hillsborough, NJ office,
+      call <a href="tel:+19085754000">{phoneNumber}</a>, or share your project
+      below. We'll help you identify the right next step.
     </p>
     {
       headingContext ? null : (
         <p class="mx-auto">
-          As your preferred NJ sign company, we pride ourselves on providing a
-          range of premium sign solutions - from{' '}
+          Looking for a place to start? Explore{' '}
           <a href="/products/channel-letters/">channel letters</a> and{' '}
-          <a href="/products/acrylic-signs-new-jersey/">acrylic signs</a> to
-          captivating{' '}
+          <a href="/products/acrylic-signs-new-jersey/">acrylic signs</a>, or
+          learn about{' '}
           <a href="/products/cut-metal-letters/">cut metal letter signs</a>.
         </p>
       )
@@ -144,7 +140,11 @@ const submitLabel =
       <div class="flow">
         <div class="switcher">
           <span class="stack">
-            <label for="name">{nameLabel}</label>
+            <label for="name">
+              {nameLabel}
+              <span aria-hidden="true">*</span>
+              <span class="sr-only">required</span>
+            </label>
             <input
               type="text"
               name="name"
@@ -154,7 +154,11 @@ const submitLabel =
             />
           </span>
           <span class="stack">
-            <label for="email">{emailLabel}</label>
+            <label for="email">
+              {emailLabel}
+              <span aria-hidden="true">*</span>
+              <span class="sr-only">required</span>
+            </label>
             <input
               type="email"
               name="email"
@@ -189,7 +193,11 @@ const submitLabel =
           <input type="text" name="needs" id="needs" />
         </span>
         <span class="stack">
-          <label for="message">{messageLabel}</label>
+          <label for="message">
+            {messageLabel}
+            <span aria-hidden="true">*</span>
+            <span class="sr-only">required</span>
+          </label>
           <textarea
             name="message"
             id="message"
@@ -217,152 +225,145 @@ const submitLabel =
     </div>
   </form>
   <script>
-    const cap = document.getElementById('main-cap') as any;
-    const btn = document.getElementById('main-submit');
-    const tokenInput = document.getElementById('cap-token') as HTMLInputElement;
+    const cap = document.getElementById('main-cap') as any
+    const btn = document.getElementById('main-submit')
+    const tokenInput = document.getElementById('cap-token') as HTMLInputElement
     const form = document.querySelector(
-      'form[name="main"]'
-    ) as HTMLFormElement | null;
+      'form[name="main"]',
+    ) as HTMLFormElement | null
     const successMsg = document.getElementById(
-      'main-success'
-    ) as HTMLParagraphElement | null;
+      'main-success',
+    ) as HTMLParagraphElement | null
     const capHint = document.getElementById(
-      'main-cap-hint'
-    ) as HTMLElement | null;
-    let pendingSubmit = false;
-    let inFlight = false;
-    const statusEl = document.createElement('div');
-    statusEl.id = 'main-submit-status';
-    statusEl.setAttribute('role', 'status');
-    statusEl.setAttribute('aria-live', 'polite');
-    statusEl.tabIndex = -1;
+      'main-cap-hint',
+    ) as HTMLElement | null
+    let pendingSubmit = false
+    let inFlight = false
+    const statusEl = document.createElement('div')
+    statusEl.id = 'main-submit-status'
+    statusEl.setAttribute('role', 'status')
+    statusEl.setAttribute('aria-live', 'polite')
+    statusEl.tabIndex = -1
 
     cap?.addEventListener('solve', (event: any) => {
       // Capture the CapJS token from the widget
       if (tokenInput) {
-        let token = cap.getToken ? cap.getToken() : event.detail?.token || '';
+        let token = cap.getToken ? cap.getToken() : event.detail?.token || ''
 
         // If token is an array, take the first element
         if (Array.isArray(token)) {
-          token = token[0];
+          token = token[0]
         }
 
-        tokenInput.value = token;
+        tokenInput.value = token
       }
       // Clear any hint and invalid state
-      cap?.removeAttribute('aria-invalid');
-      if (capHint) capHint.style.display = 'none';
+      cap?.removeAttribute('aria-invalid')
+      if (capHint) capHint.style.display = 'none'
       // If user tried to submit before solving, auto-submit now
       if (pendingSubmit && form) {
-        pendingSubmit = false;
-        form.requestSubmit();
+        pendingSubmit = false
+        form.requestSubmit()
       }
-    });
+    })
 
     cap?.addEventListener('reset', () => {
       // Clear the token when reset
       if (tokenInput) {
-        tokenInput.value = '';
+        tokenInput.value = ''
       }
-    });
+    })
 
     // Progressive enhancement: inline success + redirect for GA
     form?.addEventListener('submit', async (e) => {
-      if (!(window as any).fetch) return; // fallback to normal submit if no fetch
+      if (!(window as any).fetch) return // fallback to normal submit if no fetch
       // Client-side guard: require Cap token before submit
       if (!tokenInput?.value) {
-        e.preventDefault();
-        pendingSubmit = true;
-        cap?.setAttribute('aria-invalid', 'true');
+        e.preventDefault()
+        pendingSubmit = true
+        cap?.setAttribute('aria-invalid', 'true')
         if (capHint) {
-          capHint.textContent = 'Please complete the verification to submit.';
-          capHint.style.display = '';
+          capHint.textContent = 'Please complete the verification to submit.'
+          capHint.style.display = ''
         }
         if (cap?.scrollIntoView) {
-          cap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          const reduceMotion = window.matchMedia(
+            '(prefers-reduced-motion: reduce)',
+          ).matches
+          cap.scrollIntoView({
+            behavior: reduceMotion ? 'auto' : 'smooth',
+            block: 'center',
+          })
         }
         if (cap?.focus) {
           try {
-            cap.focus();
-          } catch (err) {
-            // Some browsers may throw if element is not focusable yet; safe to ignore
-            console.warn('[form] cap.focus() failed; non-critical', err);
-          }
+            cap.focus()
+          } catch {}
         }
-        return;
+        return
       }
-      e.preventDefault();
-      if (inFlight) return;
-      inFlight = true;
-      form?.setAttribute('aria-busy', 'true');
-      statusEl.textContent = 'Submitting…';
+      e.preventDefault()
+      if (inFlight) return
+      inFlight = true
+      form?.setAttribute('aria-busy', 'true')
+      statusEl.textContent = 'Submitting…'
       if (btn && btn.parentElement) {
-        btn.replaceWith(statusEl);
+        btn.replaceWith(statusEl)
         try {
-          statusEl.focus();
-        } catch (err) {
-          // Focus can fail if element is not yet in DOM tree; safe to ignore
-          console.warn('[form] statusEl.focus() failed; non-critical', err);
-        }
+          statusEl.focus()
+        } catch {}
       }
-      const fd = new FormData(form!);
-      if (!fd.get('form-name')) fd.set('form-name', 'main');
+      const fd = new FormData(form!)
+      if (!fd.get('form-name')) fd.set('form-name', 'main')
       try {
         const res = await fetch('/forms/submit', {
           method: 'POST',
           headers: { Accept: 'application/json' },
           body: fd,
-        });
+        })
         if (res.ok) {
           if (successMsg) {
-            successMsg.textContent = "Thanks! We'll be in touch shortly.";
-            successMsg.style.display = '';
+            successMsg.textContent = "Thanks! We'll be in touch shortly."
+            successMsg.style.display = ''
             try {
-              (successMsg as any).focus?.();
-            } catch (err) {
-              // Focus may fail if element is not focusable; safe to ignore
-              console.warn('[form] successMsg.focus() failed; non-critical', err);
-            }
+              ;(successMsg as any).focus?.()
+            } catch {}
           }
           setTimeout(() => {
-            window.location.assign('/thank-you/');
-          }, 600);
+            window.location.assign('/thank-you/')
+          }, 600)
         } else {
           // Reset Cap on failure and re-enable submit
-          cap && cap.reset && cap.reset();
+          cap && cap.reset && cap.reset()
           if (statusEl && statusEl.parentElement) {
-            statusEl.replaceWith(btn!);
+            statusEl.replaceWith(btn!)
           }
-          form?.removeAttribute('aria-busy');
-          inFlight = false;
+          form?.removeAttribute('aria-busy')
+          inFlight = false
           if (successMsg) {
             successMsg.textContent =
-              'There was a problem submitting. Please try again.';
-            successMsg.style.display = '';
+              'There was a problem submitting. Please try again.'
+            successMsg.style.display = ''
             try {
-              (successMsg as any).focus?.();
-            } catch (err) {
-              console.warn('[form] successMsg.focus() failed; non-critical', err);
-            }
+              ;(successMsg as any).focus?.()
+            } catch {}
           }
         }
       } catch (err) {
-        cap && cap.reset && cap.reset();
+        cap && cap.reset && cap.reset()
         if (statusEl && statusEl.parentElement) {
-          statusEl.replaceWith(btn!);
+          statusEl.replaceWith(btn!)
         }
-        form?.removeAttribute('aria-busy');
-        inFlight = false;
+        form?.removeAttribute('aria-busy')
+        inFlight = false
         if (successMsg) {
-          successMsg.textContent = 'Network error. Please try again.';
-          successMsg.style.display = '';
+          successMsg.textContent = 'Network error. Please try again.'
+          successMsg.style.display = ''
           try {
-            (successMsg as any).focus?.();
-          } catch (err) {
-            console.warn('[form] successMsg.focus() failed; non-critical', err);
-          }
+            ;(successMsg as any).focus?.()
+          } catch {}
         }
       }
-    });
+    })
   </script>
 </section>

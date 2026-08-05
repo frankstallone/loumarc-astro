@@ -1,94 +1,234 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Card from '../components/Card.astro';
-import FormBuilder from '../components/FormBuilder.astro';
-import { sanityClient } from 'sanity:client';
-import { Picture } from 'astro:assets';
+import Layout from '../layouts/Layout.astro'
+import Header from '../components/Header.astro'
+import Card from '../components/Card.astro'
+import FormBuilder from '../components/FormBuilder.astro'
+import { sanityClient } from 'sanity:client'
+import { Picture } from 'astro:assets'
 
-import heroImage from '../assets/Amazon-trusts-Loumarc-Signs-Channel-Letters-Signs-02.jpg';
+import heroImage from '../assets/Amazon-trusts-Loumarc-Signs-Channel-Letters-Signs-02.jpg'
 
-const products = await sanityClient.fetch(`*[_type == "product"]`);
+const products = await sanityClient.fetch(`*[_type == "product"]`)
+const featuredProductSlugs = [
+  'channel-letters',
+  'acrylic-signs-new-jersey',
+  'cut-metal-letters',
+]
+const featuredProduct = featuredProductSlugs
+  .map((slug) =>
+    products.find((product: any) => product.slug?.current === slug),
+  )
+  .find(Boolean)
+const orderedProducts = featuredProduct
+  ? [
+      featuredProduct,
+      ...products.filter(
+        (product: any) =>
+          product.slug?.current !== featuredProduct.slug?.current,
+      ),
+    ]
+  : products
 
 const meta = {
   title: 'Loumarc Signs | High-end full service sign experts',
   canonicalURL: 'https://loumarcsigns.com/',
-};
+}
 ---
 
 <Layout meta={meta}>
+  <style is:inline>
+    #main-navigation .header-logo > a,
+    #main-navigation .header-logo img {
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
+    }
+
+    @media (min-width: 44.01rem) {
+      #main-navigation {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: fixed;
+        inset-block-start: clamp(1rem, calc(0.91rem + 0.43vw), 1.25rem);
+        z-index: 500;
+        inline-size: 100vw;
+        padding-inline: 3vw;
+      }
+
+      #main-navigation .desktop-nav,
+      #main-navigation .header-logo {
+        display: flex;
+      }
+
+      #main-navigation .mobile-nav {
+        display: none;
+      }
+
+      #main-navigation ul.desktop {
+        display: flex;
+        align-items: center;
+        gap: clamp(1rem, calc(0.91rem + 0.43vw), 1.25rem);
+        margin: 0;
+        padding: 14px 24px 16px;
+        border-radius: 12px;
+        background: rgb(252 252 252 / 72%);
+        list-style: none;
+      }
+
+      .home-hero {
+        display: grid;
+        grid-template-rows: auto auto;
+        min-block-size: 0;
+        overflow: visible;
+      }
+
+      .home-hero__copy {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        inline-size: 100%;
+        padding-block: clamp(6rem, calc(5.48rem + 2.61vw), 7.5rem)
+          clamp(2rem, calc(1.83rem + 0.87vw), 2.5rem);
+        text-align: center;
+      }
+
+      .home-hero h1 {
+        max-inline-size: 13ch;
+        margin-block: 0;
+        font-family: 'Facundo', system-ui, sans-serif;
+        font-size: clamp(3.5rem, min(7.2vw, 8svh), 5.2rem);
+        font-weight: 300;
+        line-height: 0.92;
+        letter-spacing: -0.035em;
+        text-wrap: balance;
+      }
+
+      .home-hero__summary {
+        max-inline-size: 52ch;
+        margin-block-start: clamp(1rem, calc(0.91rem + 0.43vw), 1.25rem);
+        font-size: clamp(1rem, calc(0.91rem + 0.43vw), 1.25rem);
+        letter-spacing: -0.02ch;
+        text-wrap: pretty;
+      }
+
+      .home-hero__actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(0.75rem, calc(0.58rem + 0.87vw), 1.25rem);
+        margin-block-start: clamp(1.5rem, calc(1.37rem + 0.65vw), 1.88rem);
+      }
+
+      .home-hero__media {
+        position: relative;
+        min-block-size: 0;
+        margin: 0;
+        overflow: hidden;
+        background: #b9c9e5;
+      }
+
+      .home-hero__image {
+        display: block;
+        inline-size: 100%;
+        block-size: auto;
+        object-fit: contain;
+        object-position: center;
+      }
+    }
+  </style>
   <a href="#main" class="sr-only sr-only-focusable">Skip to content</a>
-  <header>
+
+  <header class="home-header">
     <Header location="home" />
-    <section class="center" data-location="home">
-      <div class="cover" data-location="home">
-        <h1
-          class="text-center font-weight-base font-size-6 max-inline-size-full step-7"
-          style="letter-spacing: -0.075ch;"
-        >
-          Bringing visibility <br />to your goals
+    <section class="home-hero" aria-labelledby="home-heading">
+      <div class="home-hero__copy wrapper">
+        <h1 id="home-heading">
+          Bringing visibility <span>to your goals.</span>
         </h1>
+        <p class="home-hero__summary">
+          We guide your sign project with expertise and craftsmanship, so your
+          business gets noticed—and remembered.
+        </p>
+        <div class="home-hero__actions">
+          <a class="button" href="#contact-form">Start a sign project</a>
+          <a class="home-link" href="#products">
+            Explore sign types <span aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </div>
+
+      <figure class="home-hero__media">
         <Picture
           src={heroImage}
-          widths={[300, 800, 2000, heroImage.width]}
-          sizes={`(max-width: 360px) 300px, (max-width: 720px) 800px, (max-width: 1600px) 2000px, ${heroImage.width}px`}
-          class="object-contain h-auto"
-          alt="Amazon trusts Loumarc Signs to create their signs"
-          fetchpriority={'high'}
-          loading={'eager'}
-          quality={80}
+          widths={[600, 1000, 1600, 2200, heroImage.width]}
+          sizes="100vw"
+          class="home-hero__image"
+          alt="Amazon channel-letter sign created by Loumarc Signs"
+          fetchpriority="high"
+          loading="eager"
+          quality={85}
           formats={['avif', 'webp']}
-          decoding="sync"
+          decoding="async"
         />
-      </div>
+        <figcaption>
+          Channel letters created for Amazon by Loumarc Signs
+        </figcaption>
+      </figure>
     </section>
   </header>
-  <main role="main" id="main">
-    <article data-layout="md">
-      <div
-        class="switcher text-center section__inner spot-color-tertiary-dark"
-        data-gap="none"
-        data-trenshold="xl"
-      >
+
+  <main id="main">
+    <section class="home-promise" aria-labelledby="promise-heading">
+      <div class="home-promise__inner">
         <div
-          class="box spot-color-tertiary section__inner items-center flex lines-overlay"
-          data-padding="3xl"
+          class="home-promise__heading spot-color-tertiary lines-overlay"
         >
-          <h2 class="mx-auto">Achieve the awareness your business deserves</h2>
+          <h2 id="promise-heading">
+            Visibility matters. So does the craftsmanship behind it.
+          </h2>
         </div>
-        <p
-          class="box spot-color-tertiary-dark section__inner items-center flex lines-overlay mx-auto"
-          data-padding="3xl"
-          data-opacity="dark"
-        >
-          At Loumarc Signs we ensure that every sign is free from defects in
-          quality, construction, and installation for three years. It's a
-          reflection of our unwavering commitment to your brand's success.
-        </p>
-      </div>
-      <div class="box">
-        <FormBuilder slug="default" />
-      </div>
-    </article>
-    <article class="section spot-color-gray" style="margin-block-end: -4rem;">
-      <svg
-        aria-hidden="true"
-        class="slant"
-        viewBox="0 0 1440 67"
-        preserveAspectRatio="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M0,66.398L1440,18.066L1440,0L0,0L0,66.398Z"></path>
-      </svg>
-      <div class="section__inner region">
-        <div class="wrapper">
-          <h2 class="text-center">Products</h2>
+        <div class="home-promise__copy lines-overlay" data-opacity="dark">
+          <p>
+            Every Loumarc sign is protected against defects in quality,
+            construction, and installation for three years.
+          </p>
+          <p>
+            It is a practical promise: the sign that represents your business
+            should be made with the same care you put into the business itself.
+          </p>
         </div>
-        <div class="box">
-          {
-            products && (
-              <ul role="list" class="grid justify-items-center">
-                {products.map((product: any, index: number) => (
+      </div>
+    </section>
+
+    <section
+      class="home-products section"
+      id="products"
+      aria-labelledby="products-heading"
+    >
+      <div class="home-products__surface section__inner">
+        <div class="home-products__intro wrapper">
+          <div>
+            <h2 id="products-heading">
+              Find the right sign for what comes next.
+            </h2>
+            <p>
+              From exterior identification and illuminated letters to
+              precision-fabricated details and custom builds, explore the full
+              range.
+            </p>
+          </div>
+          <a class="home-link" href="/products/">
+            View all products <span aria-hidden="true">→</span>
+          </a>
+        </div>
+        {
+          orderedProducts?.length > 0 && (
+            <div class="home-products__rail wrapper">
+              <ul role="list" class="home-products__grid">
+                {orderedProducts.map((product: any, index: number) => (
                   <li>
                     <Card
                       index={index}
@@ -108,9 +248,13 @@ const meta = {
                   </li>
                 ))}
               </ul>
-            )
-          }
-        </div>
+            </div>
+          )
+        }
+        <p class="home-products__hint wrapper">
+          <span>Swipe to browse the full list</span>
+          <span aria-hidden="true">→</span>
+        </p>
       </div>
       <svg
         aria-hidden="true"
@@ -121,6 +265,572 @@ const meta = {
       >
         <path d="M0,66.398L1440,18.066L1440,0L0,0L0,66.398Z"></path>
       </svg>
-    </article>
+    </section>
+
+    <section class="home-contact" aria-label="Start a sign project">
+      <div class="home-contact__inner wrapper">
+        <FormBuilder slug="default" />
+      </div>
+    </section>
   </main>
 </Layout>
+
+<style>
+  .home-header {
+    background: var(--home-sky);
+  }
+
+  .home-hero {
+    display: grid;
+    grid-template-rows: minmax(24rem, 45svh) minmax(24rem, 55svh);
+    min-block-size: 100svh;
+    overflow: hidden;
+  }
+
+  .home-hero__copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    inline-size: 100%;
+    padding-block: calc(var(--space-2xl) + var(--space-s)) var(--space-l);
+    text-align: center;
+  }
+
+  .home-hero h1 {
+    max-inline-size: 13ch;
+    margin-block: 0;
+    font-size: clamp(3.2rem, 7.2vw, 5.8rem);
+    font-weight: 300;
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  .home-hero h1 span {
+    display: block;
+  }
+
+  .home-hero__summary {
+    max-inline-size: 52ch;
+    margin-block-start: var(--space-s);
+    font-size: var(--step-0);
+    letter-spacing: -0.02ch;
+    text-wrap: pretty;
+  }
+
+  .home-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs-s);
+    margin-block-start: var(--space-m);
+  }
+
+  .home-hero__actions .button {
+    min-block-size: 3rem;
+  }
+
+  .home-link {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.75rem;
+    gap: var(--space-2xs);
+    padding-inline: var(--space-2xs);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0;
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+    transition:
+      color var(--duration-feedback) ease,
+      transform var(--duration-press) var(--ease-out);
+  }
+
+  .home-link:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  .home-link:active {
+    transform: translateY(1px);
+  }
+
+  .home-hero__media {
+    position: relative;
+    min-block-size: 0;
+    margin: 0;
+    overflow: hidden;
+    background: var(--sea300);
+  }
+
+  .home-hero__image {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    object-position: center 47%;
+    animation: hero-image-in var(--duration-marketing) var(--ease-out) both;
+  }
+
+  .home-hero figcaption {
+    position: absolute;
+    inset-inline-end: var(--gutter);
+    inset-block-end: var(--space-s);
+    max-inline-size: 34ch;
+    padding: var(--space-2xs) var(--space-xs);
+    border-radius: 4px;
+    background: var(--gray1200);
+    color: var(--gray100);
+    font-size: var(--step--2);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.35;
+  }
+
+  .home-promise {
+    background: var(--bronze1000);
+    color: var(--bronze100);
+  }
+
+  .home-promise .home-promise__inner {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-promise .home-promise__heading,
+  .home-promise .home-promise__copy {
+    min-block-size: clamp(24rem, 36vw, 32rem);
+    padding: var(--space-2xl-3xl) clamp(var(--space-m), 7vw, var(--space-3xl));
+  }
+
+  .home-promise .home-promise__heading {
+    display: flex;
+    align-items: center;
+    background: var(--bronze100);
+  }
+
+  .home-promise .home-promise__heading h2 {
+    max-inline-size: 15ch;
+    margin: 0;
+    color: var(--bronze700);
+    font-size: var(--step-5);
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  .home-promise .home-promise__copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-s);
+    background: var(--bronze1000);
+    font-size: var(--step-0);
+    letter-spacing: -0.02ch;
+  }
+
+  .home-promise .home-promise__copy p {
+    max-inline-size: 52ch;
+    text-wrap: pretty;
+  }
+
+  .home-products {
+    --spot-color: var(--gray500);
+    margin-block-end: -4rem;
+    overflow: hidden;
+    background: var(--bronze1000);
+    scroll-margin-block-start: 5rem;
+  }
+
+  .home-products__surface {
+    --measure: 85rem;
+    --spot-color: var(--gray500);
+    --spot-color-text: var(--gray1200);
+    padding-block: var(--space-2xl-3xl);
+  }
+
+  .home-products__intro {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-m-l);
+  }
+
+  .home-products__intro h2 {
+    max-inline-size: 18ch;
+    color: var(--gray1200);
+    background: none;
+    font-size: var(--step-5);
+    letter-spacing: -0.025em;
+    -webkit-text-fill-color: currentColor;
+    text-wrap: balance;
+  }
+
+  .home-products__intro p {
+    max-inline-size: 58ch;
+    margin-block-start: var(--space-s);
+    letter-spacing: -0.02ch;
+    text-wrap: pretty;
+  }
+
+  .home-products__rail {
+    margin-block-start: var(--space-xl-2xl);
+    overflow: hidden;
+  }
+
+  .home-products .home-products__hint {
+    display: none;
+    font-size: var(--step--1);
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .home-products__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-s-m);
+  }
+
+  .home-products__grid > li {
+    min-inline-size: 0;
+  }
+
+  .home-products__grid > li:first-child {
+    grid-column: span 2;
+  }
+
+  .home-products__grid :global(.card) {
+    display: flex;
+    flex-direction: column;
+    block-size: 100%;
+    border-radius: 12px;
+    background: var(--gray100);
+  }
+
+  .home-products__grid :global(.card-content) {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .home-products__grid :global(.card-content h3) {
+    font-size: var(--step-2);
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  .home-products__grid :global(.card-content p) {
+    flex: 1;
+    font-size: var(--step--1);
+    letter-spacing: -0.015ch;
+    text-wrap: pretty;
+  }
+
+  .home-products__grid :global(.card img) {
+    transition: transform var(--duration-feedback) ease;
+  }
+
+  .home-products__grid :global(.card > a) {
+    display: block;
+    overflow: hidden;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .home-products__grid :global(.card > a:hover img) {
+      transform: scale(1.025);
+    }
+  }
+
+  .home-products__grid > li:first-child :global(.card img) {
+    aspect-ratio: 16 / 7;
+  }
+
+  .home-products__grid :global(.button) {
+    margin-block-start: auto;
+  }
+
+  .home-contact {
+    padding-block: calc(var(--space-3xl) + 4rem) var(--space-3xl);
+    background: var(--gray100);
+  }
+
+  .home-contact__inner {
+    --measure: 76rem;
+  }
+
+  .home-contact :global(#contact-form > aside) {
+    padding-block: 0 var(--space-xl);
+    border: 0;
+  }
+
+  .home-contact :global(#contact-form) {
+    scroll-margin-block-start: 5rem;
+  }
+
+  .home-contact :global(#contact-form > aside h2) {
+    max-inline-size: 20ch;
+    margin-block-end: var(--space-m);
+    font-size: var(--step-5);
+    letter-spacing: -0.025em;
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  .home-contact :global(#contact-form > aside p) {
+    letter-spacing: -0.02ch;
+    text-wrap: pretty;
+  }
+
+  .home-contact :global(#contact-form > form) {
+    max-inline-size: 72rem;
+    gap: var(--space-m-l);
+  }
+
+  .home-contact :global(#contact-form label) {
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+
+  .home-contact :global(#contact-form input),
+  .home-contact :global(#contact-form select),
+  .home-contact :global(#contact-form textarea) {
+    min-block-size: 3rem;
+    border-color: var(--gray1100);
+    background: var(--gray100);
+    letter-spacing: 0;
+    transition: border-color var(--duration-feedback) ease;
+  }
+
+  .home-contact :global(#contact-form textarea) {
+    resize: vertical;
+  }
+
+  .home-contact :global(#contact-form input:focus),
+  .home-contact :global(#contact-form select:focus),
+  .home-contact :global(#contact-form textarea:focus) {
+    border-color: var(--bronze700);
+    outline: 3px solid var(--bronze300);
+    outline-offset: 2px;
+  }
+
+  .home-contact :global(#main-submit-status) {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 3rem;
+    padding-inline: var(--space-xl);
+    border-radius: 999px;
+    background: var(--bronze200);
+    color: var(--bronze900);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+
+  :global(.home-header #main-navigation) {
+    top: var(--space-s);
+  }
+
+  :global(.home-header #main-navigation ul.desktop) {
+    background: rgb(252 252 252 / 72%);
+  }
+
+  :global(.home-header .mobile-open) {
+    background: var(--gray100);
+  }
+
+  :global(.home-header #main-navigation .button),
+  .home-hero__actions .button,
+  .home-products__grid :global(.button) {
+    transition:
+      background-color var(--duration-feedback) ease,
+      transform var(--duration-press) var(--ease-out);
+  }
+
+  :global(.home-header #main-navigation .button:hover),
+  .home-hero__actions .button:hover,
+  .home-products__grid :global(.button:hover) {
+    background: var(--bronze400);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    :global(.home-header #main-navigation .button:hover),
+    .home-hero__actions .button:hover,
+    .home-products__grid :global(.button:hover) {
+      transform: translateY(-1px);
+    }
+  }
+
+  :global(.home-header #main-navigation .button:active),
+  .home-hero__actions .button:active,
+  .home-products__grid :global(.button:active) {
+    transform: scale(0.97);
+  }
+
+  @keyframes hero-image-in {
+    from {
+      opacity: 0.82;
+      transform: scale(1.015);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @media (max-width: 62rem) {
+    .home-products__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 44.01rem) {
+    .home-hero {
+      grid-template-rows: auto auto;
+      min-block-size: 0;
+      overflow: visible;
+    }
+
+    .home-hero__copy {
+      justify-content: flex-start;
+      padding-block: calc(var(--space-2xl) + var(--space-l)) var(--space-l);
+    }
+
+    .home-hero h1 {
+      font-size: clamp(3.5rem, min(7.2vw, 8svh), 5.2rem);
+    }
+
+    .home-hero__media {
+      min-block-size: 0;
+      background: var(--home-sky);
+    }
+
+    .home-hero__image {
+      display: block;
+      block-size: auto;
+      object-fit: contain;
+      object-position: center;
+    }
+  }
+
+  @media (max-width: 44rem) {
+    .home-hero {
+      grid-template-rows: minmax(29rem, 56svh) minmax(20rem, 44svh);
+    }
+
+    .home-hero__copy {
+      padding-block-start: calc(var(--space-2xl) + var(--space-m));
+    }
+
+    .home-hero h1 {
+      font-size: clamp(3.25rem, 15vw, 4.4rem);
+    }
+
+    .home-hero__summary {
+      font-size: 1rem;
+    }
+
+    .home-hero__actions {
+      flex-direction: column;
+    }
+
+    .home-hero figcaption {
+      inset-inline: var(--gutter) auto;
+      max-inline-size: min(32ch, calc(100% - (2 * var(--gutter))));
+    }
+
+    .home-promise .home-promise__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .home-promise .home-promise__heading,
+    .home-promise .home-promise__copy {
+      min-block-size: 0;
+      padding: var(--space-xl-2xl) var(--gutter);
+    }
+
+    .home-promise .home-promise__heading h2,
+    .home-products__intro h2,
+    .home-contact :global(#contact-form > aside h2) {
+      font-size: var(--step-4);
+    }
+
+    .home-products__surface {
+      padding-block: var(--space-xl-2xl);
+    }
+
+    .home-products__intro {
+      align-items: flex-start;
+    }
+
+    .home-products__rail {
+      max-inline-size: none;
+      padding-inline: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-padding-inline: var(--gutter);
+      scroll-snap-type: inline mandatory;
+      overscroll-behavior-inline: contain;
+      scrollbar-color: var(--gray1100) transparent;
+      scrollbar-width: thin;
+    }
+
+    .home-products .home-products__hint {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: var(--space-2xs);
+      margin-block-start: var(--space-xs);
+      color: var(--gray1200);
+      opacity: 0.72;
+      text-align: end;
+    }
+
+    .home-products__grid {
+      display: flex;
+      inline-size: max-content;
+      gap: var(--space-s);
+      overflow: visible;
+      padding-inline: var(--gutter);
+      padding-block-end: var(--space-s);
+    }
+
+    .home-products__grid > li,
+    .home-products__grid > li:first-child {
+      flex: 0 0 min(82vw, 22rem);
+      scroll-snap-align: start;
+    }
+
+    .home-products__grid > li:first-child :global(.card img) {
+      aspect-ratio: 16 / 9;
+    }
+
+    .home-products__grid :global(.card-content h3) {
+      font-size: var(--step-1);
+    }
+
+    .home-contact {
+      padding-block: calc(var(--space-2xl) + 4rem) var(--space-2xl);
+    }
+
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-hero__image {
+      animation: none;
+    }
+
+    .home-products__grid :global(.card > a:hover img),
+    .home-link:active,
+    :global(.home-header #main-navigation .button:hover),
+    :global(.home-header #main-navigation .button:active),
+    .home-hero__actions .button:hover,
+    .home-hero__actions .button:active,
+    .home-products__grid :global(.button:hover),
+    .home-products__grid :global(.button:active) {
+      transform: none;
+    }
+  }
+</style>

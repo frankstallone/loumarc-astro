@@ -64,6 +64,8 @@
   --gray1100: hsl(0, 0%, 43.5%);
   --gray1200: hsl(0, 0%, 9%);
 
+  --home-sky: #b9c9e5;
+
   --measure: 70ch;
   --color-light: var(--gray100);
   --color-dark: var(--gray1200);
@@ -72,14 +74,16 @@
   --line-height-small: calc(var(--ratio) * 0.7);
   --font-base: system-ui, sans-serif;
   --font-base-weight: 300;
-  --font-display: 'Facundo', 'sans-serif';
+  --font-display: 'Facundo', system-ui, sans-serif;
   --gutter: var(--space-s-m);
   --negative-gutter: calc(-1 * var(--gutter));
   --border-radius: var(--step-0);
-  --transition-base: 250ms ease-in-out;
-  --transition-movement: 200ms linear;
-  --transition-fade: 200ms ease;
-  --transition-bounce: 500ms cubic-bezier(0.5, 0.05, 0.2, 1.5);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --duration-press: 140ms;
+  --duration-feedback: 200ms;
+  --duration-drawer: 220ms;
+  --duration-marketing: 900ms;
   --tracking: -0.05ch;
   --tracking-s: -0.01ch;
   --angle: -3deg;

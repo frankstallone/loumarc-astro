@@ -210,7 +210,13 @@ const emailTitle = '🤖: Request form submission from /request-form'
           rCapHint.style.display = ''
         }
         if (rCap?.scrollIntoView) {
-          rCap.scrollIntoView({ behavior: 'smooth', block: 'center' })
+          const rReduceMotion = window.matchMedia(
+            '(prefers-reduced-motion: reduce)',
+          ).matches
+          rCap.scrollIntoView({
+            behavior: rReduceMotion ? 'auto' : 'smooth',
+            block: 'center',
+          })
         }
         if (rCap?.focus) {
           try {

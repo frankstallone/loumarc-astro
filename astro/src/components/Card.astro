@@ -1,18 +1,18 @@
 ---
-import { Picture } from 'astro:assets';
-import { getVanityURL } from '../utils/index';
-import fallbackImage from '../assets/card-fallback-image.png';
+import { Picture } from 'astro:assets'
+import { getVanityURL } from '../utils/index'
+import fallbackImage from '../assets/card-fallback-image.png'
 
 export interface Props {
-  url?: string;
-  imgUrl?: any;
-  alt?: string;
-  heading: string;
-  excerpt: string;
-  dataLayout?: string;
-  h3className?: string;
-  eager?: boolean;
-  index: number;
+  url?: string
+  imgUrl?: any
+  alt?: string
+  heading: string
+  excerpt: string
+  dataLayout?: string
+  h3className?: string
+  eager?: boolean
+  index: number
 }
 
 const {
@@ -24,9 +24,9 @@ const {
   dataLayout,
   eager,
   index,
-} = Astro.props;
+} = Astro.props
 
-const formattedURL = `${url}/`;
+const formattedURL = `${url}/`
 ---
 
 <div class="card rounded" data-layout={dataLayout}>
@@ -81,8 +81,11 @@ const formattedURL = `${url}/`;
     )
   }
   <div class="card-content flow prose">
-    <h3>{heading}</h3>
+    <h3><a href={formattedURL}>{heading}</a></h3>
     <p>{excerpt}</p>
-    <a class="button" href={formattedURL} data-color="primary">Read more</a>
+    <a class="button" href={formattedURL} data-color="primary">
+      Explore <span class="sr-only">{heading}</span>
+      <span aria-hidden="true">→</span>
+    </a>
   </div>
 </div>
