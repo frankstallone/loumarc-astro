@@ -9,11 +9,11 @@
     "preview": "astro preview",
     "astro": "astro",
     "lint": "astro check",
-    "test": "node --experimental-strip-types --test \"netlify/functions/_shared/*.test.js\" \"src/**/*.test.js\""
+    "test": "node --experimental-strip-types --test \"astro.config.test.js\" \"netlify/functions/_shared/*.test.js\" \"src/**/*.test.js\""
   },
   "dependencies": {
     "@astrojs/netlify": "^7.0.1",
-    "@astrojs/partytown": "^2.1.5",
+    "@astrojs/partytown": "^2.1.7",
     "@astrojs/sitemap": "^3.7.1",
     "@cap.js/widget": "^0.1.56",
     "@netlify/blobs": "^10.7.1",

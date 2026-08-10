@@ -15,12 +15,7 @@ export default defineConfig({
       useCdn: false,
     }),
     sitemap(),
-    partytown({
-      // Adds dataLayer.push as a forwarding-event.
-      config: {
-        forward: ['dataLayer.push'],
-      },
-    }),
+    partytown(),
   ],
 
   site: 'https://loumarcsigns.com',
