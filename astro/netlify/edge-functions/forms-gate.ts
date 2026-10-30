@@ -7,6 +7,7 @@
  * 1. **Honeypot Protection**: Checks for hidden form fields that should remain empty
  * 2. **CAPTCHA Validation**: Validates CapJS tokens via the /api/validate endpoint
  * 3. **Form Name Validation**: Ensures required form-name field is present
+ * 4. **Campaign Filter**: Drops submissions with a blocked campaign in the Referer URL
  *
  * The function provides different response formats based on the request's Accept header:
  * - JSON responses for AJAX/XHR requests
@@ -168,15 +169,34 @@ export default async (request: Request, context: any) => {
       )
     }
 
-    // Honeypot check
+    // Same-origin form submissions carry the page URL in Referer. This is an
+    // untrusted spam signal, not authenticated ad attribution.
+    let blockedCampaign = false
+    const referer = request.headers.get('referer')
+    if (referer) {
+      try {
+        blockedCampaign = new URL(referer).searchParams
+          .getAll('gad_campaignid')
+          .includes('23468912534')
+      } catch (_e) {
+        // Missing or malformed attribution must not block otherwise valid forms.
+      }
+    }
+
     const honey = formData.get('additional-info')
-    if (typeof honey === 'string' && honey.trim().length > 0) {
+    const blockReason =
+      typeof honey === 'string' && honey.trim().length > 0
+        ? 'honeypot'
+        : blockedCampaign
+          ? 'blocked-campaign'
+          : undefined
+    if (blockReason) {
       // Silently accept to not tip off bots, but do not forward to Forms
       const accept = request.headers.get('accept') || ''
       logGateEvent({
         action: 'forms-gate.submission',
         result: 'blocked',
-        reason: 'honeypot',
+        reason: blockReason,
         status: accept.includes('application/json') ? 200 : 303,
       })
       if (accept.includes('application/json')) {
@@ -184,13 +204,13 @@ export default async (request: Request, context: any) => {
           status: 200,
           headers: {
             'content-type': 'application/json',
-            'x-forms-gate': 'honeypot',
+            'x-forms-gate': blockReason,
           },
         })
       }
       return new Response(null, {
         status: 303,
-        headers: { Location: '/thank-you/', 'x-forms-gate': 'honeypot' },
+        headers: { Location: '/thank-you/', 'x-forms-gate': blockReason },
       })
     }
 
