@@ -175,17 +175,17 @@ select {
     padding: 0;
   }
 
-  ::picker(select) option {
+  select option {
     padding-block: var(--space-3xs);
     padding-inline: var(--space-xs);
     line-height: var(--line-height);
   }
 
-  ::picker(select) option:not(:last-child) {
+  select option:not(:last-child) {
     border-bottom: 1px solid var(--gray700);
   }
 
-  ::picker(select) option:checked {
+  select option:checked {
     background-color: var(--gray200);
   }
 }
