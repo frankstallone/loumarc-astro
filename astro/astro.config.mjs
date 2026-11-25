@@ -19,6 +19,7 @@ export default defineConfig({
   ],
 
   site: 'https://loumarcsigns.com',
+  compressHTML: true,
   adapter: netlify({
     devFeatures: {
       environmentVariables: true,

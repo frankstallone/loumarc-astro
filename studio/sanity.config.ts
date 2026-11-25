@@ -1,6 +1,6 @@
 import {defineConfig, isDev} from 'sanity'
 import {visionTool} from '@sanity/vision'
-import {deskTool} from 'sanity/desk'
+import {structureTool} from 'sanity/structure'
 import {schemaTypes} from './schemas'
 import {getStartedPlugin} from './plugins/sanity-plugin-tutorial'
 import {structure} from './src/structure'
@@ -14,8 +14,12 @@ export default defineConfig({
   projectId: 'yiwm54j7',
   dataset: 'production',
 
+  search: {
+    strategy: 'groqLegacy',
+  },
+
   plugins: [
-    deskTool({
+    structureTool({
       structure,
     }),
     visionTool(),

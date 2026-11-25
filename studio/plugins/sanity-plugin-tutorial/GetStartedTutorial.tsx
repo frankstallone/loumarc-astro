@@ -11,8 +11,16 @@ import {
   useElementSize,
   useTheme,
 } from '@sanity/ui'
-import {CloseIcon} from '@sanity/icons'
+import type {Theme} from '@sanity/ui/theme'
+import CloseIcon from '@sanity/icons/Close'
+import {isDev} from 'sanity'
 import styled, {css} from 'styled-components'
+
+declare module 'styled-components' {
+  interface DefaultTheme {
+    sanity: Theme['sanity']
+  }
+}
 
 const BlueColor = css`
   color: ${({theme}) => theme.sanity.color.muted.primary.enabled.fg};
@@ -36,14 +44,13 @@ export const GetStartedTutorial = () => {
   const rect = useElementSize(rootElement.current)
   const width = rect?.content?.width
   const isSmallScreen = width ? width < sanity.media[1] : false
-  const isProdEnv = process.env.NODE_ENV !== 'development'
 
   const onClose = () => {
     window.localStorage.setItem('getstarted_closedTutorial', 'true')
     setShowTutorial(true)
   }
 
-  if (hideTutorial || isProdEnv) {
+  if (hideTutorial || !isDev) {
     return null
   }
 
@@ -63,7 +70,7 @@ export const GetStartedTutorial = () => {
             padding={isSmallScreen ? undefined : 3}
           />
         </Flex>
-        <Stack space={5}>
+        <Stack gap={5}>
           {!isSmallScreen && (
             <>
               <LabelContainer forwardedAs="p" align="center">
@@ -92,6 +99,7 @@ export const GetStartedTutorial = () => {
               as="a"
               href="https://www.sanity.io/docs/create-a-schema-and-configure-sanity-studio"
               target="_blank"
+              rel="noreferrer"
               padding={isSmallScreen ? undefined : 4}
               tone="primary"
               text="Build a schema"
